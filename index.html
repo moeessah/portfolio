@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Essah | Portfolio</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:    #060f1d;
+  --bg2:   #081527;
+  --w:     #ffffff;
+  --w70:   rgba(255,255,255,0.7);
+  --w30:   rgba(255,255,255,0.3);
+  --w10:   rgba(255,255,255,0.1);
+  --w05:   rgba(255,255,255,0.05);
+  --w02:   rgba(255,255,255,0.025);
+
+  --lime:  #c6f135;
+  --cyan:  #00e5ff;
+  --coral: #ff4d6d;
+  --amber: #ffb830;
+  --violet:#b388ff;
+  --teal:  #00e0b8;
+  --sky:   #60b8ff;
+  --pink:  #ff6eb4;
+  --kolo:  #f15a24;
+  --mint:  #8df7b2;
+
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --mono:  'DM Mono', monospace;
+  --ease:  cubic-bezier(0.16,1,0.3,1);
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--w);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--lime);color:var(--bg)}
+
+#bar{position:fixed;top:0;left:0;height:2px;width:0;background:var(--lime);z-index:999;transition:width 0.06s linear}
+
+.w{max-width:1160px;margin:0 auto;padding:0 3rem}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:200;background:rgba(6,15,29,0.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--w05)}
+.nav-inner{position:relative;display:flex;align-items:center;justify-content:center;height:58px;gap:1rem}
+.nav-logo{position:absolute;left:-40px;top:50%;transform:translateY(-50%);flex-shrink:0;display:inline-flex;align-items:center;gap:4px;min-height:58px;padding-right:16px;text-decoration:none;color:rgba(255,255,255,0.92)}
+.nav-logo-dot{width:8px;height:8px;border-radius:999px;background:var(--lime);box-shadow:0 0 10px rgba(255,255,255,0.18)}
+.nav-logo-label{display:inline-flex;align-items:center;font:700 9.5px/1 var(--sans);letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45)}
+.nav-links{display:flex;align-items:center;gap:0.15rem;flex:0 0 auto;justify-content:center}
+.nav-link{font-family:var(--sans);font-size:9.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);text-decoration:none;padding:0.4rem 0.85rem;border-radius:3px;transition:color 0.15s,background 0.15s}
+.nav-link:hover{color:var(--w);background:rgba(255,255,255,0.07)}
+
+/* HEADER */
+.header{
+  padding:2.5rem 0 2rem;
+  border-bottom:1px solid var(--w10);
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:end;
+  gap:2rem;
+}
+.header-name{
+  font-family:var(--serif);
+  font-size:clamp(2.8rem,5.5vw,5rem);
+  font-weight:400;
+  line-height:0.9;
+  letter-spacing:-0.02em;
+  opacity:0;animation:up 0.7s var(--ease) 0.06s forwards;
+}
+.header-right{
+  text-align:right;
+  opacity:0;animation:up 0.6s var(--ease) 0.14s forwards;
+}
+.header-role{
+  font-family:var(--mono);font-size:0.6rem;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--lime);margin-bottom:0.35rem;
+}
+.header-desc{
+  font-size:0.78rem;font-weight:300;
+  color:var(--w70);line-height:1.65;
+  max-width:300px;margin-left:auto;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  grid-template-rows:auto;
+  gap:2px;
+  padding:2px 0 2px;
+  background:var(--w02);
+}
+
+/* CARDS */
+.cell{
+  --accent:var(--lime);
+  --accent-ink:var(--bg);
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-end;
+  padding:1.6rem 1.8rem;
+  min-height:220px;
+  text-decoration:none;
+  color:inherit;
+  transition:background 0.32s var(--ease), color 0.32s var(--ease), transform 0.32s var(--ease);
+  cursor:pointer;
+}
+.cell::before{content:none}
+.cell:hover{background:var(--accent);color:var(--accent-ink)}
+.cell:hover .cell-title,
+.cell:hover .cell-tag,
+.cell:hover .cell-desc{color:var(--accent-ink)}
+
+/* Card accents */
+.c1{--accent:var(--lime)}
+.c2{--accent:var(--amber)}
+.c3{--accent:var(--cyan)}
+.c4{--accent:var(--coral)}
+.c5{--accent:var(--sky)}
+.c6{--accent:var(--teal)}
+.c7{--accent:var(--pink)}
+.c8{--accent:var(--violet)}
+.c9{--accent:var(--kolo);--accent-ink:#fffaf4}
+.c10{--accent:var(--mint)}
+
+/* Number watermark */
+.cell-num{
+  position:absolute;
+  top:1rem;right:1.2rem;
+  font-family:var(--serif);
+  font-size:5rem;font-style:italic;
+  line-height:1;color:var(--w);
+  opacity:0.04;
+  transition:opacity 0.3s;
+  pointer-events:none;
+  user-select:none;
+}
+.cell:hover .cell-num{color:var(--accent-ink);opacity:0.14}
+
+.cell-tag{
+  font-family:var(--mono);font-size:0.5rem;font-weight:500;
+  letter-spacing:0.16em;text-transform:uppercase;
+  margin-bottom:0.55rem;
+  position:relative;z-index:1;
+}
+.c1 .cell-tag{color:var(--lime)}
+.c2 .cell-tag{color:var(--amber)}
+.c3 .cell-tag{color:var(--cyan)}
+.c4 .cell-tag{color:var(--coral)}
+.c5 .cell-tag{color:var(--sky)}
+.c6 .cell-tag{color:var(--teal)}
+.c7 .cell-tag{color:var(--pink)}
+.c8 .cell-tag{color:var(--violet)}
+.c9 .cell-tag{color:var(--kolo)}
+.c10 .cell-tag{color:var(--mint)}
+
+.cell-title{
+  font-family:var(--serif);
+  font-size:clamp(1.5rem,2.8vw,2.6rem);
+  font-weight:400;
+  line-height:0.95;
+  letter-spacing:-0.02em;
+  color:var(--w);
+  margin-bottom:0.6rem;
+  position:relative;z-index:1;
+}
+
+.cell-desc{
+  font-size:0.75rem;font-weight:300;
+  color:var(--w70);line-height:1.65;
+  position:relative;z-index:1;
+  max-width:340px;
+}
+
+/* ── MULTI-LINK CARD ── */
+.cell-multi{cursor:default}
+.cell-eyebrow{
+  position:relative;
+  height:1.6rem;
+  margin-bottom:0.5rem;
+}
+.cell-multi .cell-tag{
+  position:absolute;
+  left:0;top:0;right:0;
+  height:100%;
+  margin:0;
+  display:flex;
+  align-items:center;
+  transition:opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.cell-multi:hover .cell-tag{opacity:0;transform:translateY(-5px)}
+.cell-variants{
+  position:absolute;
+  left:0;top:0;right:0;
+  height:100%;
+  display:flex;
+  align-items:center;
+  gap:0.4rem;
+  flex-wrap:wrap;
+  z-index:2;
+  opacity:0;
+  transform:translateY(5px);
+  pointer-events:none;
+  transition:opacity 0.24s var(--ease), transform 0.24s var(--ease);
+}
+.cell-multi:hover .cell-variants{opacity:1;transform:translateY(0);pointer-events:auto}
+.variant-link{
+  font-family:var(--mono);
+  font-size:0.58rem;
+  font-weight:500;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  padding:0.28rem 0.65rem;
+  border:1px solid currentColor;
+  border-radius:999px;
+  color:inherit;
+  text-decoration:none;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background 0.18s, color 0.18s;
+}
+.variant-link:hover{background:var(--accent-ink);color:var(--accent)}
+
+/* ── GRID PLACEMENT ──
+   8 cards total (Pressure merged into Civ Labs)
+
+   Row 1: Civ Labs feature (spans 7 cols, 2 rows) | Kolo | Stash
+   Row 2: (Civ Labs continues)                    | Kindred | Blue Collective
+   Row 3: Zoomies (wide) | Lucy | Lumera
+*/
+.cell-1{grid-column:1/8;grid-row:1/3;min-height:400px}   /* Civilization Labs — feature */
+.cell-2{grid-column:8/13;grid-row:1/2}                    /* Kolo */
+.cell-3{grid-column:8/13;grid-row:2/3}                    /* Stash */
+
+.cell-4{grid-column:1/6;grid-row:3/4;min-height:240px}    /* Zoomies — wide */
+.cell-5{grid-column:6/10;grid-row:3/4}                    /* Blue Collective */
+.cell-6{grid-column:10/13;grid-row:3/4}                   /* Kindred */
+
+.cell-7{grid-column:1/5;grid-row:4/5}                     /* Lucy */
+.cell-8{grid-column:5/13;grid-row:4/5}                    /* Lumera — wide footer */
+
+/* Feature cell sizing */
+.cell-1 .cell-title{font-size:clamp(2.2rem,4vw,3.6rem)}
+.cell-1 .cell-desc{max-width:400px}
+
+/* Stagger */
+.cell-1{opacity:0;animation:up 0.6s var(--ease) 0.3s forwards}
+.cell-2{opacity:0;animation:up 0.6s var(--ease) 0.38s forwards}
+.cell-3{opacity:0;animation:up 0.6s var(--ease) 0.44s forwards}
+.cell-4{opacity:0;animation:up 0.6s var(--ease) 0.5s forwards}
+.cell-5{opacity:0;animation:up 0.6s var(--ease) 0.56s forwards}
+.cell-6{opacity:0;animation:up 0.6s var(--ease) 0.62s forwards}
+.cell-7{opacity:0;animation:up 0.6s var(--ease) 0.68s forwards}
+.cell-8{opacity:0;animation:up 0.6s var(--ease) 0.74s forwards}
+
+/* FOOTER */
+footer{background:var(--bg2);border-top:1px solid var(--w05);padding:1.5rem 0}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:var(--w30);font-family:var(--mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;position:relative}
+.foot span:first-child{transform:translateX(-40px)}
+
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .header{grid-template-columns:1fr}
+  .header-right{text-align:left}
+  .header-desc{margin-left:0}
+  .grid{grid-template-columns:repeat(6,1fr)}
+  .cell-1{grid-column:1/7;grid-row:1/2;min-height:300px}
+  .cell-2{grid-column:1/4;grid-row:2/3}
+  .cell-3{grid-column:4/7;grid-row:2/3}
+  .cell-4{grid-column:1/4;grid-row:3/4}
+  .cell-5{grid-column:4/7;grid-row:3/4}
+  .cell-6{grid-column:1/4;grid-row:4/5}
+  .cell-7{grid-column:4/7;grid-row:4/5}
+  .cell-8{grid-column:1/7;grid-row:5/6}
+}
+@media(max-width:540px){
+  .w{padding:0 1.5rem}
+  .foot span:first-child{transform:none}
+  .header{padding:2rem 0 1.5rem}
+  .grid{grid-template-columns:1fr 1fr;gap:2px}
+  .cell-1{grid-column:1/3;min-height:260px}
+  .cell-2,.cell-3,.cell-4,.cell-5,.cell-6,.cell-7{grid-column:span 1}
+  .cell-8{grid-column:1/3}
+}
+</style>
+</head>
+<body>
+<div id="bar"></div>
+
+<nav>
+  <div class="w">
+    <div class="nav-inner">
+      <a class="nav-logo" href="#"><span class="nav-logo-dot" aria-hidden="true"></span><span class="nav-logo-label">Portfolio</span></a>
+      <div class="nav-links">
+        <a class="nav-link" href="#projects">Projects</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="w">
+    <header class="header">
+      <h1 class="header-name">Essah</h1>
+      <div class="header-right">
+        <div class="header-role">Growth · Content · Strategy</div>
+        <p class="header-desc">Live project homepages across decision intelligence, growth, investing, venture capital, NGO storytelling, retail, and AI training.</p>
+      </div>
+    </header>
+  </div>
+
+  <div class="grid w" id="projects">
+
+    <!-- 01 · CIVILIZATION LABS — 2 pills (Civ Labs + Pressure) -->
+    <div class="cell c1 cell-1 cell-multi">
+      <span class="cell-num" aria-hidden="true">01</span>
+      <div class="cell-eyebrow">
+        <span class="cell-tag">Webpages</span>
+        <div class="cell-variants">
+          <a class="variant-link" href="https://moeessah.github.io/civilizationlabs1/">Civ Lab v1</a>
+          <a class="variant-link" href="https://moeessah.github.io/civilizationlabs2/">Civ Lab v2</a>
+        </div>
+      </div>
+      <div class="cell-title">Civilization Labs</div>
+      <p class="cell-desc">Decision-check service for stress-testing launch, pricing, GTM, and roadmap bets.</p>
+    </div>
+
+    <!-- 02 · ZOOMIES (position 4) -->
+    <a class="cell c2 cell-4" href="https://moeessah.github.io/zoomies/">
+      <span class="cell-num" aria-hidden="true">02</span>
+      <span class="cell-tag">Pet Care &middot; Growth Strategy</span>
+      <div class="cell-title">Zoomies</div>
+      <p class="cell-desc">Press outreach, partner materials, landing pages, social creative, and growth model for the Clifton launch.</p>
+    </a>
+
+    <!-- 03 · NOTCH — 4 pills -->
+    <div class="cell c3 cell-3 cell-multi">
+      <span class="cell-num" aria-hidden="true">03</span>
+      <div class="cell-eyebrow">
+        <span class="cell-tag">Sports Markets &middot; Conversion</span>
+        <div class="cell-variants">
+          <a class="variant-link" href="https://moeessah.github.io/stash/v1.html">v1</a>
+          <a class="variant-link" href="https://moeessah.github.io/stash/v2.html">v2</a>
+          <a class="variant-link" href="https://moeessah.github.io/stash/v3.html">v3</a>
+        </div>
+      </div>
+      <div class="cell-title">Stash</div>
+      <p class="cell-desc">Conversion-led landing pages and AI-assisted content for turning live football moments into growth.</p>
+    </div>
+
+    <!-- 04 · KOLO (position 2) -->
+    <div class="cell c9 cell-2 cell-multi">
+      <span class="cell-num" aria-hidden="true">04</span>
+      <div class="cell-eyebrow">
+        <span class="cell-tag">Investing &middot; Product Concepts</span>
+        <div class="cell-variants">
+          <a class="variant-link" href="https://moeessah.github.io/kolo/olive/olive.html">Olive</a>
+          <a class="variant-link" href="https://moeessah.github.io/kolo/orange/orange.html">Orange</a>
+          <a class="variant-link" href="https://moeessah.github.io/kolo/dark/dark.html">Dark</a>
+        </div>
+      </div>
+      <div class="cell-title">Kolo</div>
+      <p class="cell-desc">Homepage directions for an investing product built around calm decision-making, long-term portfolios, and fewer noisy market inputs.</p>
+    </div>
+
+    <!-- 05 · BLUE COLLECTIVE — 2 pills -->
+    <div class="cell c4 cell-5 cell-multi">
+      <span class="cell-num" aria-hidden="true">05</span>
+      <div class="cell-eyebrow">
+        <span class="cell-tag">Venture Capital &middot; Site Redesign</span>
+        <div class="cell-variants">
+          <a class="variant-link" href="https://moeessah.github.io/bluecollective/">Light</a>
+          <a class="variant-link" href="https://moeessah.github.io/bluecollectivedark/">Dark</a>
+        </div>
+      </div>
+      <div class="cell-title">Blue Collective</div>
+      <p class="cell-desc">VC homepage built around founder fit and belief-driven investing.</p>
+    </div>
+
+    <!-- 06 · KINDRED -->
+    <a class="cell c5 cell-6" href="https://moeessah.github.io/kindred/">
+      <span class="cell-num" aria-hidden="true">06</span>
+      <span class="cell-tag">NGO &middot; Storytelling</span>
+      <div class="cell-title">Kindred</div>
+      <p class="cell-desc">NGO storytelling around education access and field-led social impact.</p>
+    </a>
+
+    <!-- 07 · LUCY -->
+    <a class="cell c6 cell-7" href="https://moeessah.github.io/lucy/">
+      <span class="cell-num" aria-hidden="true">07</span>
+      <span class="cell-tag">Retail &middot; Systems</span>
+      <div class="cell-title">Lucy</div>
+      <p class="cell-desc">Product-led retail command center for velocity, SKUs, stores, and test planning.</p>
+    </a>
+
+    <!-- 08 · LUMERA -->
+    <a class="cell c7 cell-8" href="https://moeessah.github.io/lumera/">
+      <span class="cell-num" aria-hidden="true">08</span>
+      <span class="cell-tag">AI Training</span>
+      <div class="cell-title">Lumera</div>
+      <p class="cell-desc">Practical AI programs and workshops for real work.</p>
+    </a>
+
+  </div>
+</main>
+
+<footer>
+  <div class="w">
+    <div class="foot">
+      <span>Essah</span>
+      <span>Selected Work</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll',function(){
+  var b=document.getElementById('bar');
+  var s=document.body.scrollHeight-window.innerHeight;
+  b.style.width=(s>0?(window.scrollY/s)*100:0)+'%';
+});
+</script>
+</body>
+</html>
