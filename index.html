@@ -22,90 +22,151 @@
   --ease:     cubic-bezier(0.16,1,0.3,1);
 }
 html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;padding-top:50px}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--ink);color:var(--paper)}
 
-.w{width:100%;padding:0 2.25rem}
+.w{width:100%;padding:0 0.5rem}
 
-/* NAV */
-nav{border-bottom:1px solid var(--ink12)}
+/* NAV — logo left, list/grid toggle center, links right */
+nav{}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:52px}
 .nav-logo{font:800 12px/1 var(--sans);letter-spacing:0.04em;text-transform:uppercase;color:var(--ink)}
-.nav-links{display:flex;align-items:center;gap:1.6rem;position:absolute;left:50%;transform:translateX(-50%)}
+.nav-view-toggle{display:flex;align-items:center;gap:0.9rem}
+.view-btn{font:500 13px/1 var(--sans);color:var(--ink40);background:none;border:none;cursor:pointer;padding:0.2rem 0;transition:color 0.15s}
+.view-btn:hover{color:var(--ink70)}
+.view-btn.active{color:var(--ink);font-weight:700}
+.nav-links{display:flex;align-items:center;gap:1.6rem}
 .nav-link{font-size:13.5px;color:var(--ink70);transition:color 0.15s}
 .nav-link:hover{color:var(--ink)}
 .nav-cta{font-size:13.5px;text-decoration:underline;text-underline-offset:3px;color:var(--ink)}
 
-/* HERO — 2-col grid, subhead top right, giant wordmark bottom left */
-.hero{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  grid-template-rows:auto 1fr;
-  column-gap:1.75rem;
-  padding:3rem 0 0;
-  border-bottom:1px solid var(--ink12);
+/* WORKS-HERO — big whitespace block; "works" sits bottom-left, tile cluster is right-anchored and shares the same bottom line */
+.works-hero{
+  position:relative;
+  padding:0;
 }
-.hero-sub{
-  grid-column:2/3;
-  grid-row:1/2;
-  font-family:var(--sans);
-  font-size:1.05rem;
-  font-weight:600;
-  line-height:1.38;
-  letter-spacing:-0.005em;
-  max-width:400px;
-  justify-self:end;
-  text-align:left;
+@media(min-width:821px){
+  .works-hero{min-height:88vh}
+  .works-hero:has(.grid.list-view){min-height:auto}
 }
 .hero-word{
-  grid-column:1/2;
-  grid-row:2/3;
-  align-self:end;
-  font-family:var(--sans);
+  position:absolute;
+  left:0.5rem;
+  bottom:0;
+  font-family:'Satoshi', var(--sans);
   font-weight:900;
-  font-size:clamp(4.5rem,11vw,9.5rem);
+  font-size:clamp(3.5rem,7vw,6.5rem);
   line-height:0.85;
   letter-spacing:-0.03em;
-  padding-bottom:1.75rem;
-  padding-top:5rem;
+  text-transform:lowercase;
+  z-index:1;
+  color:#c9c9c9;
+}
+.works-hero:has(.grid.list-view) .hero-word{
+  position:static;
+  left:auto;bottom:auto;
+  margin-bottom:2rem;
 }
 
-/* GRID — shares the same 2-col system as the hero */
+/* GRID — a compact tile cluster, tethered to the right + bottom of the hero, NOT full width */
 .grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0.75rem;
-  padding:1.75rem 0 4rem;
+  grid-template-columns:repeat(4, 1fr);
+  gap:0.55rem;
+  width:90%;
+  margin-left:auto;
+  padding-bottom:2rem;
+}
+@media(min-width:821px){
+  .grid{
+    position:absolute;
+    right:0.5rem;
+    bottom:0;
+    width:60%;
+    margin-left:0;
+    padding-bottom:0;
+  }
+}
+.grid.list-view{
+  position:static;
+  width:100%;
+  grid-template-columns:1fr;
+  padding-top:1rem;
+}
+.grid.list-view .card{
+  aspect-ratio:16/6 !important;
+  grid-column:1/-1 !important;
+  grid-row:auto !important;
 }
 
-/* CARDS — image-forward, caption overlaid at the bottom */
+/* CARDS — clean image tiles; hover swaps the image for a solid summer colour + bottom-right caption */
 .card{
   position:relative;
-  display:flex;
-  align-items:flex-end;
-  overflow:hidden;
+  display:block;
+  overflow:visible;
   background:var(--ph-a);
   border:1px solid var(--ink06);
   color:inherit;
   text-decoration:none;
-  cursor:pointer;
-  filter:grayscale(0.15);
+  cursor:zoom-in;
   transform:translateY(0);
   box-shadow:0 0 0 rgba(10,10,10,0);
-  transition:filter 0.3s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  transition:background-color 0.45s var(--ease), transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
 .card.tone-b{background:var(--ph-b)}
-.card:hover{filter:grayscale(0) brightness(0.98);transform:translateY(-6px);box-shadow:0 18px 32px -12px rgba(10,10,10,0.28)}
-.card:hover .card-shot{transform:scale(1.06)}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 32px -12px rgba(10,10,10,0.28);z-index:45}
 a.card:hover .card-title{text-decoration:underline;text-underline-offset:3px}
+
+/* zoom hint — a magnifying-glass icon fades in over the colour reveal on hover, since the
+   photo itself fades away at that point; makes it obvious the tile expands on click */
+.card-zoom-hint{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transform:translateY(-14%);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s var(--ease) 0.1s;
+}
+.card:hover .card-zoom-hint{opacity:1}
+.card-zoom-hint svg{
+  width:34px;height:34px;
+  padding:11px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.22);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  box-sizing:content-box;
+}
+
+/* image layer is clipped so it fills the tile; the card itself stays overflow:visible so the info popover below can escape the tile bounds */
+.card-media{
+  position:absolute;inset:0;
+  overflow:hidden;
+  border-radius:inherit;
+  z-index:0;
+}
+
+/* brand palette — one per card, matched to each project's own identity, revealed on hover */
+.card.clr-1:hover{background:#12B76A}   /* Theorex — academic emerald */
+.card.clr-2:hover{background:#FF2E74}   /* Noma — hot pink, hobby-matching */
+.card.clr-3:hover{background:#5B4FE9}   /* Cornerstone Labs — venture/AI indigo */
+.card.clr-4:hover{background:#2F80ED}   /* Nexora — trades-education blue */
+.card.clr-5:hover{background:#0EA5A5}   /* StayMetric — rental teal */
+.card.clr-6:hover{background:#16213E}   /* GuestBook — travel navy */
+.card.clr-7:hover{background:#6E7D3D}   /* Kolo — investing olive */
+.card.clr-8:hover{background:#FF5A4E}   /* Zoomies — vet-care coral */
+.card.clr-9:hover{background:#0B0D14}   /* Stash — trading near-black */
 
 .card-ph-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .card-ph-icon svg{width:34px;height:34px;opacity:0.16}
 
 /* live screenshot layer — static site preview, crossfades on version pill hover */
-.shot-card{background:#c9c4ea;transition:background 0.6s var(--ease)}
-.shot-card:has(.v-pill[data-v="2"]:hover){background:#cafc1e}
+.shot-card{transition:background 0.6s var(--ease)}
 
 .card-shot{
   position:absolute;inset:0;
@@ -118,7 +179,9 @@ a.card:hover .card-title{text-decoration:underline;text-underline-offset:3px}
   pointer-events:none;
 }
 .card-shot.is-default{opacity:1}
-/* hovering a v-pill swaps which version is shown */
+/* on hover, the default image fades out to reveal the solid colour */
+.card:hover .card-shot.is-default{opacity:0}
+/* hovering a v-pill swaps which version is shown, layered over the colour */
 .shot-card:has(.v-pill[data-v="1"]:hover) .card-shot[data-shot="1"]{opacity:1}
 .shot-card:has(.v-pill[data-v="1"]:hover) .card-shot[data-shot="2"]{opacity:0}
 .shot-card:has(.v-pill[data-v="1"]:hover) .card-shot[data-shot="3"]{opacity:0}
@@ -129,49 +192,58 @@ a.card:hover .card-title{text-decoration:underline;text-underline-offset:3px}
 .shot-card:has(.v-pill[data-v="3"]:hover) .card-shot[data-shot="1"]{opacity:0}
 .shot-card:has(.v-pill[data-v="3"]:hover) .card-shot[data-shot="2"]{opacity:0}
 
-/* screenshots run light at the bottom edge, so give those cards a heavier scrim */
-.card-scrim--strong{
-  height:72%;
-  background:linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0) 100%);
-}
-
-/* bottom scrim for legible overlay text on any image tone */
-.card-scrim{
-  position:absolute;left:0;right:0;bottom:0;
-  height:58%;
-  background:linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0) 100%);
-  pointer-events:none;
-}
-
+/* caption — an opaque, solid bar docked to the card's bottom edge; slides up on hover.
+   Kept as its own solid surface (not floating text over the hover colour) so it stays
+   crisp, legible, and consistent at any zoom level — a clean SaaS-card footer.
+   Stacked vertically (not squeezed into one row) so nothing gets cropped on narrow tiles. */
 .card-bottom{
-  position:relative;z-index:2;
-  width:100%;
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
   display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:0.9rem;
-  padding:1rem 1.1rem;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:0.4rem;
+  padding:0.8rem 1rem;
+  background:#fff;
+  border-top:1px solid var(--ink06);
+  opacity:0;
+  transform:translateY(100%);
+  pointer-events:none;
+  transition:opacity 0.3s var(--ease), transform 0.35s var(--ease);
 }
-.card-titlewrap{display:flex;flex-direction:column;gap:0.28rem;min-width:0}
-.card-eyebrow{font-size:0.68rem;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:rgba(255,255,255,0.8);text-shadow:0 1px 3px rgba(0,0,0,0.35)}
-.card-title{font-size:1.08rem;font-weight:700;letter-spacing:-0.01em;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.35)}
+.card:hover .card-bottom{opacity:1;transform:translateY(0);pointer-events:auto}
+.card-titlewrap{display:flex;flex-direction:column;align-items:flex-start;gap:0.18rem;width:100%}
+.card-eyebrow{font-size:0.62rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink40);line-height:1.35}
+.card-title{font-size:0.98rem;font-weight:700;letter-spacing:-0.01em;color:var(--ink);line-height:1.25}
 
-.card-versions{display:flex;gap:0.4rem;flex-wrap:wrap;justify-content:flex-end;flex-shrink:0}
+.card-side{display:flex;align-items:center;width:100%}
+.card-versions{display:flex;gap:0.35rem;flex-wrap:wrap}
 .v-pill{
-  font-size:0.66rem;font-weight:500;
-  color:#fff;
-  border:1px solid rgba(255,255,255,0.6);
-  padding:0.22rem 0.55rem;
+  font-size:0.5rem;font-weight:600;
+  color:var(--ink70);
+  border:1px solid var(--ink12);
+  padding:0.16rem 0.42rem;
   border-radius:999px;
-  background:rgba(0,0,0,0.18);
-  backdrop-filter:blur(3px);
-  -webkit-backdrop-filter:blur(3px);
-  transition:background 0.15s, color 0.15s;
+  background:var(--ink06);
+  transition:background 0.15s, color 0.15s, border-color 0.15s;
 }
-.v-pill:hover{background:#fff;color:var(--ink)}
+.v-pill:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.card-arrow{
+  position:absolute;
+  top:0.8rem;right:1rem;
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;
+  border-radius:50%;
+  background:var(--ink06);
+  color:var(--ink);
+  transition:background 0.2s, color 0.2s, transform 0.3s var(--ease);
+}
+.card-arrow svg{width:13px;height:13px}
+a.card:hover .card-arrow{background:var(--ink);color:#fff;transform:scale(1.08)}
+a.card .card-bottom{padding-right:2.7rem}
 
 /* info icon + description popover, top-right of card */
-.card-info{position:absolute;top:12px;right:12px;z-index:3}
+.card-info{position:absolute;top:12px;right:12px;z-index:4}
+.card-info.open{z-index:6}
 .info-btn{
   width:23px;height:23px;
   border-radius:50%;
@@ -204,10 +276,127 @@ a.card:hover .card-title{text-decoration:underline;text-underline-offset:3px}
 .card-info:hover .info-tip,
 .card-info.open .info-tip{opacity:1;transform:translateY(0);pointer-events:auto}
 
-/* row height rhythm — matches the varied proportions of the reference */
-.h-short{aspect-ratio:16/8.5}
-.h-tall{aspect-ratio:16/12.5}
-.h-mid{aspect-ratio:16/10.5}
+/* tile placement — even squares in a 4-col track, pyramid stacked bottom-up (4 → 3 → 2), each row right-aligned */
+.card{aspect-ratio:1/1}
+.clr-1{grid-row:1; grid-column:3/4}
+.clr-2{grid-row:1; grid-column:4/5}
+.clr-3{grid-row:2; grid-column:2/3}
+.clr-4{grid-row:2; grid-column:3/4}
+.clr-5{grid-row:2; grid-column:4/5}
+.clr-6{grid-row:3; grid-column:1/2}
+.clr-7{grid-row:3; grid-column:2/3}
+.clr-8{grid-row:3; grid-column:3/4}
+.clr-9{grid-row:3; grid-column:4/5}
+.grid.list-view .clr-1,.grid.list-view .clr-2,.grid.list-view .clr-3,.grid.list-view .clr-4,
+.grid.list-view .clr-5,.grid.list-view .clr-6,.grid.list-view .clr-7,.grid.list-view .clr-8,
+.grid.list-view .clr-9{
+  grid-row:auto !important; grid-column:1/-1 !important;
+}
+
+/* HOVER PREVIEW — click-to-open glass panel, centered on screen, background blurs behind it */
+.preview-backdrop{
+  position:fixed;inset:0;
+  background:rgba(240,239,233,0.35);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  opacity:0;
+  z-index:40;
+  pointer-events:none;
+  transition:opacity 0.35s var(--ease);
+}
+body.lightbox-open .preview-backdrop{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.card-preview{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  z-index:50;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 0.3s var(--ease);
+}
+.card-preview.open{
+  opacity:1;
+  pointer-events:auto;
+}
+.preview-glass{
+  position:relative;
+  width:36vw;
+  max-width:980px;
+  max-height:80vh;
+  aspect-ratio:1/1;
+  border-radius:22px;
+  overflow:hidden;
+  background:rgba(255,255,255,0.45);
+  backdrop-filter:blur(24px) saturate(180%);
+  -webkit-backdrop-filter:blur(24px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.5);
+  box-shadow:0 40px 90px -20px rgba(10,10,10,0.5);
+  transform:scale(0.94);
+  transition:transform 0.4s var(--ease);
+}
+.card-preview.open .preview-glass{
+  transform:scale(1);
+}
+.card-preview .card-media{position:absolute;inset:0;overflow:hidden;z-index:0}
+.card-preview .card-shot{position:absolute;inset:0;background-size:cover;background-position:top center;background-repeat:no-repeat;opacity:0;transition:opacity 0.5s var(--ease)}
+.card-preview .card-shot.is-default{opacity:1}
+
+.preview-close{
+  position:absolute;top:16px;right:16px;z-index:3;
+  width:32px;height:32px;
+  border-radius:50%;
+  border:none;
+  background:rgba(255,255,255,0.85);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:background 0.15s, transform 0.15s;
+}
+.preview-close:hover{background:#fff;transform:scale(1.08)}
+
+.preview-scrim{display:none}
+.preview-caption{
+  position:absolute;left:0;right:0;bottom:0;z-index:2;
+  display:flex;flex-direction:column;align-items:flex-start;
+  gap:0.75rem;
+  padding:1.6rem 1.9rem;
+  background:#fff;
+  border-top:1px solid var(--ink06);
+  border-radius:0 0 21px 21px;
+}
+.preview-caption .card-titlewrap{align-items:flex-start;text-align:left}
+.preview-caption .card-versions{justify-content:flex-start}
+.preview-caption .v-pill{color:var(--ink70);border-color:var(--ink12);background:var(--ink06)}
+.preview-caption .v-pill:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.preview-caption .card-eyebrow{color:var(--ink40)}
+.preview-caption .card-title{color:var(--ink);font-size:1.35rem}
+.preview-desc{
+  max-width:460px;
+  font-size:0.85rem;
+  line-height:1.55;
+  color:var(--ink70);
+  text-align:left;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.preview-visit{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  font-size:0.8rem;
+  font-weight:600;
+  color:#fff;
+  background:var(--ink);
+  padding:0.55rem 1rem;
+  border-radius:999px;
+  transition:background 0.15s, transform 0.15s;
+}
+.preview-visit:hover{background:#000;transform:translateY(-1px)}
 
 /* FOOTER */
 footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
@@ -218,10 +407,9 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
 .foot-menu a{display:block;font-size:0.88rem;color:var(--ink);padding:0.18rem 0}
 .foot-cta{font-size:0.88rem;text-decoration:underline;text-underline-offset:3px}
 .foot-word{
-  font-weight:900;
-  font-size:clamp(4.5rem,11vw,9.5rem);
-  line-height:0.85;
-  letter-spacing:-0.03em;
+  font-weight:700;
+  font-size:1.08rem;
+  letter-spacing:-0.01em;
   padding:0 0 1rem;
   white-space:nowrap;
 }
@@ -244,51 +432,42 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
 .card:nth-child(6){animation-delay:0.62s}
 .card:nth-child(7){animation-delay:0.68s}
 .card:nth-child(8){animation-delay:0.74s}
+.card:nth-child(9){animation-delay:0.80s}
 @media(prefers-reduced-motion:reduce){
   .hero-sub,.hero-word,.card{animation:none;opacity:1}
 }
 
 /* RESPONSIVE */
 @media(max-width:820px){
-  .nav-links{display:none}
-  .hero{grid-template-columns:1fr;row-gap:2.5rem}
-  .hero-sub{grid-column:1/2;grid-row:1/2;justify-self:start;max-width:none}
-  .hero-word{grid-column:1/2;grid-row:2/3;padding-top:1rem}
-  .grid{grid-template-columns:1fr;row-gap:1.375rem}
+  .works-hero{padding-top:0}
+  .hero-word{position:static;left:auto;bottom:auto;margin-bottom:1.5rem}
+  .grid{width:100%;grid-template-columns:repeat(2,1fr)}
+  .clr-1,.clr-2,.clr-3,.clr-4,.clr-5,.clr-6,.clr-7,.clr-8,.clr-9{grid-row:auto;grid-column:auto}
+  .clr-1{grid-column:1/-1;aspect-ratio:2/1}
 }
 @media(max-width:520px){
-  .w{padding:0 1.25rem}
+  .w{padding:0 0.35rem}
+  .grid{grid-template-columns:1fr}
+  .clr-1{grid-column:1/-1;aspect-ratio:1/1}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="w">
-    <div class="nav-inner">
-      <a class="nav-logo" href="#">Essah</a>
-      <div class="nav-links">
-        <a class="nav-link" href="#projects">Projects</a>
-      </div>
-    </div>
-  </div>
-</nav>
-
 <main>
   <div class="w">
-    <header class="hero">
-      <p class="hero-sub">Live project homepages across academic research management, decision intelligence, growth, investing, venture capital, NGO storytelling, retail, and AI training.</p>
-      <h1 class="hero-word">Samples</h1>
-    </header>
-  </div>
-
-  <div class="w">
-    <div class="grid" id="projects">
+    <header class="works-hero">
+      <h1 class="hero-word">examples</h1>
+      <div class="grid" id="projects">
 
       <!-- 01 · THEOREX -->
-      <a class="card h-short" href="https://moeessah.github.io/theorex/">
-        <div class="card-shot is-default" style="background-image:url('images/theorex-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <a class="card clr-1" href="https://moeessah.github.io/theorex/" data-preview="1">
+        <div class="card-media">
+          <div class="card-shot is-default" style="background-image:url('images/theorex-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Dedicated research managers for mathematicians, quietly running point on collaborators, specialist expertise, and momentum so the only job left is the proof.</div>
@@ -298,14 +477,19 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Academia, Research Ops</span>
             <span class="card-title">Theorex</span>
           </div>
+          <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
         </div>
       </a>
 
       <!-- 02 · CORNERSTONE LABS -->
-      <div class="card tone-b h-short shot-card">
-        <div class="card-shot is-default" data-shot="1" style="background-image:url('images/cornerstone-v1-hero.webp')"></div>
-        <div class="card-shot" data-shot="2" style="background-image:url('images/cornerstone-v2-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <div class="card clr-3 tone-b shot-card" data-preview="3">
+        <div class="card-media">
+          <div class="card-shot is-default" data-shot="1" style="background-image:url('images/cornerstone-v1-hero.webp')"></div>
+          <div class="card-shot" data-shot="2" style="background-image:url('images/cornerstone-v2-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Decision-check service for stress-testing launch, pricing, GTM, and roadmap bets.</div>
@@ -315,17 +499,44 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Venture Studio, AI Products</span>
             <span class="card-title">Cornerstone Labs</span>
           </div>
-          <div class="card-versions">
-            <a class="v-pill" data-v="1" href="https://moeessah.github.io/cornerstonelabs1/">v1</a>
-            <a class="v-pill" data-v="2" href="https://moeessah.github.io/cornerstonelabs2/">v2</a>
+          <div class="card-side">
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/cornerstonelabs1/">v1</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/cornerstonelabs2/">v2</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 03 · NEXORA -->
-      <a class="card h-tall" href="https://moeessah.github.io/nexora/">
-        <div class="card-shot is-default" style="background-image:url('images/nexora-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <!-- 03 · NOMA -->
+      <a class="card clr-2 tone-b" href="https://moeessah.github.io/noma/" data-preview="2">
+        <div class="card-media">
+          <div class="card-shot is-default" style="background-image:url('images/noma-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
+        <div class="card-info">
+          <button type="button" class="info-btn" aria-label="Project info">i</button>
+          <div class="info-tip">Product design and intro deck for a dating app that matches people through shared hobbies instead of swiping, covering onboarding, matching flows, and the investor-facing deck.</div>
+        </div>
+        <div class="card-bottom">
+          <div class="card-titlewrap">
+            <span class="card-eyebrow">Social Discovery, Dating</span>
+            <span class="card-title">Noma</span>
+          </div>
+          <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+        </div>
+      </a>
+
+      <!-- 04 · NEXORA -->
+      <a class="card clr-4" href="https://moeessah.github.io/nexora/" data-preview="4">
+        <div class="card-media">
+          <div class="card-shot is-default" style="background-image:url('images/nexora-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Mobile-first HVAC, electrical, and plumbing certification training built to get people into the trades fast.</div>
@@ -335,13 +546,18 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Skilled Trades, Education</span>
             <span class="card-title">Nexora</span>
           </div>
+          <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
         </div>
       </a>
 
-      <!-- 04 · STAYMETRIC -->
-      <a class="card tone-b h-tall" href="https://moeessah.github.io/staymetric/">
-        <div class="card-shot is-default" style="background-image:url('images/staymetric-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <!-- 05 · STAYMETRIC -->
+      <a class="card clr-5 tone-b" href="https://moeessah.github.io/staymetric/" data-preview="5">
+        <div class="card-media">
+          <div class="card-shot is-default" style="background-image:url('images/staymetric-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Performance platform helping STR operators track demand, listing visibility, and pricing across a portfolio.</div>
@@ -351,15 +567,20 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Short-Term Rentals, SaaS</span>
             <span class="card-title">StayMetric</span>
           </div>
+          <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
         </div>
       </a>
 
-      <!-- 05 · GUESTBOOK -->
-      <div class="card h-mid shot-card">
-        <div class="card-shot is-default" data-shot="1" style="background-image:url('images/guestbook-v1-hero.webp')"></div>
-        <div class="card-shot" data-shot="2" style="background-image:url('images/guestbook-v2-hero.webp')"></div>
-        <div class="card-shot" data-shot="3" style="background-image:url('images/guestbook-v3-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <!-- 06 · GUESTBOOK -->
+      <div class="card clr-6 shot-card" data-preview="6">
+        <div class="card-media">
+          <div class="card-shot" data-shot="1" style="background-image:url('images/guestbook-v1-hero.webp')"></div>
+          <div class="card-shot is-default" data-shot="2" style="background-image:url('images/guestbook-v2-hero.webp')"></div>
+          <div class="card-shot" data-shot="3" style="background-image:url('images/guestbook-v3-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Boutique travel homepage explored across three visual directions animated, dark mode, and warm.</div>
@@ -369,20 +590,26 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Travel, Boutique Stays</span>
             <span class="card-title">GuestBook</span>
           </div>
-          <div class="card-versions">
-            <a class="v-pill" data-v="1" href="https://moeessah.github.io/guestbook/v1/index.html">Sky</a>
-            <a class="v-pill" data-v="2" href="https://moeessah.github.io/guestbook/v2/index.html">Navy</a>
-            <a class="v-pill" data-v="3" href="https://moeessah.github.io/guestbook/v3/index.html">Coral</a>
+          <div class="card-side">
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/guestbook/v1/index.html">Sky</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/guestbook/v2/index.html">Navy</a>
+              <a class="v-pill" data-v="3" href="https://moeessah.github.io/guestbook/v3/index.html">Coral</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 06 · KOLO -->
-      <div class="card tone-b h-mid shot-card">
-        <div class="card-shot is-default" data-shot="1" style="background-image:url('images/kolo-olive-hero.webp')"></div>
-        <div class="card-shot" data-shot="2" style="background-image:url('images/kolo-orange-hero.webp')"></div>
-        <div class="card-shot" data-shot="3" style="background-image:url('images/kolo-dark-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <!-- 07 · KOLO -->
+      <div class="card clr-7 tone-b shot-card" data-preview="7">
+        <div class="card-media">
+          <div class="card-shot is-default" data-shot="1" style="background-image:url('images/kolo-olive-hero.webp')"></div>
+          <div class="card-shot" data-shot="2" style="background-image:url('images/kolo-orange-hero.webp')"></div>
+          <div class="card-shot" data-shot="3" style="background-image:url('images/kolo-dark-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Homepage directions for an investing product built around calm decision-making, long-term portfolios, and fewer noisy market inputs.</div>
@@ -392,18 +619,24 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Investing, Product Concepts</span>
             <span class="card-title">Kolo</span>
           </div>
-          <div class="card-versions">
-            <a class="v-pill" data-v="1" href="https://moeessah.github.io/kolo/olive/olive.html">Olive</a>
-            <a class="v-pill" data-v="2" href="https://moeessah.github.io/kolo/orange/orange.html">Orange</a>
-            <a class="v-pill" data-v="3" href="https://moeessah.github.io/kolo/dark/dark.html">Dark</a>
+          <div class="card-side">
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/kolo/olive/olive.html">Olive</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/kolo/orange/orange.html">Orange</a>
+              <a class="v-pill" data-v="3" href="https://moeessah.github.io/kolo/dark/dark.html">Dark</a>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- 07 · ZOOMIES -->
-      <a class="card h-short" href="https://moeessah.github.io/zoomies/">
-        <div class="card-shot is-default" style="background-image:url('images/zoomies-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <!-- 08 · ZOOMIES -->
+      <a class="card clr-8" href="https://moeessah.github.io/zoomies/" data-preview="8">
+        <div class="card-media">
+          <div class="card-shot is-default" style="background-image:url('images/zoomies-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Landing page built to launch the new Clifton, NJ location and drive membership sign-ups for the expansion.</div>
@@ -413,15 +646,20 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Pet Care, Growth Strategy</span>
             <span class="card-title">Zoomies</span>
           </div>
+          <span class="card-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
         </div>
       </a>
 
-      <!-- 10 · STASH -->
-      <div class="card tone-b h-short shot-card">
-        <div class="card-shot is-default" data-shot="1" style="background-image:url('images/stash-v1-hero.webp')"></div>
-        <div class="card-shot" data-shot="2" style="background-image:url('images/stash-v2-hero.webp')"></div>
-        <div class="card-shot" data-shot="3" style="background-image:url('images/stash-v3-hero.webp')"></div>
-        <div class="card-scrim card-scrim--strong"></div>
+      <!-- 09 · STASH -->
+      <div class="card clr-9 tone-b shot-card" data-preview="9">
+        <div class="card-media">
+          <div class="card-shot is-default" data-shot="1" style="background-image:url('images/stash-v1-hero.webp')"></div>
+          <div class="card-shot" data-shot="2" style="background-image:url('images/stash-v2-hero.webp')"></div>
+          <div class="card-shot" data-shot="3" style="background-image:url('images/stash-v3-hero.webp')"></div>
+        </div>
+        <div class="card-zoom-hint">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </div>
         <div class="card-info">
           <button type="button" class="info-btn" aria-label="Project info">i</button>
           <div class="info-tip">Conversion-led landing pages and AI-assisted content for turning live football moments into growth.</div>
@@ -431,15 +669,206 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
             <span class="card-eyebrow">Sports Markets, Conversion</span>
             <span class="card-title">Stash</span>
           </div>
-          <div class="card-versions">
-            <a class="v-pill" data-v="1" href="https://moeessah.github.io/stash/v1.html">v1</a>
-            <a class="v-pill" data-v="2" href="https://moeessah.github.io/stash/v2.html">v2</a>
-            <a class="v-pill" data-v="3" href="https://moeessah.github.io/stash/v3.html">v3</a>
+          <div class="card-side">
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/stash/v1.html">v1</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/stash/v2.html">v2</a>
+              <a class="v-pill" data-v="3" href="https://moeessah.github.io/stash/v3.html">v3</a>
+            </div>
           </div>
         </div>
       </div>
 
-    </div>
+      </div>
+
+      <div class="preview-backdrop"></div>
+
+      <!-- enlarged glass previews (one per project) -->
+      <div class="card-preview preview-1" data-id="1">
+        <div class="preview-glass">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" style="background-image:url('images/theorex-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim" style="background:linear-gradient(to top, rgba(115,80,69,0.85), rgba(115,80,69,0))"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Academia, Research Ops</span>
+              <span class="card-title">Theorex</span>
+            </div>
+            <p class="preview-desc">Dedicated research managers for mathematicians, quietly running point on collaborators, specialist expertise, and momentum so the only job left is the proof.</p>
+            <a class="preview-visit" href="https://moeessah.github.io/theorex/" target="_blank" rel="noopener">Visit site →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-2" data-id="2">
+        <div class="preview-glass">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" style="background-image:url('images/noma-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim" style="background:linear-gradient(to top, rgba(115,98,56,0.85), rgba(115,98,56,0))"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Social Discovery, Dating</span>
+              <span class="card-title">Noma</span>
+            </div>
+            <p class="preview-desc">Product design and intro deck for a dating app that matches people through shared hobbies instead of swiping, covering onboarding, matching flows, and the investor-facing deck.</p>
+            <a class="preview-visit" href="https://moeessah.github.io/noma/" target="_blank" rel="noopener">Visit site →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-3" data-id="3">
+        <div class="preview-glass shot-card">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" data-shot="1" style="background-image:url('images/cornerstone-v1-hero.webp')"></div>
+            <div class="card-shot" data-shot="2" style="background-image:url('images/cornerstone-v2-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim" style="background:linear-gradient(to top, rgba(55,101,78,0.85), rgba(55,101,78,0))"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Venture Studio, AI Products</span>
+              <span class="card-title">Cornerstone Labs</span>
+            </div>
+            <p class="preview-desc">Decision-check service for stress-testing launch, pricing, GTM, and roadmap bets.</p>
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/cornerstonelabs1/">v1</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/cornerstonelabs2/">v2</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-4" data-id="4">
+        <div class="preview-glass">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" style="background-image:url('images/nexora-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim" style="background:linear-gradient(to top, rgba(50,89,115,0.85), rgba(50,89,115,0))"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Skilled Trades, Education</span>
+              <span class="card-title">Nexora</span>
+            </div>
+            <p class="preview-desc">Mobile-first HVAC, electrical, and plumbing certification training built to get people into the trades fast.</p>
+            <a class="preview-visit" href="https://moeessah.github.io/nexora/" target="_blank" rel="noopener">Visit site →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-5" data-id="5">
+        <div class="preview-glass">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" style="background-image:url('images/staymetric-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Short-Term Rentals, SaaS</span>
+              <span class="card-title">StayMetric</span>
+            </div>
+            <p class="preview-desc">Performance platform helping STR operators track demand, listing visibility, and pricing across a portfolio.</p>
+            <a class="preview-visit" href="https://moeessah.github.io/staymetric/" target="_blank" rel="noopener">Visit site →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-6" data-id="6">
+        <div class="preview-glass shot-card">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot" data-shot="1" style="background-image:url('images/guestbook-v1-hero.webp')"></div>
+            <div class="card-shot is-default" data-shot="2" style="background-image:url('images/guestbook-v2-hero.webp')"></div>
+            <div class="card-shot" data-shot="3" style="background-image:url('images/guestbook-v3-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Travel, Boutique Stays</span>
+              <span class="card-title">GuestBook</span>
+            </div>
+            <p class="preview-desc">Boutique travel homepage explored across three visual directions animated, dark mode, and warm.</p>
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/guestbook/v1/index.html">Sky</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/guestbook/v2/index.html">Navy</a>
+              <a class="v-pill" data-v="3" href="https://moeessah.github.io/guestbook/v3/index.html">Coral</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-7" data-id="7">
+        <div class="preview-glass shot-card">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" data-shot="1" style="background-image:url('images/kolo-olive-hero.webp')"></div>
+            <div class="card-shot" data-shot="2" style="background-image:url('images/kolo-orange-hero.webp')"></div>
+            <div class="card-shot" data-shot="3" style="background-image:url('images/kolo-dark-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Investing, Product Concepts</span>
+              <span class="card-title">Kolo</span>
+            </div>
+            <p class="preview-desc">Homepage directions for an investing product built around calm decision-making, long-term portfolios, and fewer noisy market inputs.</p>
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/kolo/olive/olive.html">Olive</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/kolo/orange/orange.html">Orange</a>
+              <a class="v-pill" data-v="3" href="https://moeessah.github.io/kolo/dark/dark.html">Dark</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-8" data-id="8">
+        <div class="preview-glass">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" style="background-image:url('images/zoomies-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Pet Care, Growth Strategy</span>
+              <span class="card-title">Zoomies</span>
+            </div>
+            <p class="preview-desc">Landing page built to launch the new Clifton, NJ location and drive membership sign-ups for the expansion.</p>
+            <a class="preview-visit" href="https://moeessah.github.io/zoomies/" target="_blank" rel="noopener">Visit site →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-preview preview-9" data-id="9">
+        <div class="preview-glass shot-card">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="card-media">
+            <div class="card-shot is-default" data-shot="1" style="background-image:url('images/stash-v1-hero.webp')"></div>
+            <div class="card-shot" data-shot="2" style="background-image:url('images/stash-v2-hero.webp')"></div>
+            <div class="card-shot" data-shot="3" style="background-image:url('images/stash-v3-hero.webp')"></div>
+          </div>
+          <div class="preview-scrim"></div>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Sports Markets, Conversion</span>
+              <span class="card-title">Stash</span>
+            </div>
+            <p class="preview-desc">Conversion-led landing pages and AI-assisted content for turning live football moments into growth.</p>
+            <div class="card-versions">
+              <a class="v-pill" data-v="1" href="https://moeessah.github.io/stash/v1.html">v1</a>
+              <a class="v-pill" data-v="2" href="https://moeessah.github.io/stash/v2.html">v2</a>
+              <a class="v-pill" data-v="3" href="https://moeessah.github.io/stash/v3.html">v3</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </header>
   </div>
 </main>
 
@@ -465,6 +894,64 @@ document.querySelectorAll('.info-btn').forEach(function(btn){
 });
 document.addEventListener('click', function(){
   document.querySelectorAll('.card-info.open').forEach(function(el){ el.classList.remove('open'); });
+});
+
+// List / Grid view toggle
+var viewBtns = document.querySelectorAll('.view-btn');
+var projectsGrid = document.getElementById('projects');
+viewBtns.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    viewBtns.forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    if(btn.dataset.view === 'list'){
+      projectsGrid.classList.add('list-view');
+    } else {
+      projectsGrid.classList.remove('list-view');
+    }
+  });
+});
+
+// Click-to-open glass preview
+function openPreview(id){
+  document.querySelectorAll('.card-preview.open').forEach(function(el){ el.classList.remove('open'); });
+  var target = document.querySelector('.preview-' + id);
+  if(target){
+    target.classList.add('open');
+    document.body.classList.add('lightbox-open');
+  }
+}
+function closePreview(){
+  document.querySelectorAll('.card-preview.open').forEach(function(el){ el.classList.remove('open'); });
+  document.body.classList.remove('lightbox-open');
+}
+
+document.querySelectorAll('.card[data-preview]').forEach(function(card){
+  card.addEventListener('click', function(e){
+    // let the version pills and info button behave normally, don't open the preview for those
+    if(e.target.closest('.card-versions') || e.target.closest('.card-info')) return;
+    e.preventDefault();
+    openPreview(card.dataset.preview);
+  });
+});
+
+document.querySelectorAll('.preview-close').forEach(function(btn){
+  btn.addEventListener('click', function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    closePreview();
+  });
+});
+
+document.querySelector('.preview-backdrop').addEventListener('click', closePreview);
+
+document.querySelectorAll('.card-preview').forEach(function(preview){
+  preview.addEventListener('click', function(e){
+    if(e.target === preview) closePreview();
+  });
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closePreview();
 });
 </script>
 
