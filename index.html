@@ -135,17 +135,6 @@ nav{}
   z-index:0;
 }
 
-/* brand palette — one per card, matched to each project's own identity, revealed on hover */
-.card.clr-1:hover{background:#12B76A}   /* Theorex — academic emerald */
-.card.clr-2:hover{background:#FF2E74}   /* Noma — hot pink, hobby-matching */
-.card.clr-3:hover{background:#5B4FE9}   /* Cornerstone Labs — venture/AI indigo */
-.card.clr-4:hover{background:#2F80ED}   /* Nexora — trades-education blue */
-.card.clr-5:hover{background:#0EA5A5}   /* StayMetric — rental teal */
-.card.clr-6:hover{background:#16213E}   /* GuestBook — travel navy */
-.card.clr-7:hover{background:#6E7D3D}   /* Kolo — investing olive */
-.card.clr-8:hover{background:#FF5A4E}   /* Zoomies — vet-care coral */
-.card.clr-9:hover{background:#0B0D14}   /* Stash — trading near-black */
-
 .card-ph-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .card-ph-icon svg{width:34px;height:34px;opacity:0.16}
 
@@ -163,9 +152,7 @@ nav{}
   pointer-events:none;
 }
 .card-shot.is-default{opacity:1}
-/* on hover, the default image fades out to reveal the solid colour */
-.card:hover .card-shot.is-default{opacity:0}
-/* hovering a v-pill swaps which version is shown, layered over the colour */
+/* hovering a v-pill swaps which version is shown */
 .shot-card:has(.v-pill[data-v="1"]:hover) .card-shot[data-shot="1"]{opacity:1}
 .shot-card:has(.v-pill[data-v="1"]:hover) .card-shot[data-shot="2"]{opacity:0}
 .shot-card:has(.v-pill[data-v="1"]:hover) .card-shot[data-shot="3"]{opacity:0}
