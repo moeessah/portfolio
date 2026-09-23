@@ -28,20 +28,22 @@ a{color:inherit;text-decoration:none}
 
 .w{width:100%;padding:0 0.5rem}
 
-/* NAV — logo left, list/grid toggle center, links right */
-nav{}
+/* NAV — logo left, links right */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:30;
+  background:rgba(255,255,255,0.86);
+  backdrop-filter:blur(10px) saturate(140%);
+  -webkit-backdrop-filter:blur(10px) saturate(140%);
+  border-bottom:1px solid var(--ink06);
+}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:52px}
 .nav-logo{font:800 12px/1 var(--sans);letter-spacing:0.04em;text-transform:uppercase;color:var(--ink)}
-.nav-view-toggle{display:flex;align-items:center;gap:0.9rem}
-.view-btn{font:500 13px/1 var(--sans);color:var(--ink40);background:none;border:none;cursor:pointer;padding:0.2rem 0;transition:color 0.15s}
-.view-btn:hover{color:var(--ink70)}
-.view-btn.active{color:var(--ink);font-weight:700}
 .nav-links{display:flex;align-items:center;gap:1.6rem}
 .nav-link{font-size:13.5px;color:var(--ink70);transition:color 0.15s}
 .nav-link:hover{color:var(--ink)}
 .nav-cta{font-size:13.5px;text-decoration:underline;text-underline-offset:3px;color:var(--ink)}
 
-/* WORKS-HERO — big whitespace block. On desktop, "examples" is placed as a grid item inside the tile
+/* WORKS-HERO — big whitespace block. On desktop, "samples" is placed as a grid item inside the tile
    grid itself, in the empty top-left area (spanning the first two rows of column 1) that sits directly
    above GuestBook — so it's tucked into the layout rather than floating over the cards. */
 .works-hero{
@@ -55,10 +57,6 @@ nav{}
     flex-direction:column;
     justify-content:flex-end;
   }
-  .works-hero:has(.grid.list-view){
-    min-height:auto;
-    display:block;
-  }
 }
 .hero-word{
   grid-row:1/3;
@@ -67,25 +65,19 @@ nav{}
   justify-self:start;
   font-family:'Satoshi', var(--sans);
   font-weight:900;
-  font-size:clamp(4rem,5vw,5rem);
+  font-size:clamp(4.625rem, calc(5vw + 0.75rem), 5.75rem);
   line-height:0.85;
   letter-spacing:-0.03em;
   text-transform:lowercase;
   z-index:1;
   color:#c9c9c9;
-}
-.grid.list-view .hero-word{
-  grid-row:auto;
-  grid-column:1/-1;
-  align-self:auto;
-  justify-self:auto;
-  margin-bottom:2rem;
+  transform:translateY(20px);
 }
 
 /* GRID — a compact tile cluster, tethered to the right + bottom of the hero, NOT full width */
 .grid{
   display:grid;
-  grid-template-columns:repeat(4, 1fr);
+  grid-template-columns:repeat(3, 1fr);
   gap:0.55rem;
   width:100%;
   margin-left:auto;
@@ -97,17 +89,6 @@ nav{}
     margin-left:auto;
     padding-bottom:0;
   }
-}
-.grid.list-view{
-  position:static;
-  width:100%;
-  grid-template-columns:1fr;
-  padding-top:1rem;
-}
-.grid.list-view .card{
-  aspect-ratio:16/6 !important;
-  grid-column:1/-1 !important;
-  grid-row:auto !important;
 }
 
 /* CARDS — clean image tiles; hover swaps the image for a solid summer colour + bottom-right caption */
@@ -133,6 +114,26 @@ nav{}
   overflow:hidden;
   border-radius:inherit;
   z-index:0;
+}
+
+/* perched character — sized off the card's own height so it scales correctly in every
+   layout (grid tile, list row, mobile), sits astride the top edge, feet dip onto the box */
+.card-perch{
+  position:absolute;
+  left:50%;
+  bottom:100%;
+  height:115%;
+  width:auto;
+  max-height:340px;
+  transform:translate(-50%, 14%);
+  transform-origin:bottom center;
+  z-index:3;
+  pointer-events:none;
+  user-select:none;
+}
+
+.card.clr-2 .card-perch{
+  transform:translate(-50%, 45.3%);
 }
 
 .card-ph-icon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
@@ -213,22 +214,17 @@ nav{}
 a.card:hover .card-arrow{background:var(--ink);color:#fff;transform:rotate(45deg)}
 a.card .card-bottom{padding-right:2.7rem}
 
-/* tile placement — rectangular tiles (half the height of a square) in a 4-col track, pyramid stacked bottom-up (4 → 3 → 2), each row right-aligned */
+/* tile placement — rectangular tiles (half the height of a square) in a 3-col track, pyramid stacked bottom-up (3 → 2 → 1) with two extra full rows to fit all 9 cards, each row right-aligned */
 .card{aspect-ratio:2/1}
 .clr-1{grid-row:1; grid-column:3/4}
-.clr-2{grid-row:1; grid-column:4/5}
-.clr-3{grid-row:2; grid-column:2/3}
-.clr-4{grid-row:2; grid-column:3/4}
-.clr-5{grid-row:2; grid-column:4/5}
-.clr-6{grid-row:3; grid-column:1/2}
-.clr-7{grid-row:3; grid-column:2/3}
-.clr-8{grid-row:3; grid-column:3/4}
-.clr-9{grid-row:3; grid-column:4/5}
-.grid.list-view .clr-1,.grid.list-view .clr-2,.grid.list-view .clr-3,.grid.list-view .clr-4,
-.grid.list-view .clr-5,.grid.list-view .clr-6,.grid.list-view .clr-7,.grid.list-view .clr-8,
-.grid.list-view .clr-9{
-  grid-row:auto !important; grid-column:1/-1 !important;
-}
+.clr-2{grid-row:2; grid-column:2/3}
+.clr-3{grid-row:2; grid-column:3/4}
+.clr-4{grid-row:3; grid-column:1/2}
+.clr-5{grid-row:3; grid-column:2/3}
+.clr-6{grid-row:3; grid-column:3/4}
+.clr-7{grid-row:4; grid-column:2/3}
+.clr-8{grid-row:5; grid-column:3/4}
+.clr-9{grid-row:4; grid-column:3/4}
 
 /* HOVER PREVIEW — click-to-open glass panel, centered on screen, background blurs behind it */
 .preview-backdrop{
@@ -296,6 +292,33 @@ body.lightbox-open .preview-backdrop{
 }
 .preview-close:hover{background:#fff;transform:scale(1.08)}
 
+/* screenshot strip — for case studies with 2-3 shots, a small clickable thumbnail
+   rail in the top-left of the glass panel so you can flip through views without
+   relying on hovering the version pills (and so it works on touch) */
+.preview-thumbs{
+  position:absolute;top:16px;left:16px;z-index:3;
+  display:flex;gap:0.4rem;
+}
+.preview-thumb{
+  width:36px;height:36px;
+  border-radius:8px;
+  border:2px solid rgba(255,255,255,0.65);
+  background-size:cover;
+  background-position:top center;
+  padding:0;
+  cursor:pointer;
+  opacity:0.55;
+  transform:scale(0.9);
+  transition:opacity 0.2s var(--ease), transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.preview-thumb:hover{opacity:0.85}
+.preview-thumb.active{
+  opacity:1;
+  transform:scale(1);
+  border-color:#fff;
+  box-shadow:0 6px 14px -4px rgba(10,10,10,0.4);
+}
+
 .preview-scrim{display:none}
 .preview-caption{
   position:absolute;left:0;right:0;bottom:0;z-index:2;
@@ -305,6 +328,14 @@ body.lightbox-open .preview-backdrop{
   background:#fff;
   border-top:1px solid var(--ink06);
   border-radius:0 0 21px 21px;
+  opacity:1;
+  transform:translateY(0);
+  transition:opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.preview-caption.caption-hidden{
+  opacity:0;
+  transform:translateY(10px);
+  transition:none;
 }
 .preview-caption .card-titlewrap{align-items:flex-start;text-align:left}
 .preview-caption .card-versions{justify-content:flex-start}
@@ -336,9 +367,9 @@ body.lightbox-open .preview-backdrop{
 .preview-visit:hover{background:#000;transform:translateY(-1px)}
 
 /* FOOTER */
-footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
+footer{border-top:1px solid var(--ink12);padding-top:1.5rem}
 .foot-top{
-  padding-bottom:3rem;
+  padding-bottom:0;
 }
 .foot-menu-label{font-size:0.78rem;color:var(--ink40);margin-bottom:0.7rem}
 .foot-menu a{display:block;font-size:0.88rem;color:var(--ink);padding:0.18rem 0}
@@ -357,9 +388,17 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
   from{opacity:0;transform:translateY(14px)}
   to{opacity:1;transform:translateY(0)}
 }
-.hero-sub,.hero-word{opacity:0;animation:rise 0.7s var(--ease) forwards}
-.hero-word{animation-delay:0.1s}
-.hero-sub{animation-delay:0.02s}
+.hero-sub{opacity:0;animation:rise 0.7s var(--ease) forwards;animation-delay:0.02s}
+.hero-word .hl{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(28px);
+  animation:hl-rise 0.65s var(--ease) forwards;
+  animation-delay:calc(var(--i) * 0.05s + 0.15s);
+}
+@keyframes hl-rise{
+  to{opacity:1;transform:translateY(0)}
+}
 .card{opacity:0;animation:rise 0.6s var(--ease) forwards}
 .card:nth-child(1){animation-delay:0.32s}
 .card:nth-child(2){animation-delay:0.38s}
@@ -371,16 +410,25 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
 .card:nth-child(8){animation-delay:0.74s}
 .card:nth-child(9){animation-delay:0.80s}
 @media(prefers-reduced-motion:reduce){
-  .hero-sub,.hero-word,.card{animation:none;opacity:1}
+  .hero-sub,.hero-word,.hero-word .hl,.card{animation:none;opacity:1;transform:none}
 }
 
 /* RESPONSIVE */
 @media(max-width:820px){
   .works-hero{padding-top:0}
-  .hero-word{grid-row:auto;grid-column:1/-1;align-self:auto;justify-self:auto;margin-bottom:1.5rem;font-size:clamp(2.8rem,9vw,4.5rem)}
+  .hero-word{grid-row:auto;grid-column:1/-1;align-self:auto;justify-self:auto;margin-bottom:1.5rem;font-size:clamp(3.55rem, calc(9vw + 0.75rem), 5.25rem)}
   .grid{width:100%;grid-template-columns:repeat(2,1fr)}
   .clr-1,.clr-2,.clr-3,.clr-4,.clr-5,.clr-6,.clr-7,.clr-8,.clr-9{grid-row:auto;grid-column:auto}
   .clr-1{grid-column:1/-1;aspect-ratio:2/1}
+
+  /* below 3 columns, cards stack with barely a gap between rows. We open up
+     headroom above this card specifically (margin-top) so the same "perched
+     on the top edge, legs dipping into the card" pose from desktop can carry
+     through unchanged — the transform above is percentage-based so it scales
+     with the character's own rendered size automatically. align-self:end
+     keeps her row partner's card bottom-aligned so the pair reads as a row. */
+  .grid .card{align-self:end}
+  .card.clr-2{margin-top:8.5rem}
 
   /* click-to-enlarge preview: taller portrait card instead of a forced square,
      so the screenshot actually has room to show above the caption */
@@ -407,6 +455,7 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
   .w{padding:0 0.35rem}
   .grid{grid-template-columns:1fr}
   .clr-1{grid-column:1/-1;aspect-ratio:2/1}
+  .card.clr-2{margin-top:7rem}
 
   .preview-glass{
     width:94vw;
@@ -428,16 +477,29 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
   .preview-visit{font-size:0.76rem;padding:0.5rem 0.9rem}
   .card-versions{gap:0.4rem}
   .v-pill{font-size:0.92rem;padding:0.3rem 0.6rem}
+  .preview-thumbs{top:12px;left:12px;gap:0.3rem}
+  .preview-thumb{width:30px;height:30px;border-radius:6px}
 }
 </style>
 </head>
 <body>
 
+<nav>
+  <div class="w">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">Essah</a>
+      <div class="nav-links">
+        <a href="#projects" class="nav-link">Work</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
 <main>
   <div class="w">
     <header class="works-hero">
       <div class="grid" id="projects">
-        <h1 class="hero-word">examples</h1>
+        <h1 class="hero-word" aria-label="samples"><span class="hl" style="--i:0" aria-hidden="true">s</span><span class="hl" style="--i:1" aria-hidden="true">a</span><span class="hl" style="--i:2" aria-hidden="true">m</span><span class="hl" style="--i:3" aria-hidden="true">p</span><span class="hl" style="--i:4" aria-hidden="true">l</span><span class="hl" style="--i:5" aria-hidden="true">e</span><span class="hl" style="--i:6" aria-hidden="true">s</span></h1>
 
       <!-- 01 · THEOREX -->
       <a class="card clr-1" href="https://moeessah.github.io/theorex/" data-preview="1">
@@ -454,7 +516,8 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
       </a>
 
       <!-- 02 · CORNERSTONE LABS -->
-      <div class="card clr-3 tone-b shot-card" data-preview="3">
+      <div class="card clr-2 tone-b shot-card" data-preview="3">
+        <img class="card-perch" src="images/selorm.webp" alt="" aria-hidden="true">
         <div class="card-media">
           <div class="card-shot is-default" data-shot="1" style="background-image:url('images/cornerstone-v1-hero.webp')"></div>
           <div class="card-shot" data-shot="2" style="background-image:url('images/cornerstone-v2-hero.webp')"></div>
@@ -474,7 +537,7 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
       </div>
 
       <!-- 03 · NOMA -->
-      <a class="card clr-2 tone-b" href="https://moeessah.github.io/noma/" data-preview="2">
+      <a class="card clr-3 tone-b" href="https://moeessah.github.io/noma/" data-preview="2">
         <div class="card-media">
           <div class="card-shot is-default" style="background-image:url('images/noma-hero.webp')"></div>
         </div>
@@ -559,20 +622,6 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
         </div>
       </div>
 
-      <!-- 08 · ZOOMIES -->
-      <a class="card clr-8" href="https://moeessah.github.io/zoomies/" data-preview="8">
-        <div class="card-media">
-          <div class="card-shot is-default" style="background-image:url('images/zoomies-hero.webp')"></div>
-        </div>
-        <div class="card-bottom">
-          <div class="card-titlewrap">
-            <span class="card-eyebrow">Pet Care, Growth Strategy</span>
-            <span class="card-title">Zoomies</span>
-          </div>
-          <span class="card-arrow">↗</span>
-        </div>
-      </a>
-
       <!-- 09 · STASH -->
       <div class="card clr-9 tone-b shot-card" data-preview="9">
         <div class="card-media">
@@ -594,6 +643,20 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
           </div>
         </div>
       </div>
+
+      <!-- 08 · ZOOMIES -->
+      <a class="card clr-8" href="https://moeessah.github.io/zoomies/" data-preview="8">
+        <div class="card-media">
+          <div class="card-shot is-default" style="background-image:url('images/zoomies-hero.webp')"></div>
+        </div>
+        <div class="card-bottom">
+          <div class="card-titlewrap">
+            <span class="card-eyebrow">Pet Care, Growth Strategy</span>
+            <span class="card-title">Zoomies</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </a>
 
       </div>
 
@@ -639,6 +702,10 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
       <div class="card-preview preview-3" data-id="3">
         <div class="preview-glass shot-card">
           <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="preview-thumbs">
+            <button type="button" class="preview-thumb active" data-shot="1" style="background-image:url('images/cornerstone-v1-hero.webp')" aria-label="View 1"></button>
+            <button type="button" class="preview-thumb" data-shot="2" style="background-image:url('images/cornerstone-v2-hero.webp')" aria-label="View 2"></button>
+          </div>
           <div class="card-media">
             <div class="card-shot is-default" data-shot="1" style="background-image:url('images/cornerstone-v1-hero.webp')"></div>
             <div class="card-shot" data-shot="2" style="background-image:url('images/cornerstone-v2-hero.webp')"></div>
@@ -697,6 +764,11 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
       <div class="card-preview preview-6" data-id="6">
         <div class="preview-glass shot-card">
           <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="preview-thumbs">
+            <button type="button" class="preview-thumb" data-shot="1" style="background-image:url('images/guestbook-v1-hero.webp')" aria-label="Sky"></button>
+            <button type="button" class="preview-thumb active" data-shot="2" style="background-image:url('images/guestbook-v2-hero.webp')" aria-label="Navy"></button>
+            <button type="button" class="preview-thumb" data-shot="3" style="background-image:url('images/guestbook-v3-hero.webp')" aria-label="Coral"></button>
+          </div>
           <div class="card-media">
             <div class="card-shot" data-shot="1" style="background-image:url('images/guestbook-v1-hero.webp')"></div>
             <div class="card-shot is-default" data-shot="2" style="background-image:url('images/guestbook-v2-hero.webp')"></div>
@@ -721,6 +793,11 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
       <div class="card-preview preview-7" data-id="7">
         <div class="preview-glass shot-card">
           <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="preview-thumbs">
+            <button type="button" class="preview-thumb active" data-shot="1" style="background-image:url('images/kolo-olive-hero.webp')" aria-label="Olive"></button>
+            <button type="button" class="preview-thumb" data-shot="2" style="background-image:url('images/kolo-orange-hero.webp')" aria-label="Orange"></button>
+            <button type="button" class="preview-thumb" data-shot="3" style="background-image:url('images/kolo-dark-hero.webp')" aria-label="Dark"></button>
+          </div>
           <div class="card-media">
             <div class="card-shot is-default" data-shot="1" style="background-image:url('images/kolo-olive-hero.webp')"></div>
             <div class="card-shot" data-shot="2" style="background-image:url('images/kolo-orange-hero.webp')"></div>
@@ -763,6 +840,11 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
       <div class="card-preview preview-9" data-id="9">
         <div class="preview-glass shot-card">
           <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="preview-thumbs">
+            <button type="button" class="preview-thumb active" data-shot="1" style="background-image:url('images/stash-v1-hero.webp')" aria-label="v1"></button>
+            <button type="button" class="preview-thumb" data-shot="2" style="background-image:url('images/stash-v2-hero.webp')" aria-label="v2"></button>
+            <button type="button" class="preview-thumb" data-shot="3" style="background-image:url('images/stash-v3-hero.webp')" aria-label="v3"></button>
+          </div>
           <div class="card-media">
             <div class="card-shot is-default" data-shot="1" style="background-image:url('images/stash-v1-hero.webp')"></div>
             <div class="card-shot" data-shot="2" style="background-image:url('images/stash-v2-hero.webp')"></div>
@@ -798,33 +880,91 @@ footer{border-top:1px solid var(--ink12);padding-top:2.75rem}
 </footer>
 
 <script>
-// List / Grid view toggle
-var viewBtns = document.querySelectorAll('.view-btn');
-var projectsGrid = document.getElementById('projects');
-viewBtns.forEach(function(btn){
-  btn.addEventListener('click', function(){
-    viewBtns.forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    if(btn.dataset.view === 'list'){
-      projectsGrid.classList.add('list-view');
-    } else {
-      projectsGrid.classList.remove('list-view');
-    }
-  });
-});
+// Click-to-open glass preview — the card itself morphs into the panel (FLIP),
+// rather than a separate panel just fading in over the top of it.
+var reduceMotionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+var lastOriginCard = null;
 
-// Click-to-open glass preview
-function openPreview(id){
+function openPreview(id, originEl){
   document.querySelectorAll('.card-preview.open').forEach(function(el){ el.classList.remove('open'); });
   var target = document.querySelector('.preview-' + id);
-  if(target){
+  if(!target) return;
+  var glass = target.querySelector('.preview-glass');
+  var caption = target.querySelector('.preview-caption');
+
+  if(originEl && glass && !reduceMotionMQ.matches){
+    lastOriginCard = originEl;
+    var startRect = originEl.getBoundingClientRect();
+    var endRect = glass.getBoundingClientRect();
+    var scaleX = startRect.width / endRect.width;
+    var scaleY = startRect.height / endRect.height;
+    var dx = (startRect.left + startRect.width / 2) - (endRect.left + endRect.width / 2);
+    var dy = (startRect.top + startRect.height / 2) - (endRect.top + endRect.height / 2);
+
+    glass.style.transition = 'none';
+    glass.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + scaleX + ',' + scaleY + ')';
+    if(caption){ caption.classList.add('caption-hidden'); }
+    void glass.offsetWidth; // force reflow so the start position actually paints
+
+    target.classList.add('open');
+    document.body.classList.add('lightbox-open');
+
+    requestAnimationFrame(function(){
+      glass.style.transition = 'transform 0.55s var(--ease)';
+      glass.style.transform = 'translate(0,0) scale(1,1)';
+    });
+
+    setTimeout(function(){
+      if(caption){ caption.classList.remove('caption-hidden'); }
+    }, 220);
+
+    var settle = function(e){
+      if(e && e.propertyName !== 'transform') return;
+      glass.style.transition = '';
+      glass.style.transform = '';
+      glass.removeEventListener('transitionend', settle);
+    };
+    glass.addEventListener('transitionend', settle);
+  } else {
+    lastOriginCard = null;
     target.classList.add('open');
     document.body.classList.add('lightbox-open');
   }
 }
+
 function closePreview(){
-  document.querySelectorAll('.card-preview.open').forEach(function(el){ el.classList.remove('open'); });
-  document.body.classList.remove('lightbox-open');
+  var openPanel = document.querySelector('.card-preview.open');
+  if(!openPanel) return;
+  var glass = openPanel.querySelector('.preview-glass');
+
+  if(lastOriginCard && glass && document.body.contains(lastOriginCard) && !reduceMotionMQ.matches){
+    var endRect = lastOriginCard.getBoundingClientRect();
+    var startRect = glass.getBoundingClientRect();
+    var scaleX = endRect.width / startRect.width;
+    var scaleY = endRect.height / startRect.height;
+    var dx = (endRect.left + endRect.width / 2) - (startRect.left + startRect.width / 2);
+    var dy = (endRect.top + endRect.height / 2) - (startRect.top + startRect.height / 2);
+
+    document.body.classList.remove('lightbox-open');
+    glass.style.transition = 'transform 0.4s var(--ease), opacity 0.4s var(--ease)';
+    glass.style.transform = 'translate(' + dx + 'px,' + dy + 'px) scale(' + scaleX + ',' + scaleY + ')';
+    glass.style.opacity = '0';
+
+    var finish = function(e){
+      if(e && e.propertyName !== 'transform') return;
+      openPanel.classList.remove('open');
+      glass.style.transition = '';
+      glass.style.transform = '';
+      glass.style.opacity = '';
+      glass.removeEventListener('transitionend', finish);
+    };
+    glass.addEventListener('transitionend', finish);
+    setTimeout(finish, 480); // fallback in case transitionend never fires
+  } else {
+    document.querySelectorAll('.card-preview.open').forEach(function(el){ el.classList.remove('open'); });
+    document.body.classList.remove('lightbox-open');
+  }
+  lastOriginCard = null;
 }
 
 document.querySelectorAll('.card[data-preview]').forEach(function(card){
@@ -832,7 +972,7 @@ document.querySelectorAll('.card[data-preview]').forEach(function(card){
     // let the version pills and info button behave normally, don't open the preview for those
     if(e.target.closest('.card-versions')) return;
     e.preventDefault();
-    openPreview(card.dataset.preview);
+    openPreview(card.dataset.preview, card);
   });
 });
 
@@ -855,6 +995,46 @@ document.querySelectorAll('.card-preview').forEach(function(preview){
 document.addEventListener('keydown', function(e){
   if(e.key === 'Escape') closePreview();
 });
+
+// Screenshot-strip thumbnails inside multi-shot glass previews
+document.querySelectorAll('.card-preview').forEach(function(preview){
+  var thumbs = preview.querySelectorAll('.preview-thumb');
+  if(!thumbs.length) return;
+  thumbs.forEach(function(thumb){
+    thumb.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      var shotId = thumb.dataset.shot;
+      thumbs.forEach(function(t){ t.classList.toggle('active', t === thumb); });
+      preview.querySelectorAll('.card-shot').forEach(function(shot){
+        shot.classList.toggle('is-default', shot.dataset.shot === shotId);
+      });
+    });
+  });
+});
+
+// Kinetic hero word — letters cascade in on load (see .hero-word .hl),
+// then the whole word spreads its tracking and dissolves as you scroll past it.
+var heroWordEl = document.querySelector('.hero-word');
+var heroKineticTicking = false;
+
+function updateHeroWordKinetics(){
+  heroKineticTicking = false;
+  if(!heroWordEl || reduceMotionMQ.matches) return;
+  var rect = heroWordEl.getBoundingClientRect();
+  var progress = Math.min(Math.max(-rect.top / (rect.height * 1.4), 0), 1);
+  heroWordEl.style.letterSpacing = (-0.03 + progress * 0.55) + 'em';
+  heroWordEl.style.opacity = String(1 - progress);
+  heroWordEl.style.transform = 'translateY(' + (progress * -22) + 'px)';
+}
+function requestHeroKineticUpdate(){
+  if(heroKineticTicking) return;
+  heroKineticTicking = true;
+  requestAnimationFrame(updateHeroWordKinetics);
+}
+window.addEventListener('scroll', requestHeroKineticUpdate, {passive:true});
+window.addEventListener('resize', requestHeroKineticUpdate);
+updateHeroWordKinetics();
 </script>
 
 </body>
