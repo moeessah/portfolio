@@ -57,9 +57,10 @@ nav{
 }
 .hero-word{
   grid-row:1;
-  grid-column:1/2;
-  align-self:end;
-  justify-self:start;
+  grid-column:2/3;
+  align-self:start;
+  justify-self:center;
+  margin-top:0.5rem;
   font-family:'Satoshi', var(--sans);
   font-weight:900;
   font-size:clamp(4.625rem, calc(5vw + 0.75rem), 5.75rem);
@@ -158,6 +159,36 @@ nav{
 .shot-card:has(.v-pill[data-v="3"]:hover) .card-shot[data-shot="1"]{opacity:0}
 .shot-card:has(.v-pill[data-v="3"]:hover) .card-shot[data-shot="2"]{opacity:0}
 
+/* delphi: hero first, product shots on hover (two phones at a time) */
+.card-shot.pair{
+  display:flex;justify-content:center;align-items:flex-start;gap:4%;
+  box-sizing:border-box;padding:0.9rem 0 4.3rem;
+  background:#fbfbf9;
+}
+.card-shot.pair img{height:100%;width:auto;display:block;filter:drop-shadow(0 6px 10px rgba(10,10,10,0.12))}
+.card-shot.pair.on{opacity:1}
+
+/* delphi preview: scroll through the screens, two per view */
+.phone-track{
+  position:absolute;top:0;left:0;right:0;bottom:var(--cap-h,10rem);z-index:1;
+  display:flex;box-sizing:border-box;padding:3.2rem 0 1rem;
+  overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+  background:#fbfbf9;
+}
+.phone-track::-webkit-scrollbar{display:none}
+.phone-slide{flex:0 0 50%;height:100%;display:flex;justify-content:center;scroll-snap-align:start}
+.phone-slide img{height:100%;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 14px rgba(10,10,10,0.14))}
+.phone-nav{
+  position:absolute;top:calc((100% - var(--cap-h,10rem)) / 2);transform:translateY(-50%);z-index:3;
+  width:32px;height:32px;border-radius:50%;border:none;
+  background:rgba(255,255,255,0.9);box-shadow:0 4px 12px -4px rgba(10,10,10,0.35);
+  color:var(--ink);font-size:16px;line-height:1;cursor:pointer;
+  transition:background 0.15s, transform 0.15s;
+}
+.phone-nav:hover{background:#fff;transform:translateY(-50%) scale(1.08)}
+.phone-nav.prev{left:12px}
+.phone-nav.next{right:12px}
+
 /* caption bar, slides up on hover */
 .card-bottom{
   position:absolute;left:0;right:0;bottom:0;z-index:2;
@@ -217,6 +248,7 @@ a.card .card-bottom{padding-right:2.7rem}
 .clr-8{grid-row:5; grid-column:3/4}
 .clr-9{grid-row:4; grid-column:3/4}
 .clr-10{grid-row:2; grid-column:1/2}
+.clr-11{grid-row:1; grid-column:1/2}
 
 /* preview panel */
 .preview-backdrop{
@@ -386,6 +418,7 @@ footer{border-top:1px solid var(--ink12);padding-top:1.5rem}
 .card:nth-child(9){animation-delay:0.80s}
 .card:nth-child(10){animation-delay:0.86s}
 .card:nth-child(11){animation-delay:0.92s}
+.card:nth-child(12){animation-delay:0.98s}
 @media(prefers-reduced-motion:reduce){
   .hero-word,.hero-word .hl,.card{animation:none;opacity:1;transform:none}
 }
@@ -395,8 +428,8 @@ footer{border-top:1px solid var(--ink12);padding-top:1.5rem}
   .works-hero{padding-top:0}
   .hero-word{grid-row:auto;grid-column:1/-1;align-self:auto;justify-self:auto;margin-bottom:1.5rem;font-size:clamp(3.55rem, calc(9vw + 0.75rem), 5.25rem)}
   .grid{width:100%;grid-template-columns:repeat(2,1fr)}
-  .clr-1,.clr-2,.clr-3,.clr-4,.clr-5,.clr-6,.clr-7,.clr-8,.clr-9,.clr-10{grid-row:auto;grid-column:auto}
-  .clr-1{grid-column:1/-1}
+  .clr-1,.clr-2,.clr-3,.clr-4,.clr-5,.clr-6,.clr-7,.clr-8,.clr-9,.clr-10,.clr-11{grid-row:auto;grid-column:auto}
+  .clr-1,.clr-11{grid-column:1/-1}
 
   /* room above cornerstone for the character */
   .grid .card{align-self:end}
@@ -471,6 +504,23 @@ footer{border-top:1px solid var(--ink12);padding-top:1.5rem}
     <header class="works-hero">
       <div class="grid" id="projects">
         <h1 class="hero-word" aria-label="samples"><span class="hl" style="--i:0" aria-hidden="true">s</span><span class="hl" style="--i:1" aria-hidden="true">a</span><span class="hl" style="--i:2" aria-hidden="true">m</span><span class="hl" style="--i:3" aria-hidden="true">p</span><span class="hl" style="--i:4" aria-hidden="true">l</span><span class="hl" style="--i:5" aria-hidden="true">e</span><span class="hl" style="--i:6" aria-hidden="true">s</span></h1>
+
+      <!-- delphi -->
+      <a class="card clr-11" href="https://moeessah.github.io/delphi/" data-preview="11" data-cycle>
+        <div class="card-media">
+          <div class="card-shot is-default" style="background-image:url('images/delphi/delphi-hero.webp')"></div>
+          <div class="card-shot pair"><img src="images/delphi/01-today.webp" alt="" loading="lazy"><img src="images/delphi/05-alerts.webp" alt="" loading="lazy"></div>
+          <div class="card-shot pair"><img src="images/delphi/09-check-in-no-answer.webp" alt="" loading="lazy"><img src="images/delphi/14-memory-story.webp" alt="" loading="lazy"></div>
+          <div class="card-shot pair"><img src="images/delphi/11-family-access.webp" alt="" loading="lazy"><img src="images/delphi/13-dark-mode.webp" alt="" loading="lazy"></div>
+        </div>
+        <div class="card-bottom">
+          <div class="card-titlewrap">
+            <span class="card-eyebrow">Older Adults, Product Design</span>
+            <span class="card-title">Delphi</span>
+          </div>
+          <span class="card-arrow">↗</span>
+        </div>
+      </a>
 
       <!-- theorex -->
       <a class="card clr-1" href="https://moeessah.github.io/theorex/" data-preview="1">
@@ -859,6 +909,30 @@ footer{border-top:1px solid var(--ink12);padding-top:1.5rem}
         </div>
       </div>
 
+      <div class="card-preview preview-11">
+        <div class="preview-glass">
+          <button type="button" class="preview-close" aria-label="Close">✕</button>
+          <div class="phone-track">
+            <div class="phone-slide"><img src="images/delphi/01-today.webp" alt="Today: Margaret is doing well, nothing to flag" loading="lazy"></div>
+            <div class="phone-slide"><img src="images/delphi/05-alerts.webp" alt="Alerts: one urgent, two worth a look" loading="lazy"></div>
+            <div class="phone-slide"><img src="images/delphi/09-check-in-no-answer.webp" alt="Neither Margaret nor the care contact answered" loading="lazy"></div>
+            <div class="phone-slide"><img src="images/delphi/14-memory-story.webp" alt="A Memory Book story with audio" loading="lazy"></div>
+            <div class="phone-slide"><img src="images/delphi/11-family-access.webp" alt="Family: who has access" loading="lazy"></div>
+            <div class="phone-slide"><img src="images/delphi/13-dark-mode.webp" alt="Dark mode with status still in words" loading="lazy"></div>
+          </div>
+          <button type="button" class="phone-nav prev" aria-label="Previous screens">←</button>
+          <button type="button" class="phone-nav next" aria-label="Next screens">→</button>
+          <div class="preview-caption">
+            <div class="card-titlewrap">
+              <span class="card-eyebrow">Older Adults, Product Design</span>
+              <span class="card-title">Delphi</span>
+            </div>
+            <p class="preview-desc">Product design for a family app and an Introductions feature for Delphi, a speaker with no screen for older adults. Relatives hear when something needs attention, her conversations stay hers, and nobody is introduced without two yeses.</p>
+            <a class="preview-visit" href="https://moeessah.github.io/delphi/" target="_blank" rel="noopener">Visit site →</a>
+          </div>
+        </div>
+      </div>
+
     </header>
   </div>
 </main>
@@ -1001,6 +1075,45 @@ document.querySelectorAll('.card-preview').forEach(function(preview){
       });
     });
   });
+});
+
+// delphi card: hero first, then product shots two at a time while hovered
+document.querySelectorAll('.card[data-cycle]').forEach(function(card){
+  var hero = card.querySelector('.card-shot');
+  var pairs = card.querySelectorAll('.pair');
+  var i = 0, timer = null;
+  function show(n){ pairs.forEach(function(p, k){ p.classList.toggle('on', k === n); }); }
+  card.addEventListener('mouseenter', function(){
+    hero.classList.remove('is-default');
+    i = 0; show(0);
+    if(reduceMotionMQ.matches) return;
+    timer = setInterval(function(){ i = (i + 1) % pairs.length; show(i); }, 1500);
+  });
+  card.addEventListener('mouseleave', function(){
+    clearInterval(timer);
+    show(-1);
+    hero.classList.add('is-default');
+  });
+});
+
+// delphi preview: arrows and keys move one screen at a time; the track stops above the caption
+document.querySelectorAll('.phone-track').forEach(function(track){
+  var glass = track.parentElement;
+  var preview = track.closest('.card-preview');
+  var caption = glass.querySelector('.preview-caption');
+  function step(dir){
+    track.scrollBy({ left: dir * track.clientWidth / 2, behavior: reduceMotionMQ.matches ? 'auto' : 'smooth' });
+  }
+  glass.querySelector('.phone-nav.prev').addEventListener('click', function(){ step(-1); });
+  glass.querySelector('.phone-nav.next').addEventListener('click', function(){ step(1); });
+  document.addEventListener('keydown', function(e){
+    if(!preview.classList.contains('open')) return;
+    if(e.key === 'ArrowRight') step(1);
+    if(e.key === 'ArrowLeft') step(-1);
+  });
+  new ResizeObserver(function(){
+    glass.style.setProperty('--cap-h', caption.offsetHeight + 'px');
+  }).observe(caption);
 });
 
 // "samples" spreads out and fades as you scroll
