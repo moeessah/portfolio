@@ -1,0 +1,3788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="#f7f3ed" id="tc" name="theme-color"/>
+<script>
+(() => {
+  try {
+    const saved = localStorage.getItem("olympia-theme"),
+      dark = saved
+        ? saved === "dark"
+        : matchMedia("(prefers-color-scheme: dark)").matches;
+    if (dark) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      document.getElementById("tc").content = "#17150f";
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      document.getElementById("tc").content = "#f7f3ed";
+    }
+  } catch (e) {
+    if (matchMedia("(prefers-color-scheme: dark)").matches) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      document.getElementById("tc").content = "#17150f";
+    }
+  }
+  document.documentElement.classList.add("js");
+})();
+  </script>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
+<title>Delphi Family + Introductions: a product design concept</title>
+<meta content="Two prototypes for Delphi. A family app that keeps relatives in the loop without watching over her, and Introductions, a way for Delphi to help someone meet a new person." name="description"/>
+<meta content="Delphi Family + Introductions: a product design concept" property="og:title"/>
+<meta content="Two prototypes for Delphi. A family app that keeps relatives in the loop without watching over her, and Introductions, a way for Delphi to help someone meet a new person." property="og:description"/>
+<meta content="og-image.png" property="og:image"/>
+<meta content="1200" property="og:image:width"/>
+<meta content="630" property="og:image:height"/>
+<meta content="summary_large_image" name="twitter:card"/>
+<meta content="og-image.png" name="twitter:image"/>
+<meta content="website" property="og:type"/>
+<link href="images/favicon.svg?v=2" rel="icon" type="image/svg+xml"/><link href="images/delphi-favicon.png?v=2" rel="icon" sizes="192x192" type="image/png"/><link href="images/apple-touch-icon.png" rel="apple-touch-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Caveat:wght@600&amp;display=swap" rel="stylesheet"/>
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    ::selection {
+      background: var(--orange);
+      color: var(--white);
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    button {
+      font: inherit;
+    }
+    .container {
+      width: min(calc(100% - 48px), var(--max));
+      margin: 0 auto;
+    }
+    
+    .small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .rule {
+      height: 1px;
+      background: var(--line);
+    }
+    .section.tight {
+      padding: 75px 0;
+    }
+    h1, h2, h3, h4, p {
+      margin-top: 0;
+    }
+    .lead {
+      font-size: clamp(18px, 2vw, 26px);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+    .max680 {
+      max-width: 680px;
+    }
+    .hero {
+      min-height: 100svh;
+      padding: 66px 0 72px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-copy {
+      text-align: center;
+    }
+    .hero-copy .lead {
+      max-width: 680px;
+      margin: 30px auto 0;
+    }
+    .hero-giant {
+      max-width: none;
+      font-size: clamp(45px, 6.9vw, 123px);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+      font-weight: 700;
+      margin-bottom: 0;
+      text-transform: uppercase;
+    }
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      overflow: hidden;
+      margin: 0 0.1em;
+      transform: translateY(-0.04em);
+    }
+    .hero-chip-photo, .hero-chip-placeholder {
+      height: 0.76em;
+      width: 2.15em;
+      border-radius: 0.24em;
+      background: #d8cbbc;
+    }
+    .hero-chip-placeholder[data-file="images/delphi-hero-2.webp"] {
+      width: 1.075em;
+    }
+    [data-theme="dark"] .hero-chip-photo, [data-theme="dark"] .hero-chip-placeholder {
+      background: #3a352a;
+    }
+    .hero-word {
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .hero-letter {
+      --tone: var(--ink);
+      color: color-mix(in srgb, var(--red-text) calc(var(--reach, 0) * 100%), var(--tone));
+      -webkit-text-stroke: calc(var(--reach, 0) * 0.014em) currentColor;
+      transition: color 0.25s ease, -webkit-text-stroke-width 0.25s ease;
+    }
+    .serif .hero-letter {
+      --tone: var(--red-text);
+    }
+    @media (max-width: 680px) {
+      .hero-giant {
+        font-size: clamp(34px, 13vw, 64px);
+        letter-spacing: -0.03em;
+      }
+      .hero-chip-photo, .hero-chip-placeholder {
+        width: 2.4em;
+      }
+      .hero-chip-placeholder[data-file="images/delphi-hero-2.webp"] {
+        width: 1.2em;
+      }
+    }
+    .split {
+      display: grid;
+      grid-template-columns: 0.28fr 0.72fr;
+      gap: 75px;
+      align-items: start;
+    }
+    .split-note {
+      position: sticky;
+      top: 104px;
+    }
+    .prototype-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+    .prototype-head .note {
+      max-width: 380px;
+      color: rgba(255, 248, 242, 0.62);
+      font-size: 12px;
+    }
+    .proto-btn {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 10px;
+      border: 0;
+      border-bottom: 1px solid rgba(255, 248, 242, 0.1);
+      background: transparent;
+      color: rgba(255, 248, 242, 0.48);
+      padding: 15px 0;
+      text-align: left;
+      cursor: pointer;
+    }
+    .proto-btn .idx {
+      font: 500 10px/1 "DM Sans", sans-serif;
+      padding-top: 2px;
+    }
+    .proto-btn .label {
+      font-size: 13px;
+    }
+    .proto-aside {
+      margin-top: 32px;
+      padding: 19px 0;
+      border-top: 1px solid rgba(255, 248, 242, 0.1);
+      font-size: 12px;
+      line-height: 1.5;
+      color: rgba(255, 248, 242, 0.5);
+    }
+    .proto-window-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 17px;
+      border-bottom: 1px solid var(--line);
+      font-size: 11px;
+    }
+    .window-brand {
+      font-weight: 700;
+    }
+    .proto-kicker {
+      font: 500 9px/1.1 "DM Sans", sans-serif;
+      color: var(--muted);
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .proto-copy {
+      font-size: 14px;
+      line-height: 1.45;
+      max-width: 510px;
+    }
+    .person {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .person strong {
+      font-size: 14px;
+    }
+    .person span {
+      display: block;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+    .proto-card.dark .person span {
+      color: rgba(255, 248, 242, 0.55);
+    }
+    .proto-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+    .btn {
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 9px 12px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+    .side-label {
+      font: 500 9px/1.1 "DM Sans", sans-serif;
+      letter-spacing: 0.11em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .side-row {
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+      font-size: 11px;
+    }
+    .side-row strong {
+      display: block;
+      font-size: 10px;
+    }
+    .side-row span {
+      display: block;
+      color: var(--muted);
+      margin-top: 3px;
+      line-height: 1.35;
+    }
+
+    .side-callout {
+      margin-top: 22px;
+      padding: 15px;
+      border-radius: 16px;
+      background: var(--cream);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .flywheel {
+      padding: clamp(110px, 14vw, 180px) 0;
+      background: var(--paper);
+      overflow: hidden;
+    }
+    .flywheel-hero {
+      max-width: 1120px;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .flywheel-canvas {
+      position: relative;
+      margin-top: 20px;
+      min-height: 170px;
+      padding: 30px 0 0;
+    }
+    .flywheel-step {
+      z-index: 2;
+      min-width: 0;
+      position: relative;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 18px;
+      align-items: start;
+      min-height: 92px;
+      cursor: default;
+    }
+    .flywheel-step:nth-child(3) {
+      margin-left: 12%;
+    }
+    .flywheel-step:nth-child(4) {
+      margin-left: 24%;
+    }
+    .flywheel-step:nth-child(5) {
+      margin-left: 36%;
+    }
+    .flywheel-step b {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      font-size: 10px;
+      transition: 0.3s;
+    }
+    .flywheel-step.active b, .flywheel-step:hover b {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .flywheel-step strong {
+      display: block;
+      font-size: clamp(16px, 3vw, 38px);
+      letter-spacing: -0.06em;
+      line-height: 0.9;
+      text-transform: uppercase;
+    }
+    .flywheel-step span {
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      margin-top: 12px;
+      max-width: 22ch;
+      font-size: 11px;
+      line-height: 1.4;
+      color: var(--muted);
+    }
+    @media (max-width: 680px) {
+      .flywheel-canvas {
+        margin-top: 40px;
+        padding-top: 0;
+        min-height: auto;
+      }
+      .flywheel-step, .flywheel-step:nth-child(3), .flywheel-step:nth-child(4), .flywheel-step:nth-child(5) {
+        margin-left: 0;
+      }
+      .flywheel-step {
+        grid-template-columns: 44px 1fr;
+        min-height: 0;
+        padding-bottom: 26px;
+      }
+      .flywheel-step b {
+        width: 44px;
+        height: 44px;
+      }
+      .flywheel-step strong {
+        font-size: 28px;
+      }
+    }
+    .precedent-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .precedent-card {
+      padding: 16px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+    .precedent-card strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+    .precedent-card p {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.72);
+      margin: 0;
+      line-height: 1.45;
+    }
+    @media (max-width: 680px) {
+      .precedent-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+    .private {
+      margin-top: 15px;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    @media (max-width: 1000px) {
+      
+.split,
+.prototype-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 45px;
+      }
+      .split-note {
+        position: static;
+      }
+      .proto-side {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+      .hero {
+        padding: 90px 0 42px;
+      }
+    }
+    @media (max-width: 680px) {
+      .container {
+        width: min(calc(100% - 28px), var(--max));
+      }
+      .section.tight {
+        padding: 45px 0;
+      }
+      .hero {
+        padding: 85px 0 45px;
+      }
+      .prototype-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .footer-inner {
+        flex-direction: column;
+      }
+    }
+    :root {
+      --paper: #f7f3ed;
+      --ink: #080807;
+      --muted: #706d66;
+      --soft: #e8e2d7;
+      --soft2: #f7f3ed;
+      --orange: #d0430f;
+      --cream: #f7f3ed;
+      --red: #d0430f;
+      --white: #fffdf8;
+      --line: rgba(8, 8, 7, 0.14);
+      --darkline: rgba(255, 248, 242, 0.18);
+      --max: 1420px;
+      --red-text: #d0430f;
+      --green: #649f59;
+      --nav-bg: rgba(247, 243, 237, 0.94);
+    }
+    [data-theme="dark"] {
+      --red-text: #d0430f;
+      --green: #506d49;
+      --paper: #17150f;
+      --ink: #f7f3ed;
+      --muted: #9c9689;
+      --soft: #211e17;
+      --soft2: #26221b;
+      --white: #2a261e;
+      --line: rgba(242, 238, 231, 0.14);
+      --nav-bg: rgba(23, 21, 15, 0.9);
+    }
+    .section.dark, .section.red, .section.green, .footer {
+      --ink: #080807;
+      --white: #fffdf8;
+      --soft: #e8e2d7;
+      --soft2: #f7f3ed;
+      --muted: #706d66;
+      --line: rgba(8, 8, 7, 0.14);
+      --red-text: #d0430f;
+    }
+    .section.red {
+      background: var(--red);
+      color: #fff;
+    }
+    .section.green {
+      background: var(--green);
+      color: #fff;
+    }
+    .section.dark {
+      background: #f7f7f5;
+      color: #16150f;
+      --darkline: rgba(8, 8, 7, 0.14);
+    }
+    [data-theme="dark"] .section.dark {
+      background: #080807;
+      color: #fff;
+      --darkline: rgba(255, 248, 242, 0.18);
+    }
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 72px;
+    }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.38;
+      overflow-x: hidden;
+      font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.01em;
+      transition: background-color 0.25s, color 0.25s;
+    }
+    h1, h2, h3, h4 {
+      font-weight: 500;
+    }
+    h2 {
+      font-size: clamp(48px, 6.4vw, 96px);
+      line-height: 0.87;
+      letter-spacing: -0.07em;
+      padding-bottom: 0.14em;
+      margin-bottom: 22px;
+    }
+    h3 {
+      font-size: clamp(28px, 3.2vw, 48px);
+      line-height: 0.92;
+      margin-bottom: 16px;
+      letter-spacing: -0.06em;
+    }
+    .serif {
+      font-family: "DM Sans", sans-serif;
+      font-style: normal;
+      font-weight: inherit;
+      color: var(--red-text);
+    }
+    .dark .serif {
+      color: var(--green);
+    }
+    .green .serif, .red .serif {
+      color: #080807;
+    }
+    .eyebrow {
+      display: block;
+      font: 700 11px/1.05 "DM Sans", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .eyebrow + h2, .eyebrow + h3, .eyebrow + p {
+      margin-top: 26px;
+    }
+     .small {
+      font-family: "DM Sans", sans-serif;
+    }
+    .green .small, .red .small, .dark .small {
+      color: rgba(255, 255, 255, 0.76);
+    }
+    .lead, .statement {
+      letter-spacing: -0.04em;
+    }
+    .statement {
+      font-size: clamp(34px, 4.6vw, 72px);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+      max-width: 930px;
+      font-weight: 500;
+    }
+    .statement .wash {
+      background: none;
+      color: #080807;
+    }
+    .body {
+      font-size: clamp(14px, 1.2vw, 17px);
+      line-height: 1.5;
+      letter-spacing: -0.02em;
+    }
+    .section {
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    #pilot {
+      overflow: visible;
+    }
+    .footer {
+      background: #080807;
+      color: rgba(255, 248, 242, 0.52);
+      padding: 24px 0 38px;
+      font: 500 10px/1.4 "DM Sans", sans-serif;
+      letter-spacing: 0.04em;
+    }
+    :root {
+      --nav-h: 72px;
+      --pill-w: 240px;
+    }
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: var(--nav-h);
+      background: var(--nav-bg);
+      backdrop-filter: blur(16px);
+    }
+    .nav-inner {
+      height: 100%;
+      width: min(1440px, calc(100% - 34px));
+      margin: auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto var(--pill-w);
+      align-items: center;
+      gap: 16px;
+    }
+    .brand {
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.07em;
+    }
+    .nav-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-mark {
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+    .hl {
+      width: 16px;
+      height: 16px;
+      vertical-align: -4px;
+      margin-right: 7px;
+    }
+    .fan {
+      transform-origin: 22px 78px;
+      animation: fan 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) calc(0.2s + var(--i) * 0.14s) both;
+    }
+    @keyframes fan {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fan {
+        animation: none;
+      }
+    }
+    .footer-inner .hl {
+      width: 18px;
+      height: 18px;
+    }
+    .nav-eyebrow {
+      font: 700 9px/1 "DM Sans", sans-serif;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    @media (max-width: 1000px) {
+      .nav-eyebrow {
+        display: none;
+      }
+    }
+    .nav-links {
+      display: flex;
+      justify-content: flex-end;
+      gap: 28px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .nav-links a {
+      opacity: 0.6;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover {
+      opacity: 1;
+    }
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--white);
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+    }
+    .theme-toggle svg {
+      width: 17px;
+      height: 17px;
+    }
+    .theme-toggle .icon-moon, [data-theme="dark"] .theme-toggle .icon-sun {
+      display: none;
+    }
+    [data-theme="dark"] .theme-toggle .icon-moon {
+      display: block;
+    }
+    /* The pill and menu sit outside the header so they can layer above the
+       section frames (the sticky header traps its children below them). The
+       pill tucks behind a frame until it is hovered or its menu is open. */
+    .nav-current-wrap {
+      position: fixed;
+      top: 0;
+      right: max(17px, calc((100% - 1440px) / 2));
+      z-index: 100;
+      height: var(--nav-h);
+      display: flex;
+      align-items: center;
+    }
+    .nav-current-wrap:has([aria-expanded="true"]) {
+      z-index: 1000;
+    }
+    .nav-current {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      width: var(--pill-w);
+      padding: 11px 18px;
+      border-radius: 999px;
+      background: var(--red);
+      color: #fff;
+      box-shadow: 0 8px 20px rgba(208, 67, 15, 0.28);
+      font-size: 12px;
+      font-weight: 600;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      text-align: left;
+      transition: box-shadow 0.2s;
+    }
+    .nav-current:hover {
+      box-shadow: 0 10px 26px rgba(208, 67, 15, 0.36);
+    }
+    .nav-current b {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.75);
+      font-variant-numeric: tabular-nums;
+      flex: none;
+    }
+    .nav-current span {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-chevron {
+      flex: none;
+      opacity: 0.85;
+      transition: transform 0.25s ease;
+    }
+    .nav-current[aria-expanded="true"] .nav-chevron {
+      transform: rotate(180deg);
+    }
+    .nav-menu {
+      position: fixed;
+      z-index: 1000;
+      width: min(300px, calc(100vw - 28px));
+      max-height: min(92vh, 480px);
+      overflow-y: auto;
+      display: grid;
+      gap: 1px;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 30px 60px -25px rgba(8, 8, 7, 0.35);
+      padding: 6px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    }
+    .nav-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .nav-menu-item {
+      display: flex;
+      align-items: baseline;
+      gap: 11px;
+      padding: 8px 12px;
+      border-radius: 14px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .nav-menu-item:hover {
+      background: var(--soft);
+    }
+    .nav-menu-item .idx {
+      font: 600 10px/1 "DM Sans", sans-serif;
+      color: var(--muted);
+      min-width: 26px;
+      flex: none;
+    }
+    .nav-menu-item .lbl {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nav-menu-item.active {
+      background: var(--red);
+      color: #fff;
+    }
+    .nav-menu-item.active .idx {
+      color: rgba(255, 255, 255, 0.75);
+    }
+    .nav-progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+    }
+    .nav-progress i {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--red);
+      transition: width 0.12s linear;
+    }
+    .btn, .btn.primary {
+      font-weight: 700;
+    }
+    .device-pill {
+      font-size: 10px;
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: rgba(8, 8, 7, 0.06);
+      font-weight: 600;
+    }
+    
+.proto-card,
+.side-callout {
+      border-radius: 0;
+    }
+    .status {
+      font: 500 9px/1 "DM Sans", sans-serif;
+      letter-spacing: 0.08em;
+      border: 1px solid currentColor;
+      padding: 6px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    
+    .proto-title {
+      font-size: 42px;
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+    .proto-kicker, .side-label {
+      font-weight: 700;
+    }
+    .proto-btn.active .label {
+      font-weight: 700;
+    }
+    .proto-side {
+      border-left: 1px solid var(--line);
+      background: var(--soft);
+      padding: 28px;
+    }
+    .reason-box {
+      margin-top: 17px;
+      padding: 14px 15px;
+      border-left: 3px solid var(--orange);
+      background: rgba(208, 67, 15, 0.06);
+      font-size: 13px;
+      line-height: 1.45;
+      border-left-color: var(--red);
+    }
+    .js section:not(.hero) h2 {
+      clip-path: inset(0 100% 0 0);
+      transition: clip-path 1.05s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .js section.in h2 {
+      clip-path: inset(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .js section:not(.hero) h2 {
+        clip-path: none;
+        transition: none;
+      }
+    }
+    @media (max-width: 1000px) {
+      .nav-links {
+        display: none;
+      }
+      :root {
+        --pill-w: 190px;
+      }
+      .nav-inner {
+        grid-template-columns: 1fr auto var(--pill-w);
+      }
+    }
+    @media (max-width: 680px) {
+      :root {
+        --pill-w: 92px;
+      }
+      .nav-current span {
+        display: none;
+      }
+      .nav-current {
+        padding: 11px 14px;
+      }
+    }
+    .media {
+      position: relative;
+      overflow: hidden;
+      background: #d8cbbc;
+      isolation: isolate;
+    }
+    .media:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #e9e0d4, #b59c84);
+      z-index: -1;
+    }
+    .media:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(8, 8, 7, 0.32));
+      pointer-events: none;
+    }
+    .media .ph {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 22px;
+      z-index: 3;
+      color: #fff;
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+    }
+    .ph b {
+      display: block;
+      font-size: 17px;
+      letter-spacing: -0.03em;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .ph span {
+      display: block;
+      max-width: 62ch;
+      font-size: 12px;
+      line-height: 1.5;
+      opacity: 0.94;
+    }
+    .file {
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      z-index: 4;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(8, 8, 7, 0.5);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+    .media.real:after, .media.real .ph, .media.real .file {
+      display: none;
+    }
+    .media.real img {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sb-frame.media.real:after, .sb-frame.media.real .ph {
+      display: block;
+    }
+    .cap {
+      margin-top: 22px;
+      padding: 16px 18px;
+      background: #080807;
+      color: #fff;
+      border-radius: 18px;
+    }
+    .cap-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .cap-state {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 74px;
+    }
+    .cap-bars {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 20px;
+      flex: 1;
+    }
+    .cap-bars i {
+      display: block;
+      width: 3px;
+      height: 16px;
+      background: var(--red);
+      border-radius: 2px;
+      animation: capbar 1s ease-in-out infinite;
+    }
+    .cap-bars i:nth-child(2n) {
+      background: #f7f3ed;
+      animation-delay: 0.18s;
+    }
+    .cap-bars i:nth-child(3n) {
+      animation-delay: 0.34s;
+    }
+    @keyframes capbar {
+      50% {
+        transform: scaleY(0.22);
+      }
+    }
+    .cap[data-s="Quiet"] .cap-bars i {
+      animation: none;
+      transform: scaleY(0.15);
+    }
+    .cap-sim {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.55;
+    }
+    .cap-text {
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      margin: 0;
+      min-height: 1.3em;
+    }
+    .cap-text .unsure {
+      opacity: 0.4;
+      text-decoration: underline dotted;
+      text-underline-offset: 4px;
+    }
+    .cap-text .fixed {
+      animation: capfix 0.5s;
+    }
+    @keyframes capfix {
+      from {
+        opacity: 0.4;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    .two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 18px;
+    }
+    .two .proto-card {
+      margin-top: 0;
+    }
+    .two p {
+      font-size: 15px;
+      line-height: 1.3;
+      margin: 10px 0 0;
+      letter-spacing: -0.02em;
+    }
+    .proto-what {
+      margin: 26px 0 6px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.65;
+    }
+    @media (max-width: 680px) {
+      .two {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cap-bars i {
+        animation: none;
+      }
+    }
+    
+    .storyboard {
+      margin-top: 60px;
+    }
+    .sb-strip {
+      display: grid;
+      grid-template-columns: 0.8fr 0.8fr 1.778fr 0.8fr; /* proportional to 4:5, 4:5, 16:9, 4:5 so all frames share one height */
+      gap: 8px;
+    }
+    .sb-frame {
+      aspect-ratio: 4/5;
+    }
+    .sb-frame:nth-child(3) {
+      aspect-ratio: 16/9;
+    }
+    .sb-frame:nth-child(2):before {
+      background: linear-gradient(200deg, #eadfd0, #a98f77);
+    }
+    .sb-frame:nth-child(3):before {
+      background: linear-gradient(160deg, #e3d8ca, #9c8672);
+    }
+    .sb-frame:nth-child(4):before {
+      background: linear-gradient(120deg, #efe7db, #bfa78d);
+    }
+    .sb-n {
+      display: none;
+    }
+    .sb-frame .file {
+      top: 78px;
+      right: auto;
+      left: 16px;
+      bottom: auto;
+    }
+    .sb-frame.media:after {
+      z-index: 2; /* above the photo, below the caption and number */
+      background:
+        linear-gradient(180deg, rgba(8, 8, 7, 0.35), transparent 30%),
+        linear-gradient(0deg, rgba(8, 8, 7, 0.82), rgba(8, 8, 7, 0.5) 30%, transparent 60%);
+    }
+    .sb-frame .ph {
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+    }
+    .sb-frame .ph span {
+      font-size: 13px;
+      opacity: 1;
+    }
+    .display:before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #2a2a28;
+      transform: translateX(-50%);
+    }
+    .display .proto-window {
+      width: 100%;
+      border-radius: 26px;
+      box-shadow: none;
+    }
+    @media (max-width: 1000px) {
+      .sb-strip {
+        grid-template-columns: 1fr 1fr;
+      }
+      .sb-frame:nth-child(3) {
+        grid-column: 1 / -1;
+      }
+    }
+    @media (max-width: 680px) {
+      .display .proto-window {
+        border-radius: 20px;
+      }
+      .sb-n {
+        display: none;
+      }
+      .sb-frame .file {
+        top: 62px;
+      }
+    }
+    .pn-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 22px;
+      flex-wrap: wrap;
+    }
+    .pn {
+      flex: 1 1 170px;
+      max-width: 214px;
+      height: 440px;
+      background: #0a0a09;
+      border: 8px solid #0a0a09;
+      border-radius: 38px;
+      padding: 4px;
+      box-shadow: 0 22px 50px -24px rgba(8, 8, 7, 0.5);
+    }
+    .pn-screen {
+      position: relative;
+      height: 100%;
+      border-radius: 29px;
+      background: #f5f1ea;
+      color: #080807;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .pn-notch {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 76px;
+      height: 16px;
+      background: #0a0a09;
+      border-radius: 0 0 12px 12px;
+    }
+    .pn-status {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 16px 0;
+      font-size: 9px;
+      font-weight: 700;
+      opacity: 0.55;
+    }
+    .pn-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px 0;
+    }
+    .pn-logo {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: -0.06em;
+    }
+    .pn-av {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .pn-av.coral {
+      background: var(--f-coral);
+    }
+    .pn-av.green {
+      background: var(--f-green);
+      color: var(--f-on-green);
+    }
+    .pn-body {
+      flex: 1;
+      padding: 16px 14px;
+    }
+    .pn-speaker {
+      font: 700 9px/1 "DM Sans", sans-serif;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+      color: var(--red);
+    }
+    .pn-hero.mute .pn-line {
+      opacity: 0.55;
+    }
+    .pn-chips {
+      display: grid;
+      gap: 7px;
+      margin-top: 16px;
+    }
+    .pn-chip {
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: #080807;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .proto-nav .proto-btn {
+      grid-template-columns: 22px 1fr;
+      padding: 13px 0;
+    }
+    .proto-nav {
+      border: 0;
+      display: block;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .prototype-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 26px;
+      align-items: stretch;
+    }
+    .proto-navhead .proto-what {
+      margin: 14px 0;
+    }
+    .proto-steps {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+    }
+    .proto-steps .idx {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 4px;
+    }
+    .proto-stage {
+      background: transparent;
+      color: var(--ink);
+      border-radius: 30px;
+      min-height: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      flex-direction: column;
+    }
+    .display {
+      position: relative;
+      z-index: 101;
+      width: min(100%, 1240px);
+      background: #0a0a09;
+      padding: 14px;
+      border-radius: 40px;
+      box-shadow: 0 50px 100px -50px rgba(0, 0, 0, 0.6);
+    }
+    .wi-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: 8px;
+    }
+    .wi-btn small {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .wi-btn {
+      position: relative;
+      transition: transform 0.15s, border-color 0.15s;
+      font: inherit;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 14px;
+      padding: 15px;
+      cursor: pointer;
+      color: var(--ink);
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .wi-btn::after {
+      content: "›";
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      line-height: 1;
+      color: var(--red);
+      transition: transform 0.15s;
+    }
+    .wi-btn:hover {
+      border-color: var(--red);
+      transform: translateY(-1px);
+    }
+    .wi-btn:hover::after {
+      transform: translate(3px, -50%);
+    }
+    .wi-btn.on::after {
+      color: #fff;
+    }
+    .side-hint {
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--muted);
+      margin: -4px 0 14px;
+    }
+    @media (max-width: 1000px) {
+      .proto-steps {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    @media (max-width: 560px) {
+      .proto-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .proto-window {
+      width: min(100%, 860px);
+      border: 0;
+      border-radius: 28px;
+      background: var(--white);
+      overflow: hidden;
+      box-shadow: 0 50px 100px -50px rgba(0, 0, 0, 0.6);
+    }
+    .proto-main {
+      padding: 36px 36px 30px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      align-content: start;
+    }
+    .proto-main > .scene {
+      margin-top: 22px;
+    }
+    @media (min-width: 1001px) {
+      #experience .proto-main {
+        grid-template-columns: 0.62fr 1.38fr;
+        column-gap: 24px;
+      }
+      .proto-main > *:not(.scene) {
+        grid-column: 1;
+      }
+      .proto-main > .scene {
+        grid-column: 2;
+        grid-row: 1 / span 6;
+        margin-top: 0;
+      }
+    }
+    .proto-main .proto-title {
+      font-size: clamp(28px, 2.9vw, 40px);
+      line-height: 1.02;
+    }
+    .say {
+      animation: sayIn 0.5s var(--d, 0s) both;
+      margin-top: 12px;
+      padding: 13px 16px;
+      border-radius: 18px;
+      font-size: 15px;
+      line-height: 1.3;
+      max-width: 88%;
+    }
+    .say b {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 4px;
+    }
+    .say.m {
+      background: #d0430f;
+      color: #fff;
+      border-bottom-left-radius: 5px;
+    }
+    .say.o {
+      background: #2b2b28;
+      color: #fff;
+      margin-left: auto;
+      border-bottom-right-radius: 5px;
+    }
+    @keyframes sayIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .say {
+        animation: none;
+      }
+    }
+    .proto-steps .proto-btn {
+      display: block;
+      width: auto;
+      padding: 14px 14px 10px 0;
+      border: 0;
+      border-top: 2px solid rgba(255, 248, 242, 0.22);
+      color: rgba(255, 248, 242, 0.75);
+    }
+    .proto-steps .proto-btn.active {
+      border-top-color: #fff;
+      color: #fff;
+    }
+    .proto-navhead {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 10px;
+      gap: 18px;
+    }
+    .wi-btn span {
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .glass-pill {
+      display: inline-flex;
+      align-items: center;
+      vertical-align: middle;
+      margin: 0 2px;
+      padding: 1px 9px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      font-style: normal;
+      color: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 999px;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .pn-line .glass-pill {
+      color: rgba(8, 8, 7, 0.82);
+      background: rgba(8, 8, 7, 0.07);
+      border-color: rgba(8, 8, 7, 0.16);
+    }
+    .proto-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      min-height: 500px;
+    }
+    @media (min-width: 1001px) {
+      .proto-body {
+        grid-template-columns: minmax(0, 0.76fr) minmax(0, 0.24fr);
+      }
+    }
+    .seg {
+      display: inline-flex;
+      background: var(--soft);
+      border-radius: 99px;
+      padding: 3px;
+    }
+    .seg button {
+      font: 600 11px/1 "DM Sans", sans-serif;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 99px;
+      cursor: pointer;
+    }
+    .hand {
+      font-family: "Caveat", "Bradley Hand", "Segoe Script", "Comic Sans MS", cursive;
+      font-weight: 600;
+      letter-spacing: 0;
+    }
+    .founder-note {
+      max-width: 700px;
+    }
+    .founder-note .body {
+      font-size: 19px;
+      line-height: 1.5;
+      margin: 0 0 18px;
+      max-width: none;
+    }
+    .fn-title {
+      font-size: 58px;
+      line-height: 1;
+      margin: 16px 0 24px;
+      color: var(--red);
+    }
+    .fn-sign {
+      font-size: 38px;
+      line-height: 1.05;
+      margin: 30px 0 0;
+      color: var(--red);
+      transform: rotate(-1.5deg);
+    }
+    #experience.section {
+      padding: 40px 0 32px;
+    }
+    #experience .prototype-head {
+      align-items: start;
+      margin-bottom: 20px;
+    }
+    #experience .prototype-head h2 {
+      font-size: clamp(24px, 2.6vw, 32px);
+    }
+    .proto-big-title {
+      width: 100%;
+      margin: 20px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      line-height: 0.85;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--white);
+      white-space: nowrap;
+    }
+    #experience .prototype-head .note {
+      font-size: 11px;
+      line-height: 1.4;
+      max-width: 320px;
+    }
+    #experience .prototype-grid {
+      gap: 14px;
+    }
+    #experience .display {
+      padding: 9px;
+      border-radius: 26px;
+      width: min(100%, 1054px);
+    }
+    #experience .proto-body {
+      min-height: 340px;
+    }
+    @media (min-width: 1001px) {
+      #experience .display {
+        height: 100dvh;
+      }
+      #experience .proto-window {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      #experience .proto-body {
+        flex: 1;
+        min-height: 0;
+        container-type: size;
+      }
+      #experience .proto-main > .scene, #experience .proto-side {
+        overflow-y: auto;
+        scrollbar-gutter: stable;
+      }
+      #experience .proto-main > .scene {
+        max-height: calc(100cqh - 40px);
+      }
+      #experience .say {
+        margin-top: clamp(4px, 1.1cqh, 12px);
+        padding: clamp(6px, 1.4cqh, 13px) 16px;
+        font-size: clamp(12px, 1.8cqh, 15px);
+      }
+    }
+    /* Glass-green scrollbars: Section 2 and the main page use the site's green. */
+    @supports selector(::-webkit-scrollbar) {
+      html::-webkit-scrollbar {
+        width: 12px;
+      }
+      html::-webkit-scrollbar-track {
+        background: rgba(100, 159, 89, 0.10);
+      }
+      html::-webkit-scrollbar-thumb {
+        background: rgba(100, 159, 89, 0.55);
+        border: 3px solid transparent;
+        background-clip: padding-box;
+        border-radius: 999px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.22);
+      }
+      html::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 159, 89, 0.72);
+        background-clip: padding-box;
+      }
+      #experience .proto-main > .scene::-webkit-scrollbar, #experience .proto-side::-webkit-scrollbar {
+        width: 11px;
+      }
+      #experience .proto-main > .scene::-webkit-scrollbar-track, #experience .proto-side::-webkit-scrollbar-track {
+        background: rgba(100, 159, 89, 0.10);
+        border-radius: 999px;
+      }
+      #experience .proto-main > .scene::-webkit-scrollbar-thumb, #experience .proto-side::-webkit-scrollbar-thumb {
+        background: rgba(100, 159, 89, 0.50);
+        border: 2px solid transparent;
+        background-clip: padding-box;
+        border-radius: 999px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.24);
+      }
+      #experience .proto-main > .scene::-webkit-scrollbar-thumb:hover, #experience .proto-side::-webkit-scrollbar-thumb:hover {
+        background: rgba(100, 159, 89, 0.70);
+        background-clip: padding-box;
+      }
+    }
+    @supports not selector(::-webkit-scrollbar) {
+      html {
+        scrollbar-width: auto;
+        scrollbar-color: rgba(100, 159, 89, 0.62) rgba(100, 159, 89, 0.10);
+      }
+      #experience .proto-main > .scene, #experience .proto-side {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(100, 159, 89, 0.62) rgba(100, 159, 89, 0.10);
+      }
+    }
+    #experience .proto-main {
+      padding: 22px 26px 18px;
+    }
+    #experience .proto-navhead {
+      margin-bottom: 6px;
+    }
+    #experience .proto-steps .proto-btn {
+      padding: 9px 10px 7px 0;
+    }
+    #experience .proto-aside {
+      margin-top: 14px;
+      font-size: 11px;
+    }
+    #experience .wi-list {
+      gap: 6px;
+    }
+    #experience .wi-btn {
+      padding: 10px 34px 10px 12px;
+    }
+    #protoWindow.wi-mode {
+      --f-bg: #eaf4e4;
+      --f-card: #ddebd5;
+      --f-raise: #fff;
+      --f-sep: #c9dcc0;
+      background: var(--f-bg);
+      color: var(--f-t1);
+    }
+    #experience .proto-card.dark {
+      padding: 16px;
+      border-radius: 18px;
+    }
+    #experience .say {
+      margin-top: 8px;
+      padding: 10px 13px;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+    #experience .reason-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    #experience .proto-card {
+      margin-top: 12px;
+    }
+    #experience .proto-title {
+      font-size: clamp(22px, 2.2vw, 30px);
+    }
+    #experience .proto-copy {
+      font-size: 13px;
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+    #experience .cap {
+      margin-top: 14px;
+    }
+    #experience .proto-actions {
+      margin-top: 12px;
+    }
+    #experience .device-pill, #experience .pn-row {
+      font-size: 12px;
+    }
+    .fn {
+      max-width: 680px;
+      margin-top: 32px;
+      background: #fffdf8;
+      color: #2a2622;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .fn summary {
+      list-style: none;
+      cursor: pointer;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+      font: 600 17px/22px "DM Sans", sans-serif;
+    }
+    .fn summary::-webkit-details-marker {
+      display: none;
+    }
+    .fn summary::after {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid #8a857c;
+      border-bottom: 2px solid #8a857c;
+      transform: rotate(45deg);
+      transition: transform 0.25s;
+    }
+    .fn[open] summary::after {
+      transform: rotate(-135deg);
+    }
+    .fn-body {
+      padding: 0 22px 26px;
+      font-size: 15px;
+      line-height: 1.45;
+      color: #57524a;
+    }
+    .fn-body h4 {
+      font: 700 12px/1.2 "DM Sans", sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8a857c;
+      margin: 26px 0 10px;
+    }
+    .fn-body ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+    .fn-body li {
+      margin-bottom: 9px;
+    }
+    .fn-body li b {
+      color: #2a2622;
+      font-weight: 600;
+    }
+    .fn-body p {
+      margin: 0;
+    }
+    #tension .split-note {
+      position: static;
+    }
+    @media (min-width: 1001px) {
+      #tension .split {
+        grid-template-columns: 320px 1fr;
+      }
+    }
+    .family-frame {
+      position: relative;
+      z-index: 101;
+      display: block;
+      /* 90px of transparent bleed on the right lets the tour card overhang
+         the phone; delphifamily.html pads its body by the same amount. */
+      width: calc(100% + 90px);
+      height: 900px;
+      border: 0;
+      background: transparent;
+      margin-top: 24px;
+      color-scheme: normal;
+    }
+    @media (max-width: 1000px) {
+      #tension .split-note {
+        order: 0;
+        text-align: center;
+      }
+      #tension .split {
+        gap: 32px;
+      }
+      .family-frame {
+        width: 100%;
+        max-width: 330px;
+        height: 800px;
+        margin-inline: auto;
+      }
+    }
+    #protoWindow {
+      --f-bg: #fcfbf9;
+      --f-card: #f6f1e9;
+      --f-raise: #fff;
+      --f-t1: #1f1b18;
+      --f-t2: #5f5851;
+      --f-t3: #736c64;
+      --f-sep: #e6e0d8;
+      --f-green: #6eb36d;
+      --f-green-soft: #e3f1dc;
+      --f-on-green: #10290f;
+      --f-coral: #e06b52;
+      --f-coral-ink: #b8412b;
+      --f-coral-soft: #fbdcd3;
+      --f-apricot: #fdf3e7;
+      background: var(--f-bg);
+      color: var(--f-t1);
+      --f-green-ink: #2f6a2f;
+      --g-fill: rgba(255, 255, 255, 0.62);
+      --g-hi: rgba(255, 255, 255, 0.85);
+      --g-ring: rgba(255, 255, 255, 0.55);
+      --g-shadow: rgba(40, 60, 30, 0.28);
+      --f-ink: #14110f;
+      box-shadow: 0 40px 80px -46px rgba(31, 27, 24, 0.55), 0 2px 6px rgba(31, 27, 24, 0.06);
+    }
+    [data-theme="dark"] #protoWindow {
+      --f-bg: #1f1c19;
+      --f-card: #141210;
+      --f-raise: #3a3632;
+      --f-t1: #f4efe8;
+      --f-t2: #b8b0a6;
+      --f-t3: #9c948a;
+      --f-sep: #34302b;
+      --f-green: #8ccb8b;
+      --f-green-ink: #8ccb8b;
+      --f-green-soft: rgba(140, 203, 139, 0.16);
+      --f-on-green: #0f2410;
+      --f-coral: #f0876f;
+      --f-coral-ink: #f0876f;
+      --f-coral-soft: rgba(240, 135, 111, 0.16);
+      --f-apricot: #2a2622;
+      --g-fill: rgba(255, 255, 255, 0.09);
+      --g-hi: rgba(255, 255, 255, 0.2);
+      --g-ring: rgba(255, 255, 255, 0.09);
+      --g-shadow: rgba(0, 0, 0, 0.5);
+      --f-ink: #f4efe8;
+    }
+    #protoWindow .proto-window-top {
+      border-bottom-color: var(--f-sep);
+    }
+    #protoWindow .proto-copy {
+      color: var(--f-t2);
+    }
+    #protoWindow .proto-kicker, #protoWindow .side-label {
+      color: var(--f-t3);
+    }
+    #protoWindow .seg {
+      background: var(--g-fill);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      box-shadow: inset 0 0 0 1px var(--g-ring);
+    }
+    #protoWindow .seg button {
+      color: var(--f-t2);
+    }
+    #protoWindow .seg button.on {
+      background: var(--f-t1);
+      color: var(--f-bg);
+    }
+    #protoWindow .proto-card.dark {
+      color: var(--f-t1);
+      border: 1px solid var(--f-sep);
+      background: radial-gradient( 120% 60% at 0% 0%, rgba(110, 179, 109, 0.22), transparent 60% ), radial-gradient( 90% 55% at 100% 100%, rgba(243, 185, 138, 0.28), transparent 60% ), var(--f-card);
+      box-shadow: inset 0 1px 0 var(--g-hi);
+    }
+    #protoWindow .say.m {
+      background: linear-gradient(160deg, #7cc07a, #63a862);
+      color: #10210e;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 12px 22px -16px rgba(47, 106, 47, 0.55);
+    }
+    #protoWindow .say.o {
+      background: var(--g-fill);
+      color: var(--f-ink);
+      border: 0;
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      backdrop-filter: blur(18px) saturate(180%);
+      box-shadow: inset 0 1px 0 var(--g-hi), inset 0 0 0 1px var(--g-ring), 0 12px 24px -18px var(--g-shadow);
+    }
+    #protoWindow .say.j {
+      background: var(--f-coral-soft);
+      color: var(--f-ink);
+      box-shadow: inset 0 1px 0 var(--g-hi), 0 12px 22px -18px rgba(184, 65, 43, 0.4);
+    }
+    #protoWindow .proto-card.dark .reason-box, #protoWindow .reason-box {
+      background: var(--f-apricot);
+      border-left-color: var(--f-coral);
+      color: var(--f-t1);
+      box-shadow: 0 10px 20px -16px rgba(160, 100, 46, 0.35);
+    }
+    #protoWindow .proto-card.dark .device-pill, #protoWindow .device-pill {
+      background: var(--f-green-soft);
+      color: var(--f-t1);
+    }
+    #protoWindow .cap {
+      color: var(--f-ink);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      backdrop-filter: blur(18px) saturate(180%);
+      box-shadow: inset 0 1px 0 var(--g-hi), inset 0 0 0 1px var(--g-ring), 0 14px 28px -20px var(--g-shadow);
+      background: linear-gradient( 180deg, rgba(110, 179, 109, 0.1), rgba(110, 179, 109, 0.17) ), var(--g-fill);
+    }
+    #protoWindow .cap-bars i {
+      background: var(--f-coral);
+    }
+    #protoWindow .cap-bars i:nth-child(2n) {
+      background: var(--f-green);
+    }
+    #protoWindow .cap-state {
+      color: var(--f-green-ink);
+    }
+    #protoWindow .btn {
+      background: var(--f-raise);
+      color: var(--f-t1);
+      border-color: var(--f-sep);
+    }
+    #protoWindow .btn.ghost {
+      background: transparent;
+    }
+    #protoWindow .btn.primary {
+      background: var(--f-green);
+      border-color: var(--f-green);
+      color: var(--f-on-green);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 10px 20px -12px rgba(47, 106, 47, 0.6);
+    }
+    #protoWindow .proto-side {
+      background: var(--f-card);
+      border-left-color: var(--f-sep);
+      border-top-color: var(--f-sep);
+      color: var(--f-t1);
+    }
+    #protoWindow .side-row span, #protoWindow .side-hint, #protoWindow .wi-btn small {
+      color: var(--f-t3);
+    }
+    #protoWindow .wi-btn {
+      color: var(--f-t1);
+      border-color: var(--f-sep);
+      background: var(--g-fill);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      box-shadow: inset 0 1px 0 var(--g-hi), 0 10px 20px -16px var(--g-shadow);
+    }
+    #protoWindow .wi-btn::after {
+      color: var(--f-coral);
+      content: "\203A\203A\203A";
+      font-size: 18px;
+      letter-spacing: -0.14em;
+      right: 12px;
+    }
+    #protoWindow .wi-btn:hover {
+      border-color: var(--f-coral);
+    }
+    #protoWindow .wi-btn.on::after {
+      color: var(--f-coral);
+    }
+    #protoWindow .pn-speaker {
+      display: inline-block;
+      margin: 0 0 9px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--ptag);
+      color: var(--ptagc);
+      font: 700 9px/1.3 "DM Sans", sans-serif;
+      letter-spacing: 0.1em;
+    }
+    #protoWindow .pn-chip {
+      padding: 0 12px;
+      min-height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--p-g);
+      color: var(--p-on);
+      font-size: 12px;
+      font-weight: 600;
+      border: 0;
+    }
+    #protoWindow .pn-chip.o {
+      background: var(--p-pill);
+      color: var(--p-t1);
+      border: 0;
+    }
+    [data-theme="dark"] #protoWindow.wi-mode {
+      --f-bg: #1a231a;
+      --f-card: #141b14;
+      --f-raise: #2a362a;
+      --f-sep: #2f3f2f;
+      background: var(--f-bg);
+      color: var(--f-t1);
+      --f-t2: #c9d6c5;
+      --f-t3: #aab8a6;
+    }
+    #protoWindow .pn {
+      background: #111;
+      border-color: #111;
+      border-radius: 44px;
+      padding: 3px;
+      box-shadow: 0 24px 50px -26px rgba(31, 27, 24, 0.55);
+    }
+    #protoWindow .pn-screen {
+      --p-bg: #f4f1ec;
+      --p-card: #fff;
+      --p-t1: #1f1b18;
+      --p-t3: #736c64;
+      --p-pill: rgba(31, 27, 24, 0.07);
+      --p-g: #6eb36d;
+      --p-gink: #3a7a3a;
+      --p-gwash: rgba(110, 179, 109, 0.22);
+      --p-c: #e06b52;
+      --p-cink: #b8412b;
+      --p-cwash: rgba(224, 107, 82, 0.17);
+      --p-on: #10290f;
+      background: var(--p-bg);
+      color: var(--p-t1);
+      border-radius: 36px;
+    }
+    [data-theme="dark"] #protoWindow .pn-screen {
+      --p-bg: #141210;
+      --p-card: #1f1c19;
+      --p-t1: #f4efe8;
+      --p-t3: #9c948a;
+      --p-pill: rgba(255, 255, 255, 0.09);
+      --p-g: #8ccb8b;
+      --p-gink: #8ccb8b;
+      --p-gwash: rgba(140, 203, 139, 0.18);
+      --p-c: #f0876f;
+      --p-cink: #f0876f;
+      --p-cwash: rgba(240, 135, 111, 0.16);
+      --p-on: #0f2410;
+    }
+    #protoWindow .pn-notch {
+      top: 7px;
+      width: 58px;
+      height: 17px;
+      border-radius: 12px;
+      background: #111;
+    }
+    #protoWindow .pn-status {
+      padding: 11px 20px 0;
+      font-size: 10px;
+      font-weight: 700;
+      opacity: 1;
+      color: var(--p-t1);
+    }
+    #protoWindow .pn-bar {
+      padding: 16px 14px 0;
+    }
+    #protoWindow .pn-who {
+      padding: 2px 14px 0;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      opacity: 1;
+      color: var(--p-t3);
+    }
+    #protoWindow .pn-body {
+      padding: 12px 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 0;
+    }
+    #protoWindow .pn-hero {
+      --pw: var(--p-g);
+      --pwash: var(--p-gwash);
+      --ptag: var(--p-gwash);
+      --ptagc: var(--p-gink);
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 13px 13px 34px;
+      background: linear-gradient(to top, var(--pwash), transparent 68%), var(--p-card);
+      box-shadow: inset 0 1px 0 var(--g-hi), 0 12px 24px -18px var(--g-shadow);
+    }
+    #protoWindow .pn-hero.person {
+      --pw: var(--p-c);
+      --pwash: var(--p-cwash);
+      --ptag: var(--p-cwash);
+      --ptagc: var(--p-cink);
+    }
+    #protoWindow .pn-hero.mute {
+      --pw: var(--p-t3);
+      --pwash: rgba(120, 110, 100, 0.12);
+    }
+    #protoWindow .pn-line {
+      font-size: 15px;
+      line-height: 1.28;
+      letter-spacing: -0.015em;
+      font-weight: 600;
+      color: var(--p-t1);
+      margin: 0;
+    }
+    #protoWindow .pn-wv {
+      position: absolute;
+      left: 0;
+      right: 0;
+      background: var(--pw);
+      bottom: 0;
+      height: 26px;
+      opacity: 1;
+      -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 26'%3E%3Cpath d='M0 13.0Q55 2.08 110 13.0T220 13.0V26H0Z' fill='black' fill-opacity='0.2'/%3E%3C/svg%3E") 0 0/220px 26px repeat-x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 26'%3E%3Cpath d='M0 15.079999999999998Q70 24.96 140 15.079999999999998T280 15.079999999999998V26H0Z' fill='black' fill-opacity='0.32'/%3E%3C/svg%3E") 0 0/280px 26px repeat-x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 26'%3E%3Cpath d='M0 18.2Q50 10.399999999999999 100 18.2T200 18.2V26H0Z' fill='black' fill-opacity='0.6'/%3E%3C/svg%3E") 0 0/200px 26px repeat-x;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 220 26'%3E%3Cpath d='M0 13.0Q55 2.08 110 13.0T220 13.0V26H0Z' fill='black' fill-opacity='0.2'/%3E%3C/svg%3E") 0 0/220px 26px repeat-x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 280 26'%3E%3Cpath d='M0 15.079999999999998Q70 24.96 140 15.079999999999998T280 15.079999999999998V26H0Z' fill='black' fill-opacity='0.32'/%3E%3C/svg%3E") 0 0/280px 26px repeat-x, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 26'%3E%3Cpath d='M0 18.2Q50 10.399999999999999 100 18.2T200 18.2V26H0Z' fill='black' fill-opacity='0.6'/%3E%3C/svg%3E") 0 0/200px 26px repeat-x;
+      animation: pnWdrift 22s linear infinite;
+    }
+    #protoWindow .pn-hero.flat .pn-wv, #protoWindow .pn-hero.mute .pn-wv {
+      animation: none;
+      opacity: 0.35;
+    }
+    @keyframes pnDrift {
+      to {
+        -webkit-mask-position: -220px 0;
+        mask-position: -220px 0;
+      }
+    }
+    #protoWindow .pn-chips {
+      margin-top: 0;
+      gap: 6px;
+    }
+    #protoWindow .pn-note {
+      margin-top: auto;
+      padding: 10px 14px 14px;
+      border-top: 0;
+      font-size: 10.5px;
+      line-height: 1.35;
+      font-weight: 500;
+      color: var(--p-t3);
+      display: flex;
+      gap: 7px;
+      align-items: flex-start;
+    }
+    #protoWindow .pn-note::before {
+      content: "";
+      flex: none;
+      width: 6px;
+      height: 6px;
+      margin-top: 4px;
+      border-radius: 50%;
+      background: var(--p-g);
+    }
+    [data-theme="dark"] #protoWindow .proto-card.dark {
+      background: radial-gradient( 120% 60% at 0% 0%, rgba(140, 203, 139, 0.14), transparent 60% ), radial-gradient( 90% 55% at 100% 100%, rgba(240, 135, 111, 0.1), transparent 60% ), var(--f-card);
+    }
+    [data-theme="dark"] #protoWindow .say.m {
+      background: linear-gradient(160deg, #9bd89a, #83c482);
+      color: #0b1f0b;
+    }
+    #protoWindow .say b {
+      opacity: 1;
+      color: inherit;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+    }
+    #protoWindow .say.o b {
+      color: var(--f-green-ink);
+    }
+    [data-theme="dark"] #protoWindow .say.o b {
+      color: #8ccb8b;
+    }
+    #protoWindow .cap-sim {
+      opacity: 0.75;
+    }
+    #protoWindow.wi-mode .proto-title, #protoWindow.wi-mode .window-brand {
+      color: var(--f-ink);
+    }
+    #protoWindow .proto-kicker .wi-q {
+      font-weight: 800;
+      color: var(--f-coral-ink);
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      margin-right: 2px;
+    }
+    #protoWindow.wi-mode .wi-list .wi-btn.on {
+      background: var(--f-green);
+      border-color: var(--f-green);
+      color: var(--f-on-green);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 10px 20px -14px rgba(0, 0, 0, 0.55);
+    }
+    #protoWindow.wi-mode .wi-list .wi-btn.on small {
+      color: var(--f-on-green);
+      opacity: 0.85;
+    }
+    #protoWindow.wi-mode .wi-list .wi-btn.on::after {
+      color: var(--f-on-green);
+    }
+    [data-theme="dark"] #protoWindow.wi-mode .wi-list .wi-btn:not(.on) small {
+      color: var(--f-t2);
+    }
+    #protoWindow.wi-mode .wi-btn::after {
+      content: none;
+    }
+    #experience #protoWindow:not(.wi-mode) .wi-btn {
+      padding-right: 52px;
+    }
+    #experience #protoWindow.wi-mode .wi-btn {
+      padding-right: 12px;
+    }
+
+    [data-theme="dark"] .dark .serif {
+      color: #7fae74;
+    }
+    #protoWindow.hold .say, #protoWindow.hold .cap-bars i, #protoWindow.hold .pn-wv {
+      animation-play-state: paused;
+    }
+    [data-theme="dark"] #protoWindow .cap {
+      background: linear-gradient( 180deg, rgba(140, 203, 139, 0.07), rgba(140, 203, 139, 0.12) ), var(--g-fill);
+    }
+    .feat {
+      background: var(--orange);
+      color: #fffdf8;
+      padding: 0.02em 0.3em;
+      border-radius: 0.3em;
+      font-weight: 700;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+    }
+    .skip {
+      position: absolute;
+      left: -999px;
+      top: 8px;
+      z-index: 99;
+      background: #fff;
+      color: #000;
+      padding: 8px 12px;
+    }
+    .skip:focus {
+      left: 8px;
+    }
+    @keyframes pnWdrift {
+      to {
+        -webkit-mask-position:
+          -220px 0,
+          280px 0,
+          -200px 0;
+        mask-position:
+          -220px 0,
+          280px 0,
+          -200px 0;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #protoWindow .pn-wv {
+        animation: none;
+      }
+    }
+    .proto-big-title {
+      font-size: clamp(34px, 5.6vw, 92px);
+    }
+    @media (max-width: 680px) {
+      .proto-big-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        white-space: normal;
+      }
+    }
+    .appendix {
+      padding: 56px 0 64px;
+    }
+    .appendix .eyebrow {
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    /* utilities moved out of inline styles */
+    .lead.lead-fluid {
+      font-size:clamp(16px,1.472vw,19.09px);
+    }
+    .hand.hand-links {
+      margin-top:18px;
+      font-size:22px;
+      line-height:1.1;
+    }
+    a.u-underline {
+      text-decoration:underline;
+    }
+    .hand.hand-caption {
+      margin-top:18px;
+      font-size:18px;
+      line-height:1.1;
+    }
+    .body.mt-28 {
+      margin:28px 0 0;
+    }
+    .body.mt-18 {
+      margin:18px 0 0;
+    }
+    .precedent-row.mt-32 {
+      margin-top:32px;
+    }
+    .side-label.on-dark-90 {
+      color:rgba(255,255,255,.9);
+    }
+    .eyebrow.op-full {
+      opacity:1;
+    }
+    span.c-red {
+      color:var(--red);
+    }
+
+    .side-label.mt-26 {
+      margin-top:26px;
+    }
+    .side-callout.callout-red {
+      margin-top:0;
+      background:var(--red);
+      color:#fff;
+    }
+    .side-row.side-row-flush {
+      border-top:0;
+      font-size:13px;
+    }
+    .reason-box.reason-dark {
+      background:rgba(255,248,242,.08);
+      border-left-color:var(--cream);
+      color:var(--white);
+      margin-top:16px;
+    }
+    div.tiny-caption {
+      margin-top:18px;
+      font-size:10px;
+      letter-spacing:.1em;
+      opacity:.6;
+    }
+    div.chip-row {
+      display:flex;
+      gap:6px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+
+    /* Phones: tighter nesting, readable text, prototype header that fits */
+    @media (max-width: 680px) {
+      #experience .proto-main {
+        padding: 18px 16px 16px;
+      }
+      .proto-side {
+        padding: 20px 16px;
+      }
+      .proto-window-top {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .seg {
+        display: flex;
+        width: 100%;
+      }
+      .seg button {
+        flex: 1;
+      }
+      .small, .side-hint, #experience .proto-aside, #experience .reason-box {
+        font-size: 13px;
+      }
+      #experience .proto-copy {
+        font-size: 15px;
+      }
+      .side-callout,
+.precedent-card p {
+        font-size: 14px;
+      }
+      
+.footer {
+        font-size: 11px;
+      }
+       .side-label, .proto-kicker, .wi-btn small {
+        font-size: 10px;
+      }
+    }
+    @media (pointer: coarse) {
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 18px;
+        font-size: 13px;
+      }
+      .seg button {
+        min-height: 40px;
+        padding: 0 16px;
+        font-size: 12px;
+      }
+      .nav-menu-item {
+        padding: 13px 12px;
+      }
+      .theme-toggle {
+        width: 44px;
+        height: 44px;
+      }
+    }
+    /* Phones in the scripts window grow to fit their text instead of clipping it */
+    #protoWindow .pn {
+      height: auto;
+      min-height: 468px;
+      display: flex;
+    }
+    #protoWindow .pn-screen {
+      height: auto;
+      flex: 1;
+      min-width: 0;
+    }
+    #protoWindow .pn-hero {
+      flex-shrink: 0;
+    }
+  
+    /* ===== Feature tour ===== */
+    .tour { background: var(--paper); }
+    .section.tour { padding: 72px 0 64px; }
+    .tour-head { max-width: 1100px; margin-bottom: 28px; }
+    .tour-title {
+      font-size: clamp(32px, 4.2vw, 62px);
+      line-height: 0.94;
+      letter-spacing: -0.07em;
+      font-weight: 500;
+      margin: 18px 0 0;
+    }
+    .tour-sub { max-width: 620px; margin-top: 18px; color: var(--muted); }
+
+    /* Same width as the copy column of .ft (two columns, 1fr : 1.15fr, 40px gap),
+       so the tabs wrap above the text and line up with it. */
+    .tour-tabs { display: flex; flex-wrap: wrap; gap: 10px; width: calc((100% - 40px) / 2.15); margin: 0; }
+    .tour-tab {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 8px 16px 8px 8px; border-radius: 999px;
+      border: 1.5px solid var(--line); background: transparent; color: var(--ink);
+      font: 500 15px/1 "DM Sans", sans-serif; letter-spacing: -0.01em; cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .tour-tab b {
+      display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--soft); font: 700 13px/1 "DM Sans", sans-serif;
+    }
+    .tour-tab:hover { border-color: var(--ink); }
+    .tour-tab[aria-selected="true"] { background: var(--red); color: #fffdf8; border-color: var(--red); }
+    .tour-tab[aria-selected="true"] b { background: var(--ink); color: #fffdf8; }
+    .tour-tab:focus-visible, .tour-arrow:focus-visible { outline: 3px solid var(--green); outline-offset: 3px; }
+
+    /* Only the active panel takes up space, so the stepper sits right
+       under the content instead of under the tallest panel. */
+    .tour-panel.on { animation: tour-in .3s ease; }
+    @keyframes tour-in { from { opacity: 0; } }
+
+    .ft {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      gap: 40px;
+      align-items: start;
+      padding: 28px 0 8px;
+    }
+    .feat-label {
+      font-size: 30px; line-height: 1; color: var(--red-text);
+      margin: 0 0 14px; transform: rotate(-2deg); transform-origin: left;
+    }
+    .ft h3 {
+      font-size: clamp(28px, 3.2vw, 46px);
+      line-height: 1; letter-spacing: -0.055em; font-weight: 500; margin: 0 0 20px;
+    }
+    .feat-copy p.body { max-width: 440px; margin: 0 0 18px; }
+    .feat-why {
+      max-width: 440px; margin: 0; padding-left: 14px;
+      border-left: 2px solid var(--green);
+      font-size: 14px; line-height: 1.45; color: var(--muted);
+    }
+    .feat-why b { color: var(--ink); font-weight: 600; }
+
+    /* Screenshots are full-bleed phone renders whose corners carry a faint
+       alpha. The radius matches the bezel (163px of 1254 wide, 2670 tall) so
+       the frame is exactly the phone and the shadow follows its curve. */
+    .phone {
+      display: block; width: var(--p, 235px); height: auto;
+      border-radius: 13% / 6.1%;
+      filter: drop-shadow(0 18px 20px rgba(8, 8, 7, .14));
+    }
+    .feat-visual {
+      --p: 235px;
+      position: relative; width: min(100%, 520px); margin: 0 auto;
+      display: flex; justify-content: center;
+    }
+
+    /* Margin notes. --y and --x are where the arrow tip lands, as fractions
+       of the phone's height and width; the row is centred on --y so the
+       arrow runs level to its target, and its width reaches exactly to --x. */
+    .anno {
+      position: absolute; top: calc(var(--y) * 100%); margin: 0;
+      display: flex; align-items: center; gap: 6px; transform: translateY(-50%);
+      font: 600 24px/1 "Caveat", "Bradley Hand", "Segoe Script", cursive;
+      color: var(--red-text);
+    }
+    .anno.l { left: 0; width: calc((100% - var(--p)) / 2 + var(--x) * var(--p)); }
+    .anno.r { right: 0; width: calc((100% - var(--p)) / 2 + (1 - var(--x)) * var(--p)); flex-direction: row-reverse; }
+    .anno .t { flex: none; width: 112px; transform: rotate(var(--rot)); }
+    .anno.l .t { text-align: right; }
+    .anno.r .t { text-align: left; }
+    .anno .ar { display: flex; align-items: center; flex: 1; min-width: 0; height: 28px; }
+    .anno.r .ar { transform: scaleX(-1); }
+    .anno .ar svg { fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+    .anno .tail { flex: 1; min-width: 0; height: 100%; }
+    .anno .head { flex: none; width: 12px; height: 18px; margin-left: -2px; }
+
+    .cap-hand {
+      display: inline-block; margin-top: 6px; max-width: 200px;
+      font: 600 24px/1 "Caveat", "Bradley Hand", "Segoe Script", cursive; color: var(--red-text);
+    }
+    .cap-hand .squp { display: block; width: 26px; height: 46px; margin: 0 auto 4px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+
+    .tour-strip { padding-top: 24px; }
+    .tour-strip h3 { font-size: clamp(26px, 3vw, 40px); line-height: 1; letter-spacing: -0.055em; font-weight: 500; margin: 0 0 4px; }
+    .tour-strip .strip-sub { max-width: 520px; color: var(--muted); margin-bottom: 18px; }
+    .strip-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 3vw, 40px); max-width: 860px; }
+    .strip-grid figure { margin: 0; text-align: center; }
+    .strip-grid .phone { width: 100%; max-width: 190px; margin: 0 auto; }
+
+    .tour-step { display: flex; align-items: center; gap: 18px; margin-top: 4px; }
+    .tour-arrow {
+      width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--ink);
+      background: transparent; color: var(--ink); font: 500 20px/1 "DM Sans", sans-serif; cursor: pointer;
+    }
+    .tour-arrow:hover { background: var(--ink); color: var(--paper); }
+    .tour-count { font-size: 26px; color: var(--red-text); }
+
+    /* Too narrow for notes beside the phone: list them under it instead. */
+    @media (max-width: 1100px) {
+      .feat-visual { flex-direction: column; align-items: center; }
+      .anno { position: static; display: block; width: auto; max-width: 320px; margin-top: 10px; font-size: 22px; transform: none; }
+      .anno .t { width: auto; text-align: left; transform: none; }
+      .anno .ar { display: none; }
+      .anno::before { content: "\2192 "; }
+    }
+    @media (max-width: 900px) {
+      .section.tour { padding: 56px 0 48px; }
+      .ft { grid-template-columns: 1fr; gap: 28px; padding: 28px 0 8px; }
+      .feat-visual { --p: min(250px, 66vw); display: flex; }
+      .tour-tabs { width: auto; flex-wrap: nowrap; overflow-x: auto; margin-right: -24px; padding-bottom: 6px; scrollbar-width: none; }
+      .tour-tabs::-webkit-scrollbar { display: none; }
+      .tour-tab { flex: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { .tour-panel.on { animation: none; } }
+</style>
+</head>
+<body><a class="skip" href="#top">Skip to content</a>
+<header class="nav"><div class="nav-inner"><div class="nav-brand-group"><a class="brand" href="#top">delphi</a><svg aria-hidden="true" class="hl nav-mark"><use href="#hlogo"/></svg><span class="nav-eyebrow">Product Design</span></div><nav aria-label="Key sections" class="nav-links"><a href="#tension">Family app</a><a href="#tour">Features</a><a href="#experience">Introductions</a></nav><button aria-label="Toggle dark mode" class="theme-toggle" id="themeToggle" type="button"><svg class="icon-sun" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg><svg class="icon-moon" fill="currentColor" viewbox="0 0 24 24"><path d="M20.4 14.7A8.5 8.5 0 1 1 9.3 3.6a7 7 0 0 0 11.1 11.1Z"></path></svg></button></div><div class="nav-progress"><i id="ncP"></i></div></header>
+<div class="nav-current-wrap" id="navCurrentWrap"><button aria-controls="navMenu" aria-expanded="false" class="nav-current" id="navCurrentBtn" type="button"><b id="ncI">Intro</b><span id="ncL">Start here</span><svg aria-hidden="true" class="nav-chevron" fill="none" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" viewbox="0 0 24 24" width="14"><path d="M6 9l6 6 6-6"></path></svg></button></div>
+<div aria-label="Jump to section" class="nav-menu" id="navMenu">
+<a class="nav-menu-item" data-id="top-hero" href="#top-hero"><span class="idx">Intro</span><span class="lbl">Start here</span></a>
+<a class="nav-menu-item" data-id="tension" href="#tension"><span class="idx">01</span><span class="lbl">Who she talks to</span></a>
+<a class="nav-menu-item" data-id="tour" href="#tour"><span class="idx">02</span><span class="lbl">Feature tour</span></a>
+
+<a class="nav-menu-item" data-id="experience" href="#experience"><span class="idx">03</span><span class="lbl">Introductions: the scripts</span></a>
+<a class="nav-menu-item" data-id="loop" href="#loop"><span class="idx">04</span><span class="lbl">The loop</span></a>
+<a class="nav-menu-item" data-id="note" href="#note"><span class="idx">05</span><span class="lbl">Why I built both</span></a>
+</div>
+<main id="top">
+<section class="hero" data-label="Start here" id="top-hero">
+<div class="container hero-copy">
+<h1 class="hero-giant">Designing<span aria-hidden="true" class="hero-chip hero-chip-placeholder media" data-file="images/delphi-hero-3.webp"><span class="ph"></span></span>for people<span aria-hidden="true" class="hero-chip hero-chip-photo media" data-file="images/delphi-hero.webp"><span class="ph"></span></span>who would rather just <span class="serif">talk</span><span aria-hidden="true" class="hero-chip hero-chip-placeholder media" data-file="images/delphi-hero-2.webp"><span class="ph"></span></span></h1>
+<p class="lead lead-fluid"><strong>Two prototypes. About ten minutes.</strong> Delphi is a speaker that lives in an older person's home, with no screen and no camera. The Delphi Family app, its companion, keeps relatives connected and makes aiding in companionship a group effort. <span class="feat">Introductions</span> is a feature which helps one Delphi user meet another, they're a generation that deeply valued community.</p>
+<p class="hand hand-links"><a href="delphifamily.html?v=6" target="_blank" rel="noopener" class="u-underline">Open the family app ↗</a> &nbsp;·&nbsp; <a href="#experience" class="u-underline">Read the Introductions scripts ↓</a> &nbsp;·&nbsp; <a href="#tour" class="u-underline">See the features ↓</a></p>
+</div>
+</section>
+<section class="section tight green" data-label="Who she talks to" id="tension">
+<div class="container split">
+<div class="split-note"><p class="hand hand-caption">The family’s view.</p><iframe allowtransparency="true" class="family-frame" data-src="delphifamily.html?view=phone&amp;v=6" id="familyPhone" scrolling="no" title="Delphi Family prototype"></iframe></div>
+<div>
+<span class="eyebrow">01 · WHO SHE TALKS TO</span>
+<p class="statement">Someone can talk to Delphi every day <span class="wash">and still have very little contact with another person.</span></p>
+<p class="body max680 mt-28">Family may live far away. Friends move, slow down, or die. Retirement and bereavement take away the reasons to leave the house or pick up the phone.</p>
+<p class="body max680 mt-18">When a conversation suggests someone the person might enjoy talking to, Delphi can offer the introduction once. On a social platform, the person has to find someone, make contact and arrange the conversation themselves.</p>
+<div class="precedent-row mt-32">
+<span class="side-label on-dark-90">PRECEDENT</span>
+<div class="precedent-cards">
+<div class="precedent-card"><strong>Age UK, Call in Time</strong><p>Weekly calls between older people and volunteers, matched through a sign-up process. Introductions works between Delphi users instead, from what each has already chosen to share, with no profile to fill in.</p></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="section tour" data-label="Feature tour" id="tour">
+<div class="container">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="hlogo" viewBox="0 0 100 100"><circle class="fan" style="--i:0" cx="22" cy="78" r="9" fill="#d0430f"/><g fill="none" stroke-width="9" stroke-linecap="round"><path class="fan" style="--i:1" stroke="#d0430f" d="M46 78A24 24 0 0 0 22 54"/><path class="fan" style="--i:2" stroke="#649f59" d="M66 78A44 44 0 0 0 22 34"/><path class="fan" style="--i:3" stroke="#649f59" stroke-opacity=".55" d="M86 78A64 64 0 0 0 22 14"/></g></symbol><g id="squp"><path d="M12 44C2 34 22 26 12 16S14 8 12 4"/><path d="M4 12L12 3 21 11"/></g></defs></svg>
+<div class="tour-head">
+<span class="eyebrow">02 · FEATURE TOUR</span>
+<h2 class="tour-title">Company for her. <span class="serif">Calm</span> for them.</h2>
+<p class="body tour-sub">Six features of the Delphi Family app.</p>
+</div>
+<div class="tour-tabs" role="tablist" aria-label="Feature tour"><button class="tour-tab" role="tab" id="tt1" aria-controls="tp1" aria-selected="true" tabindex="0" type="button"><b>1</b><span>Today</span></button><button class="tour-tab" role="tab" id="tt2" aria-controls="tp2" aria-selected="false" tabindex="-1" type="button"><b>2</b><span>Alerts</span></button><button class="tour-tab" role="tab" id="tt3" aria-controls="tp3" aria-selected="false" tabindex="-1" type="button"><b>3</b><span>Check-in</span></button><button class="tour-tab" role="tab" id="tt4" aria-controls="tp4" aria-selected="false" tabindex="-1" type="button"><b>4</b><span>Memory Book</span></button><button class="tour-tab" role="tab" id="tt5" aria-controls="tp5" aria-selected="false" tabindex="-1" type="button"><b>5</b><span>Privacy</span></button><button class="tour-tab" role="tab" id="tt6" aria-controls="tp6" aria-selected="false" tabindex="-1" type="button"><b>6</b><span>Accessibility</span></button></div>
+<div class="tour-panel on" role="tabpanel" id="tp1" aria-labelledby="tt1"><article class="ft">
+<div class="feat-copy"><p class="hand feat-label">at a glance</p><h3>One calm answer to “is she okay?”</h3><p class="body">Today opens with how Margaret is doing and nothing else. Below it: the best time to call, something to ask her about from her own Memory Book, and who in the family rang last. It never says what she said.</p><p class="feat-why"><b>Design call.</b> No feed, no chart, nothing to scroll before you know.</p></div>
+<div class="feat-visual"><img class="phone" src="images/screens/01-today.webp" width="1254" height="2670" loading="lazy" alt="Delphi Family Today screen: Margaret is doing well, nothing to flag, with a good time to call and something to ask about."/><p class="anno l" style="--y:0.28;--x:0.07;--rot:-2deg"><span class="t">Doing well. Nothing to flag.</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno r" style="--y:0.485;--x:0.93;--rot:2deg"><span class="t">Best time to call: after 4</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno l" style="--y:0.595;--x:0.07;--rot:-2deg"><span class="t">Ask about her own story</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno r" style="--y:0.78;--x:0.93;--rot:2deg"><span class="t">Who rang last, and when</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p></div>
+</article>
+</div>
+<div class="tour-panel" role="tabpanel" id="tp2" aria-labelledby="tt2" hidden><article class="ft">
+<div class="feat-copy"><p class="hand feat-label">alerts</p><h3>Alerts that earn the interruption</h3><p class="body">Only urgent alerts get a badge and a push. Amber ones wait inside the tab. Each card says who acted and how, never who looked.</p><p class="feat-why"><b>Design call.</b> No read receipts. They would turn a calm app into a scoreboard between siblings.</p></div>
+<div class="feat-visual"><img class="phone" src="images/screens/05-alerts.webp" width="1254" height="2670" loading="lazy" alt="Alerts screen with one urgent alert and two items marked worth a look."/><p class="anno r" style="--y:0.3;--x:0.93;--rot:2deg"><span class="t">Red is rare, so you believe it</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno l" style="--y:0.41;--x:0.07;--rot:-2deg"><span class="t">Who acted, never who looked</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno r" style="--y:0.55;--x:0.93;--rot:2deg"><span class="t">Amber can wait. No badge</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p></div>
+</article>
+</div>
+<div class="tour-panel" role="tabpanel" id="tp3" aria-labelledby="tt3" hidden><article class="ft">
+<div class="feat-copy"><p class="hand feat-label">when she doesn’t answer</p><h3>Delphi checks in, and shows every step</h3><p class="body">Ask Delphi to check in and she raises it in conversation, the way Margaret might bring anything up. If Margaret doesn’t answer, Delphi rings the care contact. If that fails too, the next move is the family’s.</p><p class="feat-why"><b>Design call.</b> A failure always offers a next move. Never a dead end.</p></div>
+<div class="feat-visual"><img class="phone" src="images/screens/09-check-in-no-answer.webp" width="1254" height="2670" loading="lazy" alt="Alert detail showing that neither Margaret nor the care contact answered, with three next actions."/><p class="anno l" style="--y:0.49;--x:0.07;--rot:-2deg"><span class="t">Every step on show</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno r" style="--y:0.63;--x:0.93;--rot:2deg"><span class="t">Always a next move</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno l" style="--y:0.79;--x:0.07;--rot:-2deg"><span class="t">Then log what you did</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p></div>
+</article>
+</div>
+<div class="tour-panel" role="tabpanel" id="tp4" aria-labelledby="tt4" hidden><article class="ft">
+<div class="feat-copy"><p class="hand feat-label">her words</p><h3>Memory Book belongs to Margaret</h3><p class="body">She tells her stories to Delphi and decides what is kept. Family can read and listen, and take questions for the next call from them.</p><p class="feat-why"><b>Design call.</b> There is no add button for family. She stays the only author.</p></div>
+<div class="feat-visual"><img class="phone" src="images/screens/14-memory-story.webp" width="1254" height="2670" loading="lazy" alt="Memory Book story, The bakery on Kirkstall Road, with audio in Margaret's own voice."/><p class="anno r" style="--y:0.36;--x:0.93;--rot:2deg"><span class="t">In her own voice</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno l" style="--y:0.62;--x:0.07;--rot:-2deg"><span class="t">Her words, not a summary</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno r" style="--y:0.88;--x:0.93;--rot:2deg"><span class="t">Questions for your next call</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p></div>
+</article>
+</div>
+<div class="tour-panel" role="tabpanel" id="tp5" aria-labelledby="tt5" hidden><article class="ft">
+<div class="feat-copy"><p class="hand feat-label">privacy</p><h3>Margaret decides who is in the circle</h3><p class="body">Adding someone needs Margaret’s approval, and she can remove anyone by telling Delphi. The care contact is set by the Organiser and visible to everyone, so nobody is surprised by who Delphi tries next.</p><p class="feat-why"><b>Design call.</b> My notifications affect only me. Who has access affects everyone, so they are two separate decisions.</p></div>
+<div class="feat-visual"><img class="phone" src="images/screens/11-family-access.webp" width="1254" height="2670" loading="lazy" alt="Family screen listing three people with access and the care contact."/><p class="anno l" style="--y:0.24;--x:0.07;--rot:-2deg"><span class="t">Organiser adds and removes people</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno r" style="--y:0.54;--x:0.93;--rot:2deg"><span class="t">Adding someone needs her yes</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C14 2 24 26 40 14S66 2 80 14S94 16 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p><p class="anno l" style="--y:0.71;--x:0.07;--rot:-2deg"><span class="t">Set by the Organiser, visible to all</span><span class="ar" aria-hidden="true"><svg class="tail" viewBox="0 0 100 28" preserveAspectRatio="none"><path vector-effect="non-scaling-stroke" d="M0 14C18 26 28 2 46 14S72 26 86 14S96 12 100 14"/></svg><svg class="head" viewBox="0 0 14 18"><path d="M1 2L12 9 1 16"/></svg></span></p></div>
+</article>
+</div>
+<div class="tour-panel" role="tabpanel" id="tp6" aria-labelledby="tt6" hidden><div class="tour-strip">
+<p class="hand feat-label">for everyone</p>
+<h3>Made to be read by everyone</h3>
+<p class="body strip-sub">Text size, contrast and reduced motion sit in settings and apply straight away. Red and amber are kept for alert severity, and every handled state pairs colour with a tick or a word.</p>
+<div class="strip-grid">
+<figure><img class="phone" src="images/screens/12-largest-text-contrast.webp" width="1254" height="2670" loading="lazy" alt="Alerts at the largest text size with stronger contrast."/><figcaption class="cap-hand"><svg class="squp" viewBox="0 0 26 46" aria-hidden="true"><use href="#squp"/></svg>Largest text, stronger contrast</figcaption></figure>
+<figure><img class="phone" src="images/screens/13-dark-mode.webp" width="1254" height="2670" loading="lazy" alt="Today screen in dark mode with an urgent alert."/><figcaption class="cap-hand"><svg class="squp" viewBox="0 0 26 46" aria-hidden="true"><use href="#squp"/></svg>Dark mode, status still in words</figcaption></figure>
+<figure><img class="phone" src="images/screens/15-display-accessibility.webp" width="1254" height="2670" loading="lazy" alt="Display and accessibility settings: appearance, text size, stronger contrast, reduce motion."/><figcaption class="cap-hand"><svg class="squp" viewBox="0 0 26 46" aria-hidden="true"><use href="#squp"/></svg>Display settings in one place</figcaption></figure>
+</div></div>
+</div>
+<div class="tour-step"><button class="tour-arrow" id="tourPrev" type="button" aria-label="Previous feature">←</button><span class="hand tour-count"><span id="tourN">1</span> of 7</span><button class="tour-arrow" id="tourNext" type="button" aria-label="Next feature">→</button></div>
+</div>
+</section>
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll(".tour-tab")];
+  const panels = tabs.map((t) => document.getElementById(t.getAttribute("aria-controls")));
+  const num = document.getElementById("tourN");
+  let cur = 0;
+  function show(i, focus) {
+    cur = (i + tabs.length) % tabs.length;
+    tabs.forEach((t, k) => {
+      const on = k === cur;
+      t.setAttribute("aria-selected", on);
+      t.tabIndex = on ? 0 : -1;
+      panels[k].classList.toggle("on", on);
+      panels[k].hidden = !on;
+      if (on) panels[k].querySelectorAll("img[loading=lazy]").forEach((m) => (m.loading = "eager"));
+    });
+    num.textContent = cur + 1;
+    if (focus) tabs[cur].focus();
+    tabs[cur].scrollIntoView({ block: "nearest", inline: "center" });
+  }
+  tabs.forEach((t, k) => {
+    t.addEventListener("click", () => show(k));
+    t.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") { e.preventDefault(); show(cur + 1, true); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); show(cur - 1, true); }
+      if (e.key === "Home") { e.preventDefault(); show(0, true); }
+      if (e.key === "End") { e.preventDefault(); show(tabs.length - 1, true); }
+    });
+  });
+  document.getElementById("tourPrev").addEventListener("click", () => show(cur - 1));
+  document.getElementById("tourNext").addEventListener("click", () => show(cur + 1));
+})();
+</script>
+<section class="section prototype red" data-label="Introductions: the scripts" id="experience">
+<div class="container">
+<div class="prototype-head"><div><span class="eyebrow op-full">03 · DELPHI INTRODUCTIONS: THE SCRIPTS</span></div></div>
+<div class="proto-big-title"><span>Inside the</span><span>conversation</span></div>
+<div class="prototype-grid">
+<div class="proto-nav" id="protoNav"></div>
+<div class="proto-stage"><div class="display"><div class="proto-window" id="protoWindow"></div></div></div>
+<div class="proto-aside">Les scripts.</div>
+</div>
+</div>
+</section>
+<section class="section flywheel" data-label="The loop" id="loop">
+<div class="container">
+<div class="flywheel-hero">
+<span class="eyebrow">04 · THE <span class="c-red">LOOP</span></span>
+<h2>One introduction</h2>
+</div>
+<div class="flywheel-canvas">
+<div class="flywheel-step active" data-fly="0"><b>01</b><div><strong>NOTICE</strong><span>A reason to think of someone.</span></div></div>
+<div class="flywheel-step" data-fly="1"><b>02</b><div><strong>SUGGEST</strong><span>She offers one person, not a list.</span></div></div>
+<div class="flywheel-step" data-fly="2"><b>03</b><div><strong>DECIDE</strong><span>Each person decides privately.</span></div></div>
+<div class="flywheel-step" data-fly="3"><b>04</b><div><strong>MEET</strong><span>Delphi introduces them, then steps back.</span></div></div>
+<div class="flywheel-step" data-fly="4"><b>05</b><div><strong>CONTINUE?</strong><span>A second call happens only if both want one.</span></div></div>
+</div>
+<div class="storyboard">
+<div class="sb-strip">
+<div class="sb-frame media" data-file="images/delphi-shot-1.webp" data-alt="Margaret on her sofa with a cup of tea, mid-sentence, with a Delphi speaker on the side table beside her."><div class="sb-n">1</div><div class="file">delphi-shot-1.webp</div><div class="ph"><b>The ask</b><span>Delphi offers Rosa and says why.</span></div></div>
+<div class="sb-frame media" data-file="images/delphi-shot-2.webp" data-alt="A hand resting beside a ceramic cup on a wooden table, next to a Delphi speaker with its light on."><div class="sb-n">2</div><div class="file">delphi-shot-2.webp</div><div class="ph"><b>The second yes</b><span>Rosa decides separately.</span></div></div>
+<div class="sb-frame media" data-file="images/delphi-call-split.webp" data-alt="Two women in separate living rooms, each holding a cup of tea with a Delphi speaker close by, looking across as if in conversation."><div class="sb-n">3</div><div class="file">delphi-call-split.webp</div><div class="ph"><b>They meet</b><span>Delphi steps away.</span></div></div>
+<div class="sb-frame media" data-file="images/delphi-shot-4.webp" data-alt="A handwritten note reading “Phonecall 3:30 pm” on a table beside a cup of coffee."><div class="sb-n">4</div><div class="file">delphi-shot-4.webp</div><div class="ph"><b>After</b><span>Delphi checks in with each, privately.</span></div></div>
+</div>
+</div>
+</div>
+</section>
+<section class="section note-sec" data-label="Why both?" id="note">
+<div class="container founder-note">
+<span class="eyebrow">05 · BEFORE YOU GO</span>
+<p class="hand fn-title">Why both?</p>
+<p class="body">What Delphi learns first is what someone loves, and the best person to share that with is often another Delphi user. Introductions is that step.</p>
+<p class="body">The family app comes first, because families are a big part of how a product like Delphi grows. Emma can check on her mum without being invasive, the care of an older adult is shared between relatives instead of falling to the favourite child, and they can see their mother is being social beyond the family without hearing what she said.</p>
+<p class="body">The family app is to show Introductions in context, and as the other arm of what technology can do: keep someone company, and help them find company.</p>
+<p class="body"><b>My role.</b> An AI companion that talks to someone every day can still leave them lonely. I designed Introductions so Delphi can connect similar users without the hassle of social profiles. I designed Delphi Family so relatives know when something needs attention without the care falling on one person or her conversations being reported.</p>
+<p class="hand fn-sign">Essah</p>
+</div>
+</section>
+</main>
+<aside class="container appendix" id="appendix" aria-label="Appendix">
+<span class="eyebrow">APPENDIX</span>
+<details class="fn"><summary>Notes on the family app</summary><div class="fn-body">
+<h4>The promise</h4>
+<p>This app is the family's screen. It tells them when something needs attention and leaves the day's conversations with Margaret. Every screen carries one promise: peace of mind with her privacy intact.</p>
+<h4>Three decisions that shaped it</h4>
+<ul>
+<li><b>Memory Book belongs to Margaret.</b> The stories are in her own words and she decides what is kept, by voice. Family reads and listens. She stays the only author.</li>
+<li><b>Alerts record who reached out.</b> Each card says who acted and how. The app does not note down who looked, because read receipts would turn a calm app into a scoreboard between siblings. Anything older than a week settles into History.</li>
+<li><b>Delphi always says what she is doing.</b> A wellness check moves from "Delphi is checking in" to "Margaret is fine" or "Couldn't reach her", and a failure always offers Try again and Call Margaret.</li>
+</ul>
+<details class="fn"><summary>More decisions</summary><ul><li><b>The badge lights for urgent alone.</b> A badge promises something deserves an interruption. Reserving it for urgent keeps that promise believable. Amber items wait inside the tab.</li>
+<li><b>Call Margaret lives on Today.</b> Inside an alert it would suggest calling is for emergencies. On Today it says a check-in is something families do on any day.</li>
+<li><b>Introductions lives inside Today.</b> A tab would frame it as a signal that rises and falls. Inside Today it says what happened and stops.</li>
+<li><b>Family splits into two decisions.</b> My notifications affect only me. Who has access affects Margaret and the whole family, so adding someone needs her approval.</li>
+<li><b>Escalation is visible step by step.</b> If Margaret doesn't answer, Delphi calls her care contact and the family sees each step. If that fails too, the next move is theirs: call the contact, call Margaret, or try again.</li>
+<li><b>Today shows how she is doing.</b> Last spoke with Delphi, a good time to call, something to ask about from her own Memory Book, and who last called. Each helps family connect. None says what she said.</li>
+</ul></details>
+<h4>What the research says</h4>
+<ul>
+<li>Most caregiver apps are care hubs: task lists, vitals, shared logs. In the caregiver-app reviews I read, the real problem is handoffs, where information gets lost between people. Delphi Family is small on purpose and answers one question well.</li>
+<li>Both generations name privacy as their top concern, but they weigh monitoring differently. In a small US study of 18 mothers and 10 of their adult children (Berridge and Wetle, The Gerontologist, 2020), the children preferred every monitoring technology more than their mothers did and underestimated how much say the mothers should have. The sample was Meals on Wheels clients, so I read it as a direction, not a rate. It is why Margaret approves who has access, and why family gets a count of calls and never a word she said.</li>
+<li>Alerts that cry wolf lose the home, so severity has to be rare to be believed.</li>
+<li>Next I would sit with an older adult at home, watch how she responds when Delphi mentions a family check-in, and rework this section around what I see. I would also test:<ul><li><b>The two hour wait</b> after Margaret answers a check-in, and the confirm step. Both are my best guesses, and real users will show where the number belongs.</li><li><b>Whether siblings need more than handled notes</b> to hand off. I would ask before designing anything.</li><li><b>Whether Margaret should see handled notes.</b> They are family-only today.</li></ul></li>
+</ul>
+<h4>Visual system</h4>
+<p>Green marks anything tappable. Red and amber are reserved for alert severity, and handled states pair colour with a tick or a word. Delphi is a stand-in name, so I kept the system to what the prototype needed and left brand identity out of scope.</p>
+<h4>What family sees</h4>
+<p>Family sees one number, and only if Margaret agrees: how many social calls she has had. She chooses that when she says yes to Introductions and can turn it off by telling Delphi.</p>
+<p><i>“Would you like Emma and David to see how many calls you’ve had? Only the number, never what was said.”</i></p>
+<p>What is said on a call belongs to the two people on it. The one exception is a short list of danger phrases, which Delphi listens for.</p>
+<h4>What I left out on purpose</h4>
+<p>Most of the work was deciding what not to build. These all came up, and I cut each one for a reason.</p>
+<ul>
+<li><b>A family notes space.</b> Siblings do lose information between them, and a shared notes feed would fix that. It would also turn into a running log about Margaret, which is the care hub pattern I was trying to avoid. It would show which sibling writes and which doesn't, the same scoreboard I kept out of Alerts. Handled notes already cover the useful part: one pick and one line, stuck to the alert it belongs to. If families want more, I would grow that before adding a place to write about her. Before building it I would ask how siblings tell each other they are worried today. If the answer is a group chat and it works, there is nothing to build.</li>
+<li><b>Summaries of what she said.</b> Family gets a count of calls and nothing else. Even a line like "she seemed low today" turns her conversations into a report on her.</li>
+<li><b>Family writing in Memory Book.</b> It is her book, so there is no add button and no topic suggestions until families ask.</li>
+<li><b>Vitals, tasks and shared logs.</b> That space is crowded, and it is not what Delphi is. The app answers one question: is she okay, and do I need to do anything?</li>
+<li><b>An approval step before marking something handled.</b> In an emergency nobody should be waiting on permission. Only adding or removing people needs the Organiser, and Margaret can remove anyone by telling Delphi.</li>
+<li><b>Browsing in Introductions.</b> No profiles, no list of people, no choice of who. Delphi offers one person, once, and each of them says yes or no in private.</li>
+<li><b>Alert categories per person.</b> A son who wants falls but not mood dips cannot say so yet. I don't know which splits families actually want, and a settings screen full of toggles would be a guess.</li>
+<li><b>A screen for Margaret.</b> Delphi has no screen and no camera. Everything Margaret controls, she does by talking to it.</li>
+</ul>
+</div></details>
+</aside>
+<footer class="footer"><div class="container footer-inner"><span><svg aria-hidden="true" class="hl"><use href="#hlogo"/></svg>Designed by Essah. Loneliness, accessibility, and the people around them</span><span>2026</span></div></footer>
+
+<script>
+(() => {
+  (() => {
+    const r = document.documentElement,
+      tg = document.getElementById("themeToggle");
+    function syncThemeLabel() {
+      const dark = r.getAttribute("data-theme") === "dark";
+      tg.setAttribute(
+        "aria-label",
+        dark ? "Switch to light mode" : "Switch to dark mode",
+      );
+      tg.setAttribute(
+        "title",
+        dark ? "Switch to light mode" : "Switch to dark mode",
+      );
+    }
+    syncThemeLabel();
+    tg.addEventListener("click", () => {
+      const d = r.getAttribute("data-theme") !== "dark";
+      d
+        ? r.setAttribute("data-theme", "dark")
+        : r.removeAttribute("data-theme");
+      document.getElementById("tc").content = d ? "#17150f" : "#f7f3ed";
+      try {
+        localStorage.setItem("olympia-theme", d ? "dark" : "light");
+      } catch (e) {}
+      syncThemeLabel();
+    });
+    const S = [...document.querySelectorAll("main > section")],
+      I = document.getElementById("ncI"),
+      L = document.getElementById("ncL"),
+      P = document.getElementById("ncP");
+    const navWrap = document.getElementById("navCurrentWrap"),
+      navBtn = document.getElementById("navCurrentBtn"),
+      navMenu = document.getElementById("navMenu"),
+      menuItems = [...navMenu.querySelectorAll(".nav-menu-item")];
+    const inNav = (el) => navWrap.contains(el) || navMenu.contains(el);
+    let navCloseTimer, navOpenedAt = 0;
+    function closeMenu() {
+      navMenu.classList.remove("open");
+      navBtn.setAttribute("aria-expanded", "false");
+    }
+    function openMenu() {
+      clearTimeout(navCloseTimer);
+      const r = navBtn.getBoundingClientRect();
+      navMenu.style.top = r.bottom + 10 + "px";
+      navMenu.style.right = innerWidth - r.right + "px";
+      if (!navMenu.classList.contains("open")) navOpenedAt = performance.now();
+      navMenu.classList.add("open");
+      navBtn.setAttribute("aria-expanded", "true");
+    }
+    function scheduleClose() {
+      clearTimeout(navCloseTimer);
+      navCloseTimer = setTimeout(closeMenu, 150);
+    }
+    navBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      /* A tap fires hover and focus first, which already opened the menu, so a click right after that must not close it again. */
+      if (navMenu.classList.contains("open") && performance.now() - navOpenedAt > 500) closeMenu();
+      else openMenu();
+    });
+    [navWrap, navMenu].forEach((el) => {
+      /* Hover only counts for a real mouse; touch taps are handled by the click and focus events. */
+      el.addEventListener("pointerenter", (e) => {
+        if (e.pointerType === "mouse") openMenu();
+      });
+      el.addEventListener("pointerleave", (e) => {
+        if (e.pointerType === "mouse") scheduleClose();
+      });
+      el.addEventListener("focusin", openMenu);
+      el.addEventListener("focusout", (e) => {
+        if (!inNav(e.relatedTarget)) closeMenu();
+      });
+    });
+    document.addEventListener("click", (e) => {
+      if (!inNav(e.target)) closeMenu();
+    });
+    addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeMenu();
+    });
+    menuItems.forEach((it) => it.addEventListener("click", closeMenu));
+    function tick() {
+      let a = 0;
+      S.forEach((s, k) => {
+        if (s.getBoundingClientRect().top < innerHeight * 0.45) a = k;
+      });
+      const sid = S[a].id,
+        N = S.filter((x) => x.id !== "top-hero");
+      I.textContent =
+        sid === "top-hero"
+          ? "Intro"
+          : String(N.indexOf(S[a]) + 1).padStart(2, "0") +
+              " / " +
+              S[a].dataset.label;
+      L.textContent = S[a].dataset.label;
+      menuItems.forEach((it) =>
+        it.classList.toggle("active", it.dataset.id === sid),
+      );
+      const h = document.documentElement.scrollHeight - innerHeight;
+      P.style.width = (h > 0 ? (scrollY / h) * 100 : 0) + "%";
+    }
+    addEventListener("scroll", tick, { passive: true });
+    addEventListener("resize", tick);
+    tick();
+    const io = new IntersectionObserver(
+      (e) =>
+        e.forEach((x) => {
+          if (x.isIntersecting) {
+            x.target.classList.add("in");
+            io.unobserve(x.target);
+          }
+        }),
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+    S.forEach((s) => io.observe(s));
+    const flyCanvas = document.querySelector(".flywheel-canvas");
+    if (flyCanvas) {
+      const flySteps = [...flyCanvas.querySelectorAll(".flywheel-step")];
+      const flyLineIO = new IntersectionObserver(
+        (e) => {
+          e.forEach((x) => {
+            if (x.isIntersecting) {
+              flyCanvas.classList.add("in");
+              flyLineIO.unobserve(flyCanvas);
+            }
+          });
+        },
+        { rootMargin: "0px 0px -20% 0px" },
+      );
+      flyLineIO.observe(flyCanvas);
+      const flyStepIO = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((en) => en.isIntersecting)
+            .sort(
+              (a, b) =>
+                Math.abs(a.boundingClientRect.top - innerHeight * 0.5) -
+                Math.abs(b.boundingClientRect.top - innerHeight * 0.5),
+            );
+          if (visible[0]) {
+            flySteps.forEach((s) => s.classList.remove("active"));
+            visible[0].target.classList.add("active");
+          }
+        },
+        { rootMargin: "-38% 0px -38% 0px", threshold: 0 },
+      );
+      flySteps.forEach((s) => flyStepIO.observe(s));
+    }
+  })();
+
+  const stages = [
+    {
+      label: "Conversation",
+      state: "VOICE",
+      title: "It starts with something she said.",
+      copy: "Delphi waits for a moment Margaret is enjoying, never one where she sounds low. She offers once, as a way to share the story with someone who would like it, not as help.",
+      panel: "permission",
+    },
+    {
+      label: "Preference",
+      state: "PREFERENCE",
+      title: "Built from what she chooses.",
+      copy: "Delphi remembers details from their conversations. Margaret confirms which ones she may use for Introductions.",
+      panel: "preference",
+    },
+    {
+      label: "Suggestion",
+      state: "ONE PERSON",
+      title: "Here’s why I thought of Rosa.",
+      copy: "Delphi offers one person, with a reason Margaret can understand and correct. Several signals can work backstage, but the explanation stays simple.",
+      panel: "suggestion",
+    },
+    {
+      label: "Mutual choice",
+      state: "TWO YESSES",
+      title: "Both people answer separately.",
+      copy: "Rosa is asked separately and is not told Margaret has already said yes. Nothing is confirmed until both have.",
+      panel: "consent",
+    },
+    {
+      label: "Schedule",
+      state: "THURSDAY · 3 PM",
+      title: "Find a time that suits you both.",
+      copy: "Delphi finds an overlap, then asks each person to confirm the time.",
+      panel: "schedule",
+    },
+    {
+      label: "Introduction",
+      state: "HUMAN CALL",
+      title: "Introduced by name, then left to it.",
+      copy: "Each person already knows why the other is on the line. Delphi steps away.",
+      panel: "call",
+    },
+    {
+      label: "After the call",
+      state: "NEXT MORNING",
+      title: "Each person gets their own check-in.",
+      copy: "Each answer belongs to the person who gave it.",
+      panel: "after",
+    },
+    {
+      label: "Continue",
+      state: "RELATIONSHIP",
+      title: "Another call is another choice.",
+      copy: "If both want another call, Delphi arranges it. Either can step away later without explaining.",
+      panel: "continuity",
+    },
+  ];
+  let active = 0,
+    scn = null;
+  const STEP = {
+    left: 5,
+    nothx: 0,
+    wrong: 2,
+    how: 2,
+    no: 3,
+    wait: 3,
+    hearing: 4,
+    ring: 5,
+    quiet: 5,
+    stop: 5,
+    misheard: 5,
+    flat: 6,
+    later: 7,
+    trail: 1,
+    overlap: 2,
+    who: 6,
+  };
+  function firstWI(i) {
+    return SC_ORDER.find((k) => STEP[k] === i) || null;
+  }
+  const SC_ORDER = [
+    "left",
+    "nothx",
+    "no",
+    "wait",
+    "hearing",
+    "wrong",
+    "ring",
+    "quiet",
+    "stop",
+    "misheard",
+    "flat",
+    "later",
+    "how",
+    "trail",
+    "overlap",
+    "who",
+  ];
+  const SC = {
+    left: {
+      label: "Someone asks for money",
+      state: "CALL · SAFEGUARD",
+      title: "A request for money, mid-call.",
+      copy: "Delphi has left the call but not stopped listening for danger. A request for money or bank details brings her back.",
+      m: "If a danger phrase comes up, Delphi says: “I’m joining the call for a moment.”",
+      j: "Hears the same line.",
+      rule: "After she leaves, Delphi listens for three things only: “Delphi”, “stop” and a short danger list. If one triggers, she says she is joining. Nothing else is heard or kept.",
+      watch:
+        "Does “I’m joining” feel like protection or like being watched? Do people know what she can hear?",
+      cap: { s: "Listening", t: "I’m joining the call for a moment." },
+      pm: { line: "“I’m joining the call for a moment.”", chips: [] },
+      pj: {
+        line: "“I’m joining the call for a moment.”",
+        chips: [],
+        note: "Both hear the same line.",
+      },
+    },
+    nothx: {
+      label: "She says no thanks",
+      state: "NO THANKS",
+      title: "“No thanks.” Delphi leaves it there.",
+      copy: "Margaret says no. Delphi lets the subject rest.",
+      m: "“That’s fine. I won’t bring it up again unless you do.”",
+      j: "Rosa never gets the suggestion.",
+      rule: "No is a complete answer. Delphi does not raise it again, but the offer stays open if Margaret does.",
+      watch:
+        "Does the answer feel easy to give? Does Margaret ever come back to it herself?",
+      cap: {
+        s: "Speaking",
+        t: "That’s fine. I won’t bring it up again unless you do.",
+      },
+      pm: {
+        line: "“That’s fine. I won’t bring it up again unless you do.”",
+        chips: [],
+      },
+      pj: {
+        line: "Rosa’s side is quiet.",
+        mute: 1,
+        chips: [],
+        note: "Nobody else hears about it.",
+      },
+    },
+    no: {
+      label: "Rosa says no",
+      state: "ANSWER · NO",
+      title: "Margaret said yes. Rosa said no.",
+      copy: "Delphi tells Margaret it didn’t come together and offers three ways forward. One of them is someone she already knows.",
+      m: "“That introduction didn’t come together. I can try someone else, call Emma, or leave it for a while. What would you like?”",
+      j: "Says no. The reason is Rosa’s to keep.",
+      rule: "Rosa keeps her reason. Delphi carries the awkward part and offers to call Emma once. If Margaret says yes, Delphi rings Emma with Margaret’s words: “Mum would like a chat when you’re free.” If not, she doesn’t ask again.",
+      watch:
+        "Who says yes to calling Emma? Does the call happen? What do people say when they decline?",
+      cap: {
+        s: "Speaking",
+        t: "That introduction didn’t come together. I can try someone else, call Emma, or leave it for a while.",
+      },
+      pm: {
+        line: '“That introduction didn’t come together. I can try someone else, call Emma<span class="glass-pill">her daughter</span>, or leave it for a while. What would you like?”',
+        chips: ["Try someone else", "Call Emma", "Leave it for a while"],
+        note: "Asked once. Margaret gets the next choice.",
+      },
+      pj: { line: "“That’s fine. I’ll leave it there.”", chips: [] },
+    },
+    wait: {
+      label: "A reply hasn’t come yet",
+      state: "WAITING",
+      title: "A week goes by. Margaret is waiting.",
+      copy: "A week can feel long when you are waiting. Delphi tells her the truth: there is still no answer.",
+      m: "“I haven’t heard back yet. I’ll tell you the moment I do, and until then the door is still open.”",
+      j: "Reminded once: “Margaret’s question is still open. No hurry.”",
+      rule: "Margaret hears where things stand. Rosa gets one reminder.",
+      watch:
+        "Does “no answer yet” feel calm and truthful? Does Margaret keep the door open?",
+      cap: {
+        s: "Speaking",
+        t: "I haven’t heard back yet, and the door is still open.",
+      },
+      pm: {
+        line: "“I haven’t heard back yet. I’ll tell you the moment I do, and until then the door is still open.”",
+        chips: ["Keep waiting", "Try someone else"],
+        note: "Only the current status is shared.",
+      },
+      pj: {
+        line: "“Margaret’s question is still open. No hurry.”",
+        chips: ["Yes", "No", "Not yet"],
+      },
+    },
+    hearing: {
+      label: "Hearing loss is the ordinary case",
+      state: "ACCESSIBILITY",
+      title: "Ask before the call.",
+      copy: "Almost 80% of people over 70 in the UK have some hearing loss (RNID, 25 dB threshold), and it is linked to social withdrawal.",
+      rule: "Delphi asks once, before the first call, whether captions would help. Each person chooses for their own side, and the choice stays private.",
+      watch: "Does the offer feel as ordinary as turning on subtitles?",
+      cap: {
+        s: "Speaking",
+        t: "Would live captions help for this call? You can turn them on or off any time.",
+      },
+      pm: {
+        line: "“Would live captions help for this call? You can turn them on or off any time.”",
+        chips: ["Yes, captions on", "No, I’m fine"],
+      },
+      pj: {
+        line: "Rosa’s side is quiet, because she told Delphi earlier that calls suit her well.",
+        mute: 1,
+        chips: [],
+      },
+    },
+    wrong: {
+      label: "Delphi gets it wrong",
+      state: "CORRECTION",
+      title: "“You both enjoy gardening.” Margaret says, “Not really.”",
+      copy: "The suggestion rested on something Delphi got wrong.",
+      m: "“Not really.”<br>“Thank you for telling me. I’ve dropped that.”",
+      j: "Rosa hears nothing about the mistake.",
+      rule: "A correction removes that detail from Introductions. Rosa never hears about the mistake.",
+      watch:
+        "Does Margaret correct her out loud? Does the correction feel easy?",
+      cap: { s: "Listening", t: "I don’t {really|much} like gardening." },
+      pm: {
+        line: "“Right. Thanks for telling me. I’ll leave that out.”",
+        chips: [],
+      },
+      pj: { line: "Rosa’s side is quiet.", mute: 1, chips: [] },
+    },
+    ring: {
+      label: "Margaret isn’t near Delphi",
+      state: "CALL · ROUTING",
+      title: "The call comes to her.",
+      copy: "Margaret can be anywhere in her home. Delphi rings the phone she has picked up her whole life, and Rosa’s phone rings the same way.",
+      rule: "Delphi can route the call to whichever phone the person already uses, not only through her own object.",
+      watch: "Does the ring feel like Delphi’s, or like any other call?",
+      cap: {
+        s: "Speaking",
+        t: "I’ll have your phone ring in a moment. That will be Rosa.",
+      },
+      pm: {
+        line: "“Your phone is about to ring. That will be Rosa.”",
+        chips: [],
+        note: "Margaret’s own phone. No new device to learn.",
+      },
+      pj: {
+        line: "Rosa’s phone rings the same way, at the same moment.",
+        mute: 1,
+        chips: [],
+      },
+    },
+    quiet: {
+      label: "The call goes quiet",
+      state: "CALL · SILENCE",
+      title: "Delphi leaves the quiet with them.",
+      copy: "Delphi has left the call, so Margaret and Rosa have space to find their own rhythm.",
+      m: "If someone says “Delphi”, she returns: “I’m here. Shall I leave you to it, or would a question help?”",
+      j: "Hears the same. Later each is rung separately: “How did it go? Would you like to try again?”",
+      rule: "Delphi comes back when someone asks. While she is away her light holds a dim, steady glow, so it never says “off” when she can hear.",
+      watch:
+        "Do people say “Delphi” mid-call, or find their own way through the silence?",
+      cap: {
+        s: "Quiet",
+        t: "Delphi has left the call. Her light is dim, not off.",
+      },
+      flat: 1,
+      pm: {
+        line: "Delphi has left the call.",
+        chips: ["Say “Delphi”", "End the call"],
+      },
+      pj: {
+        line: "Delphi has left the call.",
+        chips: ["Say “Delphi”", "End the call"],
+      },
+    },
+    stop: {
+      label: "The stop isn’t heard",
+      state: "CALL · STOP",
+      title: "Someone says “I’d like to stop.”",
+      copy: "Delphi has left the call, and she may not have caught it.",
+      m: "If Delphi may have missed “I’d like to stop”, the call ends first: “Sorry, I may have missed you. I’ve ended the call to be safe. Would you like me to call you back, or leave it there?”",
+      j: "“The call has ended.” The people on the call hear that it has ended. If the line drops: “That was on my end.”",
+      rule: "When Delphi might have missed a stop, the call ends first. The next step comes afterwards.",
+      watch: "Is “I’d like to stop” easy to say mid-sentence to someone new?",
+      cap: { s: "Listening", t: "I’d like to stop." },
+      pm: {
+        line: "“Sorry, I may have missed you. I’ve ended the call to be safe. Would you like me to call you back, or leave it there?”",
+        chips: ["Yes, reconnect", "No thanks"],
+      },
+      pj: { line: "“The call has ended.”", chips: ["Yes, again", "No thanks"] },
+    },
+    misheard: {
+      label: "A name gets misheard",
+      state: "CALL · MISHEARD",
+      title: "“Sorry, was that Rosa, or Rhoda?”",
+      copy: "Two names can sound alike down a phone line, especially for someone with hearing loss.",
+      m: "“Sorry, was that Rosa, or Rhoda? I want to make sure I’ve got it right.”",
+      j: "Hears nothing. The check happens on whichever side needs it.",
+      rule: "When a name could have landed wrong, Delphi checks it once, in plain words, rather than guessing or quietly carrying the wrong one forward.",
+      watch:
+        "Does the check read as an ordinary clarifying question, or does it draw attention to hearing loss?",
+      cap: { s: "Listening", t: "Was that Rosa, or Rhoda?" },
+      pm: {
+        line: "“Sorry, was that Rosa, or Rhoda? I want to make sure I’ve got it right.”",
+        chips: ["Rosa", "Rhoda"],
+      },
+      pj: {
+        line: "Nothing changes on Rosa’s side.",
+        mute: 1,
+        chips: [],
+        note: "The check happens on whichever side needs it.",
+      },
+    },
+    flat: {
+      label: "“It was fine, I suppose”",
+      state: "AFTER · FLAT",
+      title: "“It was fine, I suppose.”",
+      copy: "“Fine” can cover a few different feelings. Delphi does not decide which.",
+      m: "“That’s all right. Would you like me to ask again tomorrow, or leave it with you?”",
+      j: "Asked the same morning: “How was Margaret?” Answers are kept separate.",
+      rule: "Delphi offers to ask again and leaves the meaning with the person who said it.",
+      watch: "Does “fine” turn into a yes a day later, a no, or another try?",
+      cap: { s: "Listening", t: "It was fine, I suppose." },
+      pm: {
+        line: "“That’s all right. Would you like me to ask again tomorrow, or leave it with you?”",
+        chips: ["Ask tomorrow", "Leave it with me"],
+      },
+      pj: { line: "“How was Margaret?”", chips: [] },
+    },
+    later: {
+      label: "Week eight",
+      state: "CONTINUITY · EXIT",
+      title: "One of them quietly wants to stop.",
+      copy: "Delphi asks each of them separately, so neither has to be the one who says it.",
+      m: "Rung separately: “Would you like to keep talking with Rosa, or leave it here?”",
+      j: "Rung separately, the same question about Margaret.",
+      rule: "If either says leave it, both hear the same line: “This one has come to a natural end.” The reason is private, and neither can be sure who chose. If one of them wanted to go on, Delphi offers someone else, or a call to someone they know.",
+      watch: "Is “leave it here” easy to say once it’s a real friendship?",
+      cap: {
+        s: "Speaking",
+        t: "I ask each of you privately, so neither has to be the one to say it. Would you like to keep talking with Rosa, or leave it here?",
+      },
+      pm: {
+        line: "“Would you like to keep talking with Rosa, or leave it here?”",
+        chips: ["Keep talking", "Leave it here"],
+      },
+      pj: {
+        line: "“Would you like to keep talking with Margaret, or leave it here?”",
+        chips: ["Keep talking", "Leave it here"],
+      },
+    },
+    how: {
+      label: "How was Rosa chosen?",
+      state: "DISCLOSURE",
+      title: "“How did you pick her?”",
+      copy: "Delphi explains her reasoning and admits she can be wrong.",
+      m: "“I look at what you’ve told me you like talking about. During the pilot, a person on the safeguarding team checks each suggestion. I can still get things wrong, and I’m glad when you tell me.”",
+      j: "Rosa can ask the same question and hears the same answer.",
+      rule: "Delphi gives the same plain explanation to either person.",
+      watch: "Does the explanation feel straightforward enough to build trust?",
+      cap: {
+        s: "Speaking",
+        t: "I look at what you’ve told me you like talking about.",
+      },
+      pm: {
+        line: "“I look at what you’ve told me you like talking about. During the pilot, a person on the safeguarding team checks each suggestion. I can still get things wrong, and I’m glad when you tell me.”",
+        chips: ["That’s fine", "Tell me more"],
+      },
+      pj: { line: "Hasn’t asked.", mute: 1, chips: [] },
+    },
+    trail: {
+      label: "She trails off",
+      state: "PACE · A LONG PAUSE",
+      title:
+        "“Someone who can stay with a story. And maybe… oh, I don’t know.”",
+      copy: "People pause mid-sentence for longer than the gaps between turns, and a voice that hears the pause as “done” cuts in.",
+      m: "After a long pause: “There’s no hurry. Shall I leave that for another day?”",
+      j: "Rosa isn’t part of this yet.",
+      rule: "A pause is not an answer. Delphi waits longer than feels natural, then offers one easy exit. Nothing said before the pause is used until Margaret finishes the thought.",
+      watch:
+        "How long is long enough to wait? Does Margaret come back and finish the sentence, or is she glad of the exit?",
+      cap: {
+        s: "Listening",
+        t: "Someone who can stay with a story. And maybe… oh, I don’t know.",
+      },
+      pm: {
+        line: "“There’s no hurry. Shall I leave that for another day?”",
+        chips: ["I’m still thinking", "Another day"],
+      },
+      pj: { line: "Rosa comes in later.", mute: 1, chips: [] },
+    },
+    overlap: {
+      label: "She talks over Delphi",
+      state: "INTERRUPTION",
+      title: "“Rosa? Is that the one who—”",
+      copy: "Margaret cuts in halfway through the suggestion.",
+      m: "Delphi stops. When Margaret has finished: “No, you haven’t met her. She’s new. Shall I go back to where I was?”",
+      j: "Rosa comes in after Margaret says yes.",
+      rule: "Whoever is talking has the floor. Delphi stops, lets her finish, answers what was asked, then offers to carry on instead of starting again from the top.",
+      watch:
+        "Does Margaret interrupt because she is keen, worried or confused? Does she ever need to raise her voice?",
+      cap: { s: "Listening", t: "Rosa? Is that the one who…" },
+      pm: {
+        line: "“No, you haven’t met her. She’s new. Shall I go back to where I was?”",
+        chips: ["Yes, go on", "Not now"],
+      },
+      pj: {
+        line: "Rosa comes in after Margaret says yes.",
+        mute: 1,
+        chips: [],
+      },
+    },
+    who: {
+      label: "“Who was that lady?”",
+      state: "AFTER · MEMORY",
+      title: "The next day: “Who was that lady I spoke to?”",
+      copy: "Margaret has forgotten a call that went well. Delphi tells her, the way a friend would.",
+      m: "“That was Rosa. You two got onto Nina Simone and a tram in Lisbon.”",
+      j: "Asked the same morning: “How was Margaret?”",
+      rule: "No quiz and no “do you remember?”. Delphi does not label this a memory concern or tell family. If it keeps happening, that is a conversation for a person on the safeguarding team and Margaret.",
+      watch: "Does she ask once, or often? Does hearing it again feel kind?",
+      cap: { s: "Listening", t: "Who was that lady I spoke to?" },
+      pm: {
+        line: '“That was Rosa<span class="glass-pill">a Delphi match</span>. You two got onto Nina Simone and a tram in Lisbon.”',
+        chips: ["Oh yes, Rosa", "Tell me more"],
+      },
+      pj: { line: "“How was Margaret?”", chips: [] },
+    },
+  };
+  function phone(who, col, d, flat) {
+    const avTone = col === "#d0430f" ? " coral" : " green";
+    const sender = d.sender || (d.mute ? "" : "Delphi");
+    const senderClass = sender === "Delphi" ? " olympia" : " person";
+    return `<div class="pn"><div class="pn-screen"><i class="pn-notch"></i><div class="pn-status"><span>9:41</span><span>● ● ▰</span></div><div class="pn-bar"><span class="pn-logo">delphi</span><span class="pn-av${avTone}">${who[0]}</span></div><small class="pn-who">${who}’s side</small><div class="pn-body"><div class="pn-hero${sender === "Delphi" || !sender ? "" : " person"}${d.mute ? " mute" : ""}${flat ? " flat" : ""}">${sender ? `<div class="pn-speaker${senderClass}">${sender}</div>` : ""}<p class="pn-line">${d.line}</p><i class="pn-wv"></i></div>${d.chips.length ? '<div class="pn-chips">' + d.chips.map((c, i) => `<div class="pn-chip${i ? " o" : ""}">${c}</div>`).join("") + "</div>" : ""}</div>${d.note ? `<div class="pn-note">${d.note}</div>` : ""}</div></div>`;
+  }
+  const CAP = {
+    permission: {
+      s: "Listening",
+      t: "…and the driver let me ring the {belt|bell}. Sixty years ago, and I can still hear it.",
+    },
+    preference: {
+      s: "Speaking",
+      t: "What sort of person would you enjoy talking with?",
+    },
+    suggestion: {
+      s: "Speaking",
+      t: "There’s someone called Rosa. She likes talking about music and stories too. Would you like to hear why I suggested her?",
+    },
+    consent: {
+      s: "Speaking",
+      t: "Margaret has said yes. Now Rosa can decide.",
+    },
+    schedule: {
+      s: "Speaking",
+      t: "Thursday at three works for Rosa. Would that suit you?",
+    },
+    call: { s: "Speaking", t: "I’ll leave you two to it." },
+    continuity: {
+      s: "Speaking",
+      t: "Rosa would like another chat too. Would you like me to arrange another call?",
+    },
+    after: { s: "Speaking", t: "How was Rosa?" },
+  };
+  let capT;
+  let protoStarted = false;
+  function capMarkup(s, sc) {
+    const c = sc ? sc.cap : CAP[s.panel];
+    if (!c) return "";
+    return `<div class="cap" data-s="${c.s}" aria-label="Simulated captions"><div class="cap-top"><span class="cap-state">${c.s}</span><span class="cap-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="cap-sim">simulated</span></div><p class="cap-text" id="capText" data-t="${c.t.replace(/"/g, "&quot;")}"></p></div>`;
+  }
+  function runCap() {
+    clearInterval(capT);
+    const el = document.getElementById("capText");
+    if (!el) return;
+    const parts = el.dataset.t
+      .split(/(\{[^}]+\}|\s+)/)
+      .filter((x) => x && x.trim());
+    if (matchMedia("(prefers-reduced-motion:reduce)").matches) {
+      el.textContent = parts
+        .map((p) => {
+          const m = p.match(/^\{(.+)\|(.+)\}$/);
+          return m ? m[2] : p;
+        })
+        .join(" ")
+        .replace(/ ([.,!?])/g, "$1");
+      return;
+    }
+    let i = 0;
+    el.textContent = "";
+    capT = setInterval(() => {
+      if (i >= parts.length) {
+        clearInterval(capT);
+        return;
+      }
+      const p = parts[i++],
+        m = p.match(/^\{(.+)\|(.+)\}$/),
+        sp = document.createElement("span"),
+        lead = el.childNodes.length && !/^[.,!?]/.test(p) ? " " : "";
+      if (m) {
+        sp.textContent = lead + m[1];
+        sp.className = "unsure";
+        setTimeout(() => {
+          sp.textContent = lead + m[2];
+          sp.className = "fixed";
+        }, 900);
+      } else sp.textContent = lead + p;
+      el.appendChild(sp);
+    }, 170);
+  }
+  function sideMarkup(sc) {
+    const wi = `<div class="side-label">Difficult moments</div><p class="side-hint">Tap a moment to see what Delphi does.</p><div class="wi-list">${SC_ORDER.filter(
+      (k) => STEP[k] === active,
+    )
+      .map(
+        (k, ix) =>
+          `<button type="button" class="wi-btn${scn === k ? " on" : ""}" data-sc="${k}"><small>${String(ix + 1).padStart(2, "0")} · ${SC[k].state}</small><span>${SC[k].title}</span></button>`,
+      )
+      .join("")}</div>`;
+    const rule = sc
+      ? `<div class="side-label mt-26">The rule</div><div class="side-callout callout-red">${sc.rule}</div><div class="side-label mt-26">What I’d watch for</div><div class="side-row side-row-flush">${sc.watch}</div>`
+      : "";
+    return `<aside class="proto-side">${wi}${rule}</aside>`;
+  }
+  const nav = document.getElementById("protoNav");
+  const win = document.getElementById("protoWindow");
+  function button(label, kind = "btn") {
+    return `<button class="${kind}" type="button">${label}</button>`;
+  }
+  const reduceMotion = matchMedia("(prefers-reduced-motion:reduce)");
+  function followSay(e) {
+    const say = e.target.closest(".say"),
+      scene = e.currentTarget;
+    if (!say || scene.dataset.moved) return;
+    const over =
+      say.getBoundingClientRect().bottom -
+      scene.getBoundingClientRect().bottom +
+      16;
+    if (over > 0)
+      scene.scrollBy({
+        top: over,
+        behavior: reduceMotion.matches ? "auto" : "smooth",
+      });
+  }
+  function renderPanel() {
+    const sc = scn ? SC[scn] : null;
+    const s = sc
+      ? {
+          label: sc.label,
+          state: '<b class="wi-q">What if:</b> ' + sc.state,
+          title: sc.title,
+          copy: sc.copy,
+          panel: "scenario",
+        }
+      : stages[active];
+    const navHtml = stages
+      .map(
+        (x, i) =>
+          `<button class="proto-btn ${i === active ? "active" : ""}" data-step="${i}" type="button"><span class="idx">${String(i + 1).padStart(2, "0")}</span><span class="label">${x.label}</span></button>`,
+      )
+      .join("");
+    nav.innerHTML = `<div class="proto-navhead"><div class="proto-what">Here’s what the first version feels like.</div></div><div class="proto-steps">${navHtml}</div>`;
+    nav.querySelectorAll("[data-step]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const wi = scn !== null;
+        active = Number(b.dataset.step);
+        scn = wi ? firstWI(active) : null;
+        renderPanel();
+      }),
+    );
+    const stepButtons = sc
+      ? `<div class="proto-actions">${active > 0 ? button("Back", "btn ghost") : ""}${active < stages.length - 1 ? button("Next step", "btn primary") : ""}</div>`
+      : `<div class="proto-actions">${active > 0 ? button("Back", "btn ghost") : ""}${active < stages.length - 1 ? button("Continue", "btn primary") : button("Restart", "btn primary")}</div>`;
+    win.classList.toggle("wi-mode", !!sc);
+    win.innerHTML = `<div class="proto-window-top"><div class="window-brand">Delphi / Introductions</div><div class="seg" role="group" aria-label="View"><button type="button" data-mode="plan" class="${sc ? "" : "on"}">Conversation</button><button type="button" data-mode="wi" class="${sc ? "on" : ""}">Difficult moments</button></div></div><div class="proto-body"><div class="proto-main">${panelMarkup(s)}${capMarkup(s, sc)}${stepButtons}</div>${sideMarkup(sc)}</div>`;
+    const mn = win.querySelector(".proto-main");
+    if (mn && mn.children) {
+      const sn = document.createElement("div");
+      sn.className = "scene";
+      [...mn.children]
+        .filter(
+          (n) =>
+            !n.matches(
+              ".proto-kicker,.proto-title,.proto-copy,.cap,.proto-actions",
+            ),
+        )
+        .forEach((n) => sn.appendChild(n));
+      mn.insertBefore(sn, mn.querySelector(".proto-actions"));
+      sn.addEventListener("animationstart", followSay);
+      sn.addEventListener("wheel", () => (sn.dataset.moved = "1"), {
+        passive: true,
+      });
+    }
+    win.querySelectorAll("[data-sc]").forEach((b) =>
+      b.addEventListener("click", () => {
+        scn = b.dataset.sc;
+        active = STEP[scn];
+        renderPanel();
+      }),
+    );
+    const btns = win.querySelectorAll(".proto-actions .btn");
+    btns.forEach((b) =>
+      b.addEventListener("click", () => {
+        const wi = scn !== null;
+        if (b.textContent === "Back") active = Math.max(0, active - 1);
+        else if (b.textContent === "Restart") active = 0;
+        else active = Math.min(stages.length - 1, active + 1);
+        scn = wi ? firstWI(active) : null;
+        renderPanel();
+      }),
+    );
+    win.querySelectorAll("[data-mode]").forEach((b) =>
+      b.addEventListener("click", () => {
+        scn = b.dataset.mode === "wi" ? firstWI(active) : null;
+        renderPanel();
+      }),
+    );
+    if (protoStarted) runCap();
+  }
+  const STG = {
+    suggestion: {
+      m: {
+        line: "“There’s someone I think you’d get on with. Her name’s Rosa. Music, good stories, same as you. Would you like to hear why I thought of her?”",
+        chips: ["Tell me more", "Yes, ask Rosa", "Not now"],
+        note: "The first choice is Margaret’s alone.",
+      },
+      j: {
+        line: "Rosa comes in only after Margaret says yes.",
+        mute: 1,
+        chips: [],
+      },
+    },
+    consent: {
+      m: { line: "“Yes, go on, ask her.”", sender: "Margaret", chips: [] },
+      j: {
+        line: "“There’s a woman called Margaret. She likes talking about music and stories, much like you do. Would you like to speak with her?”",
+        sender: "Delphi",
+        chips: ["Yes, please", "Not now"],
+      },
+    },
+    schedule: {
+      m: {
+        line: "“Thursday at three would work for Rosa too, if that suits you.”",
+        sender: "Delphi",
+        chips: ["Thursday works", "Another time"],
+      },
+      j: {
+        line: "“Thursday at three would work for Margaret too, if that suits you.”",
+        sender: "Delphi",
+        chips: ["Thursday works", "Another time"],
+      },
+    },
+    call: {
+      flat: 1,
+      m: {
+        line: "“Margaret, this is Rosa. Rosa, this is Margaret. I’ll leave you two to it.”",
+        sender: "Delphi",
+        chips: [],
+      },
+      j: {
+        line: "“Rosa, this is Margaret. Margaret, this is Rosa. I’ll leave you two to it.”",
+        sender: "Delphi",
+        chips: [],
+      },
+    },
+    continuity: {
+      m: {
+        line: "“Rosa mentioned she’d like to hear more about that tram in Lisbon. Shall I arrange another call?”",
+        sender: "Delphi",
+        chips: ["Yes, arrange it", "Another time"],
+      },
+      j: {
+        line: "“Margaret would like another chat too. Shall I arrange it?”",
+        sender: "Delphi",
+        chips: ["Yes, arrange it", "Another time"],
+      },
+    },
+  };
+  function panelMarkup(s) {
+    const common = `<div class="proto-kicker">${s.state}</div><div class="proto-title">${s.title}</div><p class="proto-copy">${s.copy}</p>`;
+    if (s.panel === "scenario") {
+      const c = SC[scn];
+      return (
+        common +
+        `<div class="pn-row">${phone("Margaret", "#d0430f", c.pm, c.flat)}${phone("Rosa", "#8bbb7f", c.pj, c.flat)}</div>`
+      );
+    }
+    if (s.panel === "after")
+      return (
+        common +
+        `<div class="proto-card dark"><div class="say o" style="--d:0s"><b>Delphi · next morning</b>“How was Rosa?”</div><div class="say m" style="--d:0.8s"><b>Margaret</b>“Lovely. We got onto Nina Simone, and then somehow ended up talking about a tram in Lisbon, of all things.”</div><div class="say o" style="--d:1.6s"><b>Delphi</b>“A tram in Lisbon. I’ll admit, I didn’t see that one coming.”</div><div class="say m" style="--d:2.0s"><b>Margaret</b>“Neither did I. I’d like to speak with her again, if that’s allowed.”</div><div class="say j" style="--d:2.8s"><b>Rosa · privately</b>“It was good. I’d like to talk to Margaret again.”</div><div class="reason-box reason-dark">Delphi only hears what each person chooses to tell her, never what was actually said.</div></div>`
+      );
+    if (s.panel === "permission")
+      return (
+        common +
+        `<div class="proto-card dark"><div class="say m" style="--d:0s"><b>Margaret</b>“…and the driver let me ring the bell. Sixty years ago, and I can still hear it.”</div><div class="say o" style="--d:0.8s"><b>Delphi</b>“You light up when you tell that one.”</div><div class="say m" style="--d:1.6s"><b>Margaret</b>“Well, nobody’s asked about it in years. There’s Emma<span class="glass-pill">her daughter</span>, but she never quite…”</div><div class="say o" style="--d:2.6s"><b>Delphi</b><i>(waits)</i></div><div class="say m" style="--d:3.4s"><b>Margaret</b>“Oh, it doesn’t matter. She remembers it differently.”</div><div class="say o" style="--d:4.2s"><b>Delphi</b>“I’ve been wondering something, and you can tell me to mind my own business. Would you like to tell that story to someone who’d enjoy it? Another person who talks to me. Only if you’d like.”</div><div class="say m" style="--d:5.2s"><b>Margaret</b>“Another person? I’m not one for clubs.”</div><div class="say o" style="--d:6.0s"><b>Delphi</b>“No clubs. One person, one phone call, and only if you both want it.”</div><div class="say m" style="--d:6.8s"><b>Margaret</b>“Hm. I don’t see the harm in you looking.”</div><div class="say o" style="--d:7.6s"><b>Delphi</b>“Then I’ll look, and tell you why before anything happens. You have the last word.”</div></div>`
+      );
+    if (s.panel === "preference")
+      return (
+        common +
+        `<div class="proto-card dark"><div class="say o" style="--d:0s"><b>Delphi</b>“You’ve mentioned Nina Simone more than once, and you always talk longer once music comes into it. Would it be all right if I kept that in mind, for who I introduce you to?”</div><div class="say m" style="--d:0.8s"><b>Margaret</b>“Go on then. As long as it’s not a form about me.”</div><div class="say o" style="--d:1.6s"><b>Delphi</b>“No form. Just what you’ve already told me, kept somewhere I can find it. Though I’ll admit, the good conversations do tend to run long, don’t they.”</div><div class="say m" style="--d:2.4s"><b>Margaret</b>“They do. Weekday afternoons, mind, mornings are spoken for. The crossword doesn’t do itself.”</div><div class="say o" style="--d:3.2s"><b>Delphi</b>“Weekday afternoons it is.”</div><div class="tiny-caption">CONNECTION PREFERENCES · CONFIRMED WITH MARGARET</div><div class="chip-row"><span class="device-pill">Nina Simone</span><span class="device-pill">nostalgic conversations</span><span class="device-pill">weekday afternoons</span></div><div class="reason-box reason-dark">Nothing here was collected. It was already said. Delphi only asked permission to use it.</div></div>`
+      );
+    const D = STG[s.panel];
+    if (D)
+      return (
+        common +
+        `<div class="pn-row">${phone("Margaret", "#d0430f", D.m, D.flat)}${phone("Rosa", "#8bbb7f", D.j, D.flat)}</div>`
+      );
+  }
+
+  win.classList.add("hold");
+  function startProto() {
+    if (protoStarted) return;
+    protoStarted = true;
+    win.classList.remove("hold");
+    runCap();
+  }
+  renderPanel();
+  (function () {
+    const fp = document.getElementById("familyPhone");
+    const loadFrame = () => {
+      if (fp && !fp.getAttribute("src")) fp.setAttribute("src", fp.dataset.src);
+    };
+    if (!("IntersectionObserver" in window)) {
+      loadFrame();
+      startProto();
+      return;
+    }
+    if (fp) {
+      const o1 = new IntersectionObserver(
+        (es) => {
+          if (es.some((e) => e.isIntersecting)) {
+            loadFrame();
+            o1.disconnect();
+          }
+        },
+        { threshold: 0.2 },
+      );
+      o1.observe(fp);
+    }
+    const o2 = new IntersectionObserver(
+      (es) => {
+        if (es.some((e) => e.isIntersecting)) {
+          startProto();
+          o2.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    o2.observe(win);
+  })();
+
+  document.querySelectorAll(".media[data-file]").forEach((m) => {
+    const f = m.dataset.file;
+    const i = new Image();
+    i.alt = m.dataset.alt || (m.querySelector(".ph b") || {}).textContent || "";
+    i.onload = () => {
+      m.classList.add("real");
+      m.appendChild(i);
+    };
+    i.src = f;
+  });
+
+  (function heroReach() {
+    const h1 = document.querySelector(".hero-giant");
+    if (!h1 || !matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) return;
+    const texts = [];
+    const walker = document.createTreeWalker(h1, NodeFilter.SHOW_TEXT);
+    while (walker.nextNode()) texts.push(walker.currentNode);
+    h1.setAttribute("aria-label", texts.map((n) => n.textContent.trim()).join(" "));
+    texts.forEach((node) => {
+      const parts = node.textContent.split(/(\s+)/).map((part) => {
+        if (!part.trim()) return part;
+        const word = document.createElement("span");
+        word.className = "hero-word";
+        word.setAttribute("aria-hidden", "true");
+        word.append(
+          ...[...part].map((ch) => {
+            const letter = document.createElement("span");
+            letter.className = "hero-letter";
+            letter.textContent = ch;
+            return letter;
+          }),
+        );
+        return word;
+      });
+      node.replaceWith(...parts);
+    });
+
+    const letters = [...h1.querySelectorAll(".hero-letter")];
+    let frame;
+    function setReach(x, y) {
+      const radius = parseFloat(getComputedStyle(h1).fontSize) * 1.2;
+      letters.forEach((letter) => {
+        const r = letter.getBoundingClientRect();
+        const distance = Math.hypot(x - (r.left + r.width / 2), y - (r.top + r.height / 2));
+        letter.style.setProperty("--reach", Math.max(0, 1 - distance / radius).toFixed(2));
+      });
+    }
+    h1.addEventListener("mousemove", (e) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setReach(e.clientX, e.clientY));
+    });
+    h1.addEventListener("mouseleave", () => {
+      cancelAnimationFrame(frame);
+      letters.forEach((letter) => letter.style.removeProperty("--reach"));
+    });
+  })();
+
+  window.addEventListener("message", function (e) {
+    let d = e.data;
+    if (!d || !d.olympiaFrame) return;
+    const f = document.getElementById("familyPhone");
+    if (f && f.contentWindow === e.source) f.style.height = d.h + 2 + "px";
+  });
+})();
+  </script>
+</body>
+</html>
